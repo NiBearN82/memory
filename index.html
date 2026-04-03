@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>與尼交心</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: #090D16;
+  color: #EAE6DE;
+  font-family: 'Noto Sans TC', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 16px 64px;
+}
+
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  transition: background 0.9s;
+}
+body.solo  ::before { background: radial-gradient(ellipse 65% 32% at 50% 0%, rgba(81,168,221,0.09) 0%, transparent 70%); }
+body.collab::before { background: radial-gradient(ellipse 65% 32% at 50% 0%, rgba(200,130,50,0.10) 0%, transparent 70%); }
+body.solo::before  { background: radial-gradient(ellipse 65% 32% at 50% 0%, rgba(81,168,221,0.09) 0%, transparent 70%); }
+body.collab::before{ background: radial-gradient(ellipse 65% 32% at 50% 0%, rgba(200,130,50,0.10) 0%, transparent 70%); }
+
+/* ── MODE TOGGLE ── */
+.mode-wrap { position:relative; z-index:10; padding-top:28px; }
+.mode-toggle {
+  display:flex; background:#0F1520;
+  border:1px solid rgba(255,255,255,0.07); border-radius:60px; padding:5px;
+}
+.mode-btn {
+  padding:10px 30px; border-radius:50px; border:none; cursor:pointer;
+  font-family:'Noto Sans TC',sans-serif; font-size:13px; letter-spacing:2px;
+  background:transparent; color:rgba(255,255,255,0.3); transition:all 0.35s;
+}
+body.solo   .mode-btn.m-solo   { background:rgba(81,168,221,0.15); color:#7EC8F0; }
+body.collab .mode-btn.m-collab { background:rgba(200,130,50,0.18);  color:#F5C070; }
+
+/* ── TITLE ── */
+.title-wrap {
+  position:relative; z-index:10;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  padding-top:20px;
+}
+.title-eye {
+  font-size:10px; letter-spacing:4px; text-transform:uppercase;
+  transition:color 0.7s;
+}
+body.solo   .title-eye { color:rgba(81,168,221,0.6); }
+body.collab .title-eye { color:rgba(200,130,50,0.7); }
+h1 {
+  font-family:'Noto Serif TC',serif; font-size:clamp(28px,6vw,40px);
+  font-weight:600; letter-spacing:8px; transition:all 0.7s;
+}
+body.solo   h1 { background:linear-gradient(135deg,#EDE9E2,#7EC8F0,#D4A84C); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+body.collab h1 { background:linear-gradient(135deg,#EDE9E2,#F5C070,#E8963A); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.title-sub { font-size:12px; color:rgba(255,255,255,0.2); letter-spacing:2px; }
+
+/* ── FILTER ── */
+.filter-wrap {
+  position:relative; z-index:10;
+  display:flex; gap:8px; flex-wrap:wrap; justify-content:center;
+  padding-top:18px;
+}
+.f-btn {
+  padding:7px 17px; border-radius:50px;
+  border:1px solid rgba(255,255,255,0.07); background:#0F1520;
+  font-family:'Noto Sans TC',sans-serif; font-size:12px; letter-spacing:1px;
+  color:rgba(255,255,255,0.3); cursor:pointer; transition:all 0.2s;
+}
+.f-btn:hover { color:rgba(255,255,255,0.55); }
+body.solo   .f-btn.on { background:rgba(81,168,221,0.13); border-color:rgba(81,168,221,0.4); color:#7EC8F0; }
+body.collab .f-btn.on { background:rgba(200,130,50,0.14); border-color:rgba(200,130,50,0.45);color:#F5C070; }
+
+/* ── STATS ── */
+.stats {
+  position:relative; z-index:10;
+  display:flex; gap:20px; align-items:center; padding-top:18px;
+}
+.s-item { display:flex; flex-direction:column; align-items:center; gap:3px; }
+.s-val {
+  font-family:'Noto Serif TC',serif; font-size:24px; font-weight:600; transition:color 0.7s;
+}
+body.solo   .s-val { color:#51A8DD; }
+body.collab .s-val { color:#E8963A; }
+.s-lbl { font-size:9px; letter-spacing:2px; color:rgba(255,255,255,0.22); }
+.s-sep { width:1px; height:24px; background:rgba(255,255,255,0.07); }
+
+/* ── CARD SCENE ── */
+.scene {
+  position:relative; z-index:10;
+  width:min(440px, calc(100vw - 32px));
+  perspective:1400px;
+  margin-top:22px;
+  /* height is dynamic via JS */
+}
+
+.inner {
+  width:100%;
+  position:relative; transform-style:preserve-3d;
+  transition:transform 0.85s cubic-bezier(0.4,0,0.2,1);
+}
+.inner.flipped { transform:rotateY(180deg); }
+
+.face {
+  width:100%; border-radius:24px;
+  backface-visibility:hidden; -webkit-backface-visibility:hidden;
+  overflow:hidden;
+}
+
+/* Back */
+.back {
+  height:480px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px;
+  border:1px solid rgba(255,255,255,0.07); transition:background 0.9s, box-shadow 0.9s;
+  position:relative;
+}
+body.solo   .back { background:#0D1825; box-shadow:0 0 50px rgba(81,168,221,0.07),0 28px 72px rgba(0,0,0,0.7); }
+body.collab .back { background:#1A1208; box-shadow:0 0 50px rgba(200,130,50,0.07), 0 28px 72px rgba(0,0,0,0.7); }
+.back::before {
+  content:''; position:absolute; inset:0;
+  background:repeating-linear-gradient(-45deg,transparent,transparent 28px,rgba(255,255,255,0.012) 28px,rgba(255,255,255,0.012) 56px);
+}
+.back-ring {
+  width:108px; height:108px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; position:relative;
+  transition:border-color 0.9s;
+}
+body.solo   .back-ring { border:1px solid rgba(81,168,221,0.22); }
+body.collab .back-ring { border:1px solid rgba(200,130,50,0.28); }
+.back-ring::before {
+  content:''; position:absolute; width:86px; height:86px; border-radius:50%;
+  border:1px solid rgba(201,168,76,0.14);
+}
+.back-sym {
+  font-family:'Noto Serif TC',serif; font-size:32px; z-index:1; transition:color 0.9s;
+}
+body.solo   .back-sym { color:rgba(81,168,221,0.4); }
+body.collab .back-sym { color:rgba(200,130,50,0.55); }
+.back-sub { font-size:11px; letter-spacing:3px; transition:color 0.9s; }
+body.solo   .back-sub { color:rgba(81,168,221,0.35); }
+body.collab .back-sub { color:rgba(200,130,50,0.45); }
+.back-hint { position:absolute; bottom:22px; font-size:10px; letter-spacing:2px; color:rgba(255,255,255,0.12); }
+
+/* Front */
+.front {
+  position:absolute; top:0; left:0; width:100%;
+  transform:rotateY(180deg);
+  display:flex; flex-direction:column;
+  padding:32px 36px 28px;
+  border:1px solid rgba(255,255,255,0.09);
+  transition:background 0.9s, box-shadow 0.9s;
+}
+body.solo   .front { background:#111C2E; box-shadow:0 0 60px rgba(81,168,221,0.11),0 28px 72px rgba(0,0,0,0.7); }
+body.collab .front { background:#1C1408; box-shadow:0 0 60px rgba(200,130,50,0.11), 0 28px 72px rgba(0,0,0,0.7); }
+.front::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px; transition:background 0.9s;
+}
+body.solo   .front::before { background:linear-gradient(90deg,transparent,rgba(81,168,221,0.65),rgba(201,168,76,0.5),rgba(81,168,221,0.65),transparent); }
+body.collab .front::before { background:linear-gradient(90deg,transparent,rgba(200,130,50,0.75),rgba(240,200,100,0.6),rgba(200,130,50,0.75),transparent); }
+
+/* Card top row */
+.card-top {
+  display:flex; justify-content:space-between; align-items:center; margin-bottom:22px;
+}
+.card-cat { font-size:10px; letter-spacing:2.5px; text-transform:uppercase; transition:color 0.9s; }
+body.solo   .card-cat { color:rgba(81,168,221,0.65); }
+body.collab .card-cat { color:rgba(200,130,50,0.75); }
+.card-stars .st-on  { font-size:13px; color:#C9A84C; }
+.card-stars .st-off { font-size:13px; color:rgba(255,255,255,0.1); }
+
+/* THE QUESTION — big */
+.card-q {
+  font-family:'Noto Serif TC',serif;
+  font-size:clamp(21px, 5vw, 27px);
+  line-height:1.9; letter-spacing:1.5px;
+  color:#EAE6DE;
+}
+
+/* Discussion prompts — collab only */
+.discussion {
+  margin-top:24px;
+  padding-top:22px;
+  border-top:1px solid rgba(255,255,255,0.07);
+  display:none;
+  flex-direction:column;
+  gap:12px;
+}
+body.collab .discussion { display:flex; }
+
+.disc-label {
+  font-size:9px; letter-spacing:3px; text-transform:uppercase;
+  color:rgba(200,130,50,0.5); margin-bottom:2px;
+}
+.disc-item {
+  display:flex; gap:10px; align-items:flex-start;
+}
+.disc-bullet {
+  width:5px; height:5px; border-radius:50%;
+  background:rgba(200,130,50,0.45); flex-shrink:0; margin-top:7px;
+}
+.disc-text {
+  font-size:14px; line-height:1.75; letter-spacing:0.5px;
+  color:rgba(234,232,226,0.55);
+}
+
+.card-foot {
+  margin-top:22px; padding-top:14px;
+  border-top:1px solid rgba(255,255,255,0.05);
+  display:flex; justify-content:space-between;
+}
+.foot-tier { font-size:10px; color:rgba(255,255,255,0.18); letter-spacing:1px; }
+.foot-num  { font-size:10px; color:rgba(255,255,255,0.1);  font-family:monospace; }
+
+/* ── BUTTONS ── */
+.btns {
+  position:relative; z-index:10;
+  display:flex; gap:12px; align-items:center; margin-top:24px; flex-wrap:wrap; justify-content:center;
+}
+.btn-main {
+  padding:16px 54px; border:none; border-radius:60px;
+  font-family:'Noto Sans TC',sans-serif; font-size:15px; letter-spacing:4px;
+  color:#fff; cursor:pointer; transition:all 0.3s; position:relative; overflow:hidden;
+}
+.btn-main::after {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,0.1),transparent);
+  opacity:0; transition:opacity 0.3s;
+}
+.btn-main:hover { transform:translateY(-2px); }
+.btn-main:hover::after { opacity:1; }
+.btn-main:active { transform:translateY(0); }
+.btn-main:disabled { opacity:0.3; cursor:not-allowed; transform:none; }
+body.solo   .btn-main { background:linear-gradient(135deg,#51A8DD,#3A8DC4); box-shadow:0 4px 24px rgba(81,168,221,0.35); }
+body.collab .btn-main { background:linear-gradient(135deg,#E8963A,#C97820); box-shadow:0 4px 24px rgba(232,150,58,0.35); }
+body.solo   .btn-main:not(:disabled):hover { box-shadow:0 8px 32px rgba(81,168,221,0.5); }
+body.collab .btn-main:not(:disabled):hover { box-shadow:0 8px 32px rgba(232,150,58,0.5); }
+.btn-sub {
+  padding:14px 20px; background:transparent;
+  border:1px solid rgba(255,255,255,0.1); border-radius:60px;
+  color:rgba(255,255,255,0.28); font-family:'Noto Sans TC',sans-serif;
+  font-size:12px; letter-spacing:1px; cursor:pointer; transition:all 0.25s;
+}
+.btn-sub:hover { border-color:rgba(255,255,255,0.3); color:rgba(255,255,255,0.6); }
+
+/* ── HISTORY ── */
+.history {
+  position:relative; z-index:10;
+  width:100%; max-width:480px; margin-top:36px;
+}
+.hist-head { display:flex; align-items:center; gap:14px; margin-bottom:14px; }
+.hist-title { font-size:10px; letter-spacing:3px; color:rgba(255,255,255,0.2); white-space:nowrap; }
+.hist-line  { flex:1; height:1px; background:rgba(255,255,255,0.06); }
+.hist-list  { display:flex; flex-direction:column; gap:8px; }
+.h-item {
+  background:#0F1520; border:1px solid rgba(255,255,255,0.06);
+  border-radius:12px; padding:14px 18px;
+  display:flex; gap:12px; align-items:flex-start;
+  animation:up 0.35s ease;
+}
+@keyframes up { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+.h-stars { color:#C9A84C; font-size:10px; flex-shrink:0; margin-top:3px; }
+.h-q { font-family:'Noto Serif TC',serif; font-size:13px; color:rgba(234,232,226,0.5); line-height:1.7; }
+.empty { text-align:center; padding:24px; font-size:12px; letter-spacing:1px; color:rgba(255,255,255,0.15); }
+
+@media(max-width:480px){
+  .front { padding:26px 22px 22px; }
+  .card-q { font-size:19px; }
+  .disc-text { font-size:13px; }
+}
+</style>
+</head>
+<body class="solo">
+
+<div class="mode-wrap">
+  <div class="mode-toggle">
+    <button class="mode-btn m-solo"   onclick="setMode('solo')">個 人</button>
+    <button class="mode-btn m-collab" onclick="setMode('collab')">雙 人</button>
+  </div>
+</div>
+
+<div class="title-wrap">
+  <div class="title-eye">NIBEL HEARTFELT SERIES</div>
+  <h1>與尼交心</h1>
+  <div class="title-sub" id="titleSub">抽一張卡，說一句真心話</div>
+</div>
+
+<div class="filter-wrap">
+  <button class="f-btn on" onclick="setFilter(0,this)">全部</button>
+  <button class="f-btn" onclick="setFilter(1,this)">★ 輕鬆開場</button>
+  <button class="f-btn" onclick="setFilter(2,this)">★★ 深入一些</button>
+  <button class="f-btn" onclick="setFilter(3,this)">★★★ 靠近彼此</button>
+  <button class="f-btn" onclick="setFilter(4,this)">★★★★ 核心交心</button>
+</div>
+
+<div class="stats">
+  <div class="s-item"><div class="s-val" id="sDrawn">0</div><div class="s-lbl">已抽出</div></div>
+  <div class="s-sep"></div>
+  <div class="s-item"><div class="s-val" id="sRemain">0</div><div class="s-lbl">剩餘</div></div>
+  <div class="s-sep"></div>
+  <div class="s-item"><div class="s-val" id="sTotal">0</div><div class="s-lbl">全部</div></div>
+</div>
+
+<div class="scene" id="scene">
+  <div class="inner" id="inner">
+    <div class="face back">
+      <div class="back-ring"><div class="back-sym" id="backSym">心</div></div>
+      <div class="back-sub" id="backSub">與尼交心</div>
+      <div class="back-hint">按「抽牌」開始</div>
+    </div>
+    <div class="face front" id="front">
+      <div class="card-top">
+        <div class="card-cat"   id="cCat"></div>
+        <div class="card-stars" id="cStars"></div>
+      </div>
+      <div class="card-q" id="cQ"></div>
+      <div class="discussion" id="cDisc">
+        <div class="disc-label">延伸討論</div>
+        <div class="disc-item"><div class="disc-bullet"></div><div class="disc-text" id="cD1"></div></div>
+        <div class="disc-item"><div class="disc-bullet"></div><div class="disc-text" id="cD2"></div></div>
+        <div class="disc-item" id="d3row"><div class="disc-bullet"></div><div class="disc-text" id="cD3"></div></div>
+      </div>
+      <div class="card-foot">
+        <div class="foot-tier" id="cTier"></div>
+        <div class="foot-num"  id="cNum"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="btns">
+  <button class="btn-main" id="btnDraw" onclick="draw()">抽 牌</button>
+  <button class="btn-sub"  onclick="reset()">重新洗牌</button>
+</div>
+
+<div class="history">
+  <div class="hist-head">
+    <div class="hist-title">本場紀錄</div>
+    <div class="hist-line"></div>
+  </div>
+  <div class="hist-list" id="histList">
+    <div class="empty" id="emptyMsg">還沒有抽過任何卡牌</div>
+  </div>
+</div>
+
+<script>
+// 每張卡：主問題 + 雙人延伸討論（2-3條）
+const CARDS = [
+  // ★ 輕鬆開場
+  { id:'01', lv:1, cat:'當下狀態',
+    q:'今天的心情，如果用一種食物來形容是什麼？',
+    d:['為什麼是這個食物？今天發生了什麼嗎？',
+       '如果明天的你可以換一種，你希望是什麼食物？']},
+  { id:'02', lv:1, cat:'生活觀察',
+    q:'最近有什麼讓你笑出聲的事情？',
+    d:['你通常是很容易笑，還是很難被逗笑的人？',
+       '說給對方聽，看他笑不笑得出來。']},
+  { id:'03', lv:1, cat:'感官記憶',
+    q:'有沒有一首歌，每次聽都能把你帶回某個畫面？',
+    d:['那個畫面是快樂的，還是有點傷感的？',
+       '你現在還常聽那首歌嗎？']},
+  { id:'04', lv:1, cat:'自我照顧',
+    q:'如果今天只能做一件讓自己快樂的事，你會選什麼？',
+    d:['這件事你多久沒有好好做了？',
+       '是什麼原因讓你沒辦法常常做這件事？']},
+  { id:'05', lv:1, cat:'狀態色彩',
+    q:'如果用一個顏色代表你今天的狀態，你會選哪個？',
+    d:['這是你喜歡的顏色嗎？',
+       '你最希望自己常常是什麼顏色？']},
+  { id:'06', lv:1, cat:'小小享受',
+    q:'你有沒有一個「沒什麼道理但就是很爽」的小習慣？',
+    d:['如果被人發現了，你會不會覺得尷尬？',
+       '你猜對方有什麼樣的小習慣？']},
+  { id:'07', lv:1, cat:'期待感',
+    q:'最近讓你最期待的事情是什麼？',
+    d:['這件事是確定會發生的，還是還不確定？',
+       '如果最後沒發生，你會怎麼樣？']},
+  { id:'08', lv:1, cat:'節奏感',
+    q:'如果今天的你是一首歌，是快歌還是慢歌？',
+    d:['有沒有一首具體的歌，最接近你今天的感覺？',
+       '你平常大多數時候是快歌狀態還是慢歌狀態？']},
+  { id:'09', lv:1, cat:'睡前時光',
+    q:'你最近睡得好嗎？睡前通常在想什麼？',
+    d:['那些睡前的想法，是讓你安心還是讓你煩惱的？',
+       '你有沒有讓自己比較好入睡的方式？']},
+  { id:'10', lv:1, cat:'微小確幸',
+    q:'最近有沒有讓你覺得「世界也沒那麼差」的小事？',
+    d:['那是自己經歷的，還是旁觀到別人的？',
+       '你平常是容易被這種小事感動的人嗎？']},
+  { id:'11', lv:1, cat:'空閒時光',
+    q:'無聊的時候，你有什麼必做的事？',
+    d:['這件事是「真的想做」還是「只是填滿空白」？',
+       '你有沒有想過改掉這個習慣？']},
+  { id:'12', lv:1, cat:'新發現',
+    q:'最近有沒有一個「這東西真的很好」的新喜愛？',
+    d:['你是怎麼發現它的？',
+       '你會主動把它推薦給朋友嗎？']},
+  { id:'13', lv:1, cat:'天氣心情',
+    q:'你覺得現在的自己，最像哪種天氣？',
+    d:['這是你喜歡的天氣嗎？',
+       '你最喜歡的天氣是什麼？原因是？']},
+  { id:'14', lv:1, cat:'說不出口',
+    q:'你有沒有一個「下次再說」但一直沒說出口的話？',
+    d:['是說給誰聽的？現在還說得出口嗎？',
+       '是什麼讓你一直說不出來？']},
+  { id:'15', lv:1, cat:'充電方式',
+    q:'你最喜歡的充電方式是什麼？',
+    d:['這個方式你多久沒有好好用過了？',
+       '你有沒有一個「別人覺得不可思議，但你覺得很有效」的充電法？']},
+
+  // ★★ 深入一些
+  { id:'16', lv:2, cat:'人生轉折',
+    q:'有沒有一個決定，現在回頭看覺得「幸好我做了」？',
+    d:['當時你是怎麼做出這個決定的？靠直覺還是靠分析？',
+       '如果當時沒做，你覺得現在會有什麼不同？']},
+  { id:'17', lv:2, cat:'獨特快樂',
+    q:'你有沒有一種「只有你懂」的快樂，很難跟別人解釋？',
+    d:['你試著解釋給對方聽，看他能不能理解。',
+       '你有沒有過因為這個快樂而被人覺得奇怪的經驗？']},
+  { id:'18', lv:2, cat:'成長洞見',
+    q:'最近有沒有讓你覺得「原來世界可以這樣」的發現？',
+    d:['這個發現改變了你的什麼想法？',
+       '你是透過什麼契機發現的？']},
+  { id:'19', lv:2, cat:'成熟時刻',
+    q:'你覺得自己最像大人的時刻是什麼時候？',
+    d:['那個時刻你有什麼感覺？是踏實還是有點陌生？',
+       '你有沒有一個「完全不像大人」的一面，只有自己知道？']},
+  { id:'20', lv:2, cat:'努力與命',
+    q:'「努力」和「運氣」，哪個在你的人生裡影響更大？',
+    d:['可以舉一個具體的例子嗎？',
+       '你覺得對方的答案會跟你一樣嗎？為什麼？']},
+  { id:'21', lv:2, cat:'充電信號',
+    q:'什麼樣的狀態下，你知道自己「需要充電了」？',
+    d:['你通常會忽視這個信號還是馬上照顧自己？',
+       '你觀察對方，你覺得他最近需要充電嗎？']},
+  { id:'22', lv:2, cat:'休息定義',
+    q:'你怎麼區分「休息」和「偷懶」？',
+    d:['你有沒有過「明明在休息，卻覺得很罪惡」的時候？',
+       '你覺得對方更偏向計劃休息還是走到極限才停？']},
+  { id:'23', lv:2, cat:'以為在乎',
+    q:'有沒有一種「你以為很在乎，後來發現沒那麼在乎」的事？',
+    d:['你是什麼時候發現的？有什麼觸發點嗎？',
+       '那個轉變讓你感覺解脫，還是有點空虛？']},
+  { id:'24', lv:2, cat:'成長感知',
+    q:'最近一次覺得「我好像長大了一點」是什麼時候？',
+    d:['那個「長大」是讓你開心的，還是有點捨不得的？',
+       '你覺得你現在還有哪裡沒長大？']},
+  { id:'25', lv:2, cat:'未動手的計畫',
+    q:'你有沒有一個「一直想做但一直沒動手」的計畫？',
+    d:['是什麼讓你一直沒有開始？',
+       '如果今天就要開始的話，第一步會是什麼？']},
+  { id:'26', lv:2, cat:'五年前後',
+    q:'現在的你跟五年前的你，最大的不同是什麼？',
+    d:['五年前的你，會怎麼看現在的你？',
+       '有沒有哪一部分的你，你希望自己沒有改變？']},
+  { id:'27', lv:2, cat:'未處理情緒',
+    q:'有沒有一種情緒，你覺得自己一直沒有好好處理過？',
+    d:['你通常怎麼「處理」情緒？是說出來、轉移注意，還是等它過去？',
+       '如果要給那個情緒一個名字，你會叫它什麼？']},
+  { id:'28', lv:2, cat:'善意謊言',
+    q:'你有沒有一句「可能是謊言但還是跟自己說」的話？',
+    d:['你知道它是謊言，但為什麼你還是選擇相信它？',
+       '如果停止說這句話，你覺得會發生什麼？']},
+  { id:'29', lv:2, cat:'自我期許',
+    q:'你現在最想讓自己進步的一件事是什麼？',
+    d:['你有沒有為此採取過任何行動，還是還停在「想」的階段？',
+       '你覺得阻礙你進步的，是外在因素還是自己？']},
+  { id:'30', lv:2, cat:'決策習慣',
+    q:'做重要決定的時候，你靠直覺還是靠分析？',
+    d:['可以舉一個具體的決定當例子嗎？',
+       '你有沒有一個「靠直覺做了卻後悔」或「過度分析反而錯過」的經驗？']},
+
+  // ★★★ 靠近彼此
+  { id:'31', lv:3, cat:'關係學習',
+    q:'你有沒有一段關係，讓你學到了一件很重要的事？',
+    d:['那件事是你主動體悟到的，還是被逼著學到的？',
+       '那個人現在還在你的生命裡嗎？']},
+  { id:'32', lv:3, cat:'無端落淚',
+    q:'你有沒有哭過但說不清楚為什麼的時刻？',
+    d:['後來你有沒有想清楚，其實是為什麼哭的？',
+       '你是那種容易哭的人，還是通常哭不出來的人？']},
+  { id:'33', lv:3, cat:'給過去的信',
+    q:'如果可以寫信給十年前的自己，你最想說的一句話是什麼？',
+    d:['那個十年前的你，最需要聽到的是安慰還是提醒？',
+       '你有沒有一件事，希望十年前的自己不要做？']},
+  { id:'34', lv:3, cat:'被誤解',
+    q:'你覺得自己最常被誤解的地方是什麼？',
+    d:['是你自己也無法解釋，還是其實你很清楚原因？',
+       '對方有沒有什麼地方，讓你覺得「他其實是另一種人」？']},
+  { id:'35', lv:3, cat:'未竟之事',
+    q:'有沒有一件你說服自己「放下了」但其實沒有完全放下的事？',
+    d:['你是怎麼知道自己其實還沒放下的？',
+       '你覺得「完全放下」是什麼感覺？你有沒有體驗過？']},
+  { id:'36', lv:3, cat:'依賴與自保',
+    q:'你更怕讓別人失望，還是更怕被別人拋棄？',
+    d:['你覺得這個恐懼從哪裡來？',
+       '這個恐懼有沒有讓你做過一些後來覺得不太對的選擇？']},
+  { id:'37', lv:3, cat:'重要認可',
+    q:'生命中有哪個人，讓你覺得「被他認可」特別重要？',
+    d:['你有沒有想過，為什麼是這個人？',
+       '你得到他的認可了嗎？還是那份在乎一直都還在？']},
+  { id:'38', lv:3, cat:'未說的話',
+    q:'有沒有「如果當時說出口了，也許事情會不一樣」的時刻？',
+    d:['現在的你，有沒有辦法說出那句話了？',
+       '你有沒有一個「還好我當時沒說」的反例？']},
+  { id:'39', lv:3, cat:'自我保護',
+    q:'你的「鎧甲」是什麼？你用什麼在保護自己？',
+    d:['這個鎧甲保護了你，但它有沒有同時也擋住了什麼？',
+       '你有沒有一個讓你可以卸下鎧甲的人或空間？']},
+  { id:'40', lv:3, cat:'留存在心',
+    q:'有沒有人曾說過你一句話，讓你記到現在？',
+    d:['那句話是在一個什麼樣的情境下說的？',
+       '你有沒有主動告訴過那個人，他說的話對你的影響？']},
+  { id:'41', lv:3, cat:'暗自羨慕',
+    q:'你有沒有一個「很羨慕別人、但說不太出口」的特質？',
+    d:['你覺得為什麼說不出口？是覺得說出來不好，還是說不清楚？',
+       '你有沒有想過，對方也許正在羨慕你的什麼？']},
+  { id:'42', lv:3, cat:'孤獨情境',
+    q:'你在什麼樣的環境下，最容易感到孤獨？',
+    d:['那是身體上的孤立，還是即使在人群中也會有的感覺？',
+       '你面對孤獨的方式是逃開，還是待在裡面？']},
+  { id:'43', lv:3, cat:'他人期待',
+    q:'有沒有一件事，做到一半才發現是為了別人而不是為了自己？',
+    d:['發現之後，你繼續做了還是停下來了？',
+       '你覺得「為了別人」一定是不好的嗎？']},
+  { id:'44', lv:3, cat:'想要的愛',
+    q:'有沒有一種「愛」，你一直想要但從來沒有說出口？',
+    d:['是什麼讓你說不出口？',
+       '如果說出口，你覺得會發生什麼？']},
+  { id:'45', lv:3, cat:'說再見',
+    q:'你擅長說再見嗎？還是每次離開都很難？',
+    d:['你有沒有一個「再見」是你到現在還沒有說完的？',
+       '你覺得對方是擅長說再見的人嗎？']},
+
+  // ★★★★ 核心交心
+  { id:'46', lv:4, cat:'被理解的渴望',
+    q:'真正「被理解」的感覺，你有多久沒有體驗到了？',
+    d:['你覺得「被理解」對你來說最重要的是什麼部分？',
+       '你有沒有試著去讓別人理解你，但失敗了的經驗？',
+       '你覺得此刻對方理解你嗎？']},
+  { id:'47', lv:4, cat:'內心深處',
+    q:'你有沒有一個「只對自己承認」的恐懼，從來沒說給別人聽過？',
+    d:['如果說出來，你最擔心對方的反應是什麼？',
+       '這個恐懼有沒有限制過你做某些事？']},
+  { id:'48', lv:4, cat:'留下什麼',
+    q:'如果今天是你最後一場直播，你最想讓螢幕另一端的人記住什麼？',
+    d:['那件事是你目前已經做到的，還是還在努力的方向？',
+       '你有沒有跟你的觀眾說過這件事？']},
+  { id:'49', lv:4, cat:'感謝轉折',
+    q:'你的人生中，有哪一個轉折點是你現在最感謝的？',
+    d:['那個轉折當時是主動的選擇，還是被迫的？',
+       '有沒有另一個轉折點，是你後來才意識到它有多重要的？']},
+  { id:'50', lv:4, cat:'說不出口',
+    q:'有什麼話你一直想說，但每次都在最後一刻縮回去了？',
+    d:['那句話是說給誰的？那個人知道你想說嗎？',
+       '是什麼讓你縮回去？是害怕，還是覺得時機不對？']},
+  { id:'51', lv:4, cat:'自我接納',
+    q:'你最難接受自己的哪一部分？你有沒有和它和解過？',
+    d:['你覺得「和解」是什麼感覺？是某一天突然的，還是慢慢的？',
+       '你有沒有因為那個部分，傷害過自己或傷害過別人？']},
+  { id:'52', lv:4, cat:'活著的意義',
+    q:'如果有人問你「你活著是為了什麼」，你會怎麼回答？',
+    d:['這個答案是你認真思考過的，還是直覺說出來的？',
+       '你有沒有曾經找不到答案的時候？那個時候是什麼感覺？']},
+  { id:'53', lv:4, cat:'不可能的願望',
+    q:'你有沒有一個「即使知道不可能，但還是想要」的事？',
+    d:['你為什麼知道它不可能，但還是放不下？',
+       '如果它真的成真了，你覺得你的生活會有什麼不同？']},
+  { id:'54', lv:4, cat:'未說出的謝謝',
+    q:'你有沒有一個人，你想說謝謝但始終說不出口？',
+    d:['是什麼讓這個謝謝這麼難說出來？',
+       '如果今天就是最後一次機會，你說得出來嗎？']},
+  { id:'55', lv:4, cat:'人生章節',
+    q:'如果你的人生是一本書，現在是哪一章？這一章的標題是什麼？',
+    d:['你覺得這一章快結束了，還是還在中間？',
+       '你最想讓哪一章成為這本書最重要的章節？']},
+  { id:'56', lv:4, cat:'幸福的形狀',
+    q:'「幸福」對你來說長什麼樣子？你現在距離它有多遠？',
+    d:['你現在的生活裡，有沒有哪個角落已經是幸福的了？',
+       '你覺得對方的幸福跟你的幸福，相似的地方多還是不同的地方多？']},
+  { id:'57', lv:4, cat:'放棄的自己',
+    q:'有沒有一個版本的自己，你曾經很想成為，但後來放棄了？',
+    d:['你是主動放棄的，還是慢慢讓它消失的？',
+       '那個版本的你，你現在還喜歡嗎？']},
+  { id:'58', lv:4, cat:'最後悔的事',
+    q:'你最後悔的事，是做了某件事，還是沒有去做某件事？',
+    d:['後悔這件事有沒有影響到你後來做決定的方式？',
+       '如果可以重來，你確定會做出不同的選擇嗎？']},
+  { id:'59', lv:4, cat:'自我代價',
+    q:'有沒有「別人看到你最好的一面，但只有你知道背後代價」的時刻？',
+    d:['你願意繼續付這個代價嗎？',
+       '有沒有人真的看見過那個代價？']},
+  { id:'60', lv:4, cat:'對自己的愛',
+    q:'你有沒有好好愛過自己？你是怎麼知道的？',
+    d:['你覺得「愛自己」對你來說最難的部分是什麼？',
+       '你願不願意現在，對自己說一句好話？']},
+
+  // ★ 輕鬆開場（續）
+  { id:'61', lv:1, cat:'感官喜好',
+    q:'你有沒有一個「說起來很奇怪但你真的很喜歡」的氣味或聲音？',
+    d:['你有沒有想過，為什麼偏偏是這個讓你有感覺？',
+       '你能描述給對方聽，讓他猜猜看是什麼嗎？']},
+  { id:'62', lv:1, cat:'夢想餐桌',
+    q:'如果今天可以跟任何一個人吃飯，你會選誰？',
+    d:['為什麼是這個人？你最想跟他聊什麼？',
+       '你猜對方會選誰？']},
+  { id:'63', lv:1, cat:'隱藏驕傲',
+    q:'你有沒有一個「別人不知道但你自己很驕傲」的小成就？',
+    d:['為什麼沒有說出去？',
+       '說給對方聽，讓他也幫你驕傲一下。']},
+  { id:'64', lv:1, cat:'無聊哲學',
+    q:'你覺得自己是一個容易無聊的人嗎？',
+    d:['你最怕哪一種無聊？',
+       '你覺得對方是容易無聊的人嗎？']},
+  { id:'65', lv:1, cat:'永不膩',
+    q:'你有沒有一個「永遠都不會膩」的東西？',
+    d:['你有沒有想過，為什麼這個東西讓你不會膩？',
+       '你有沒有在某個重要場合帶著它或用到它？']},
+  { id:'66', lv:1, cat:'關係入菜',
+    q:'如果要用一道菜來形容你跟最近的朋友之間的關係，你會選什麼菜？',
+    d:['為什麼是這道菜？',
+       '那道菜是你喜歡吃的嗎？']},
+  { id:'67', lv:1, cat:'夢境紀錄',
+    q:'你最近有沒有做過一個很特別的夢？',
+    d:['你相信夢境有什麼意義嗎？',
+       '你通常記不記得自己的夢？']},
+  { id:'68', lv:1, cat:'晨昏屬性',
+    q:'你覺得自己是早上的人還是晚上的人？',
+    d:['你是天生如此，還是被生活習慣塑造的？',
+       '你有沒有嘗試過改變？']},
+  { id:'69', lv:1, cat:'專屬動作',
+    q:'你有沒有一個讓你覺得「這就是我」的姿勢或動作？',
+    d:['你是在什麼時候發現這個姿勢的？',
+       '你覺得對方有沒有一個這樣的姿勢？說說看。']},
+  { id:'70', lv:1, cat:'感動自己',
+    q:'你最近一次讓自己感動的事是什麼？',
+    d:['那個感動是突然來的，還是你預期到的？',
+       '你是那種容易被自己感動的人嗎？']},
+  { id:'71', lv:1, cat:'無限遠方',
+    q:'如果今天可以去任何一個地方，不管距離，你會去哪裡？',
+    d:['是為了那個地方本身，還是因為某個人或某個回憶？',
+       '你有沒有一個「死前一定要去」的地方？']},
+  { id:'72', lv:1, cat:'時光飛逝',
+    q:'你最近一次感覺「時間過得很快」是什麼時候？',
+    d:['那種「快」是讓你開心還是讓你有點不捨？',
+       '你是希望時間再快一點，還是希望它慢下來？']},
+  { id:'73', lv:1, cat:'情境切換',
+    q:'你有沒有一個「只有在某個特定地方才會出現」的自己？',
+    d:['那個版本的你，是你喜歡的那一面嗎？',
+       '你有沒有想讓那個自己出現在更多地方？']},
+  { id:'74', lv:1, cat:'私藏歌單',
+    q:'你有沒有一首歌，你不太會跟不熟的人提，但它對你其實很重要？',
+    d:['那首歌在什麼樣的時刻對你最重要？',
+       '你願不願意現在說出那首歌的名字？']},
+  { id:'75', lv:1, cat:'麻木時刻',
+    q:'你有沒有一個「超過幾次就不再有感覺」的體驗？',
+    d:['是什麼讓你從「有感覺」變成「習慣」的？',
+       '你覺得這種麻木是一件壞事嗎？']},
+
+  // ★★ 深入一些（續）
+  { id:'76', lv:2, cat:'選擇相信',
+    q:'你有沒有一個信念，你不確定它是真的，但你選擇相信它？',
+    d:['是什麼讓你選擇繼續相信它？',
+       '如果有一天被證明是錯的，你覺得你會怎麼樣？']},
+  { id:'77', lv:2, cat:'空洞感',
+    q:'你有沒有一件事，做的時候覺得很對，但事後卻感覺很空？',
+    d:['那個「空」是什麼樣的感覺？你能描述嗎？',
+       '你有沒有找到過那種空背後的原因？']},
+  { id:'78', lv:2, cat:'改變方式',
+    q:'你覺得「改變」對你來說，通常是主動發生的還是被迫發生的？',
+    d:['哪一種改變讓你成長更多？',
+       '你有沒有一個「被迫的改變，最後很感謝它」的例子？']},
+  { id:'79', lv:2, cat:'擅長但不喜歡',
+    q:'你有沒有一個「你很擅長，但其實不喜歡做」的事？',
+    d:['你是什麼時候發現自己不喜歡的？',
+       '你現在還繼續做嗎？為什麼？']},
+  { id:'80', lv:2, cat:'成功的感覺',
+    q:'你覺得「成功」對你來說是什麼樣的感覺？你有沒有體驗過？',
+    d:['那個感覺是持久的，還是很快就消失了？',
+       '你對「成功」的定義，跟你小時候一樣嗎？']},
+  { id:'81', lv:2, cat:'最沒耐心',
+    q:'你覺得自己在什麼樣的情況下，最容易失去耐心？',
+    d:['你通常怎麼處理那個失去耐心的自己？',
+       '你有沒有一個「對什麼都有耐心，唯獨對某件事沒耐心」的矛盾？']},
+  { id:'82', lv:2, cat:'應該早點學',
+    q:'你有沒有一個「一直覺得自己應該早點開始學」的東西？',
+    d:['是什麼讓你一直沒有開始？',
+       '現在開始還來得及嗎？你願意嗎？']},
+  { id:'83', lv:2, cat:'抗拒好事',
+    q:'你有沒有一個「你知道對你有好處但就是不想做」的事？',
+    d:['你有沒有試著找出你為什麼抗拒它？',
+       '如果有人陪你一起做，你會更願意嗎？']},
+  { id:'84', lv:2, cat:'失敗觀',
+    q:'你對「失敗」的感受，跟你十年前相比，有什麼不一樣？',
+    d:['是什麼讓你的感受改變的？',
+       '你有沒有一個具體事件，讓你對失敗有了不同的看法？']},
+  { id:'85', lv:2, cat:'重複的自己',
+    q:'你有沒有一個「每次都說這是最後一次，但還是重複了」的行為？',
+    d:['你覺得你為什麼沒辦法停下來？',
+       '你有沒有認真想過要改變它，還是其實不確定自己真的想改？']},
+  { id:'86', lv:2, cat:'存在感',
+    q:'你通常在什麼時候，最能感受到自己的存在感？',
+    d:['那個存在感是從別人那裡來的，還是從自己內在來的？',
+       '你有沒有一段時間，覺得自己好像「不太存在」？']},
+  { id:'87', lv:2, cat:'難以理解的人',
+    q:'有沒有一種人，你一直很難理解他們的行為方式？',
+    d:['你有沒有嘗試過去理解他們，還是選擇保持距離？',
+       '你有沒有想過，有人可能也同樣難以理解你？']},
+  { id:'88', lv:2, cat:'普通的突破',
+    q:'你有沒有一個「說出來可能很普通，但對你來說是很大的突破」的事？',
+    d:['你有沒有把這個突破告訴過任何人？',
+       '說給對方聽，讓他真的理解為什麼這對你是大事。']},
+  { id:'89', lv:2, cat:'同樣的選擇',
+    q:'你有沒有一個「如果可以重新選擇，你還是會選一樣的路」的重大決定？',
+    d:['是什麼讓你這麼確定？',
+       '這個決定的哪一部分是你最驕傲的？']},
+  { id:'90', lv:2, cat:'不是自己',
+    q:'你有沒有一種關係，讓你覺得「我在裡面不太是自己」？',
+    d:['你有沒有嘗試過在那段關係裡做回自己？結果是什麼？',
+       '你有沒有從那段關係裡離開，還是你仍然在其中？']},
+
+  // ★★★ 靠近彼此（續）
+  { id:'91', lv:3, cat:'最了解你的人',
+    q:'你有沒有一個人，你覺得他了解你勝過你了解自己？',
+    d:['那是一種安心的感覺，還是有點可怕的感覺？',
+       '你有沒有讓他知道你這樣覺得？']},
+  { id:'92', lv:3, cat:'珍貴的友情',
+    q:'你有沒有一段友情，讓你現在想起來仍然覺得很珍貴？',
+    d:['那段友情現在還在嗎？還是你們已經走散了？',
+       '是什麼讓那段友情對你來說特別？']},
+  { id:'93', lv:3, cat:'因離開而改變',
+    q:'你有沒有因為一個人的離開，而改變了一些東西？',
+    d:['那個改變是你主動選擇的，還是不知不覺發生的？',
+       '你現在感謝那個離開，還是還覺得遺憾？']},
+  { id:'94', lv:3, cat:'安心感',
+    q:'你有沒有一種「只要他在，你就覺得安心」的感覺？那個人是誰？',
+    d:['那個安心是因為他本人，還是因為他代表的什麼？',
+       '如果沒有他，你能給自己這份安心嗎？']},
+  { id:'95', lv:3, cat:'想消失一陣子',
+    q:'你有沒有過「想要消失一陣子」的念頭？那是什麼時候？',
+    d:['那個「消失」是想逃離什麼，還是想得到什麼？',
+       '後來你是怎麼讓那個念頭過去的？']},
+  { id:'96', lv:3, cat:'虧欠',
+    q:'你有沒有一個「你覺得你虧欠的人」？',
+    d:['你有沒有試過彌補，還是那個虧欠一直放在心裡？',
+       '那個人知道你這樣覺得嗎？']},
+  { id:'97', lv:3, cat:'互相等待',
+    q:'你有沒有一件事，你覺得你一直在等別人先開口，但對方也在等你？',
+    d:['你有沒有想過主動打破那個僵局？',
+       '如果對方先開口，你會說什麼？']},
+  { id:'98', lv:3, cat:'自責的重量',
+    q:'你有沒有一段關係，讓你很長一段時間都覺得是自己的錯？',
+    d:['你後來是怎麼走出那個「都是我的錯」的感覺的？',
+       '你現在怎麼看那段關係的責任分配？']},
+  { id:'99', lv:3, cat:'疲憊時想起的人',
+    q:'你有沒有一個「只有在很累的時候才會想到」的人？',
+    d:['你有沒有想過，為什麼是疲憊的時候才想到他？',
+       '你有沒有主動讓他知道你在想他？']},
+  { id:'100', lv:3, cat:'特定面貌',
+    q:'你有沒有某種「只有在某個人面前才會出現」的自己？',
+    d:['那個版本的你，是你喜歡的嗎？',
+       '你有沒有想讓那個版本的自己出現在更多人面前？']},
+  { id:'101', lv:3, cat:'沒有距離的友情',
+    q:'你有沒有一個「很久沒見，但一見面就像沒分開過」的朋友？',
+    d:['你覺得是什麼讓這段關係可以跨越時間和距離？',
+       '你多久沒見他了？你想他嗎？']},
+  { id:'102', lv:3, cat:'才發現的在乎',
+    q:'你有沒有一次，你以為自己不在乎，但後來才發現你其實很在乎？',
+    d:['是什麼讓你意識到自己其實很在乎的？',
+       '那個發現讓你對自己有什麼新的認識？']},
+  { id:'103', lv:3, cat:'漸漸不像自己',
+    q:'你有沒有在某個關係裡，慢慢變成了不太像自己的樣子？',
+    d:['你是什麼時候意識到的？',
+       '你有沒有試圖找回自己？結果是什麼？']},
+  { id:'104', lv:3, cat:'關於某個人的遺憾',
+    q:'你有沒有一種遺憾，是關於某個人，不是某件事？',
+    d:['那份遺憾是因為你做了什麼，還是你沒有做什麼？',
+       '如果可以，你想對那個人說什麼？']},
+  { id:'105', lv:3, cat:'互相需要',
+    q:'你有沒有一個「你知道他需要你，但你也需要他」的人？',
+    d:['那種互相需要是讓你安心，還是有時候讓你感到壓力？',
+       '你有沒有告訴過他，你也需要他？']},
+
+  // ★★★★ 核心交心（續）
+  { id:'106', lv:4, cat:'從未說出的故事',
+    q:'你有沒有一個「你從來沒有跟任何人說過」的完整故事？',
+    d:['是什麼讓你一直沒說？是太痛，還是覺得沒人能理解？',
+       '你願不願意今天說一部分給對方聽？']},
+  { id:'107', lv:4, cat:'真正的快樂',
+    q:'你覺得自己真正快樂的時候有多少？你怎麼定義那個「真正」？',
+    d:['你覺得你現在的快樂是表面的還是真實的？',
+       '你有沒有一個讓你確定「這是真正的快樂」的時刻？']},
+  { id:'108', lv:4, cat:'永遠不夠好',
+    q:'你有沒有一個「你給了很多，但始終覺得自己不夠好」的地方？',
+    d:['那個「不夠好」是來自外界的聲音，還是自己對自己說的？',
+       '你有沒有問過接受你付出的人，他們怎麼想？']},
+  { id:'109', lv:4, cat:'最黑暗的時期',
+    q:'你有沒有一段時期，是你人生中最黑暗的時候？那個時候你是怎麼撐過來的？',
+    d:['那段時期讓你對自己有什麼不一樣的認識？',
+       '你有沒有一個人，在那段時間裡對你很重要？']},
+  { id:'110', lv:4, cat:'期待又害怕',
+    q:'你有沒有一個版本的未來，你很期待它，但也很怕它真的來？',
+    d:['那個「怕」是怕失去現在的什麼，還是怕自己不夠好？',
+       '你有沒有為那個未來在準備什麼？']},
+  { id:'111', lv:4, cat:'只有自己能救',
+    q:'你有沒有一件事，是你覺得「只有我自己能救自己」的？',
+    d:['你有沒有嘗試過讓別人幫你，但發現沒用？',
+       '你有沒有救到自己了？']},
+  { id:'112', lv:4, cat:'說不清的愧疚',
+    q:'你有沒有對某個人或某件事，感到一種你說不清楚的愧疚？',
+    d:['你有沒有嘗試過釐清那份愧疚從哪裡來？',
+       '你有沒有想過，那份愧疚是否真的是你應該承擔的？']},
+  { id:'113', lv:4, cat:'需要被愛',
+    q:'你有沒有一個「你一直不敢承認，但其實你很需要被愛」的部分？',
+    d:['承認這件事對你來說難在哪裡？',
+       '你有沒有讓自己接受過別人的愛？']},
+  { id:'114', lv:4, cat:'真實的距離',
+    q:'你覺得你和「真實的自己」之間，有多少距離？',
+    d:['那個距離是越來越小，還是越來越大？',
+       '你覺得阻礙你接近真實自己的，是什麼？']},
+  { id:'115', lv:4, cat:'明知不好卻需要',
+    q:'你有沒有一個「你知道對你不好，但你仍然需要它」的東西？',
+    d:['你有沒有嘗試過放下它？結果是什麼？',
+       '你覺得它填補了你什麼樣的需求？']},
+  { id:'116', lv:4, cat:'最重要的決定',
+    q:'你有沒有過一個讓你覺得「這是我這輩子最重要的決定」的時刻？',
+    d:['那個時刻你是一個人做的，還是有人陪著你？',
+       '你有沒有後悔過那個決定？']},
+  { id:'117', lv:4, cat:'希望有人知道的痛',
+    q:'你有沒有一個「你希望有人知道，但又不知道怎麼讓人知道」的痛？',
+    d:['是因為說不清楚，還是因為太害怕說出來之後的反應？',
+       '如果現在說給對方聽，你覺得他能理解嗎？']},
+  { id:'118', lv:4, cat:'給未來的話',
+    q:'如果你可以對未來的自己說一句話，你最想說的是什麼？',
+    d:['那句話是安慰、提醒，還是期許？',
+       '你願不願意現在把那句話說出來，對自己說一遍？']},
+  { id:'119', lv:4, cat:'等待什麼',
+    q:'你有沒有一個「你一直在等的事情」，但你不確定自己在等什麼？',
+    d:['那種等待是讓你安心，還是讓你焦慮？',
+       '如果你必須現在給那個等待一個名字，你會叫它什麼？']},
+  { id:'120', lv:4, cat:'值得被愛',
+    q:'你覺得此刻的你，值得被愛嗎？',
+    d:['你有沒有猶豫過才回答？那個猶豫說明了什麼？',
+       '對方覺得你值得被愛嗎？讓他說說看。',
+       '你願不願意，今天就相信你值得？']},
+];
+
+const TIERS = {1:'輕鬆開場',2:'深入一些',3:'靠近彼此',4:'核心交心'};
+
+let mode    = 'solo';
+let filter  = 0;
+let drawn   = new Set();
+let flipped = false;
+let busy    = false;
+
+function pool() {
+  const base = filter===0 ? CARDS : CARDS.filter(c=>c.lv===filter);
+  return base.filter(c=>!drawn.has(c.id));
+}
+
+function updateStats() {
+  const base = filter===0 ? CARDS : CARDS.filter(c=>c.lv===filter);
+  const dNum = base.filter(c=>drawn.has(c.id)).length;
+  const rem  = base.length - dNum;
+  document.getElementById('sDrawn').textContent  = dNum;
+  document.getElementById('sRemain').textContent = rem;
+  document.getElementById('sTotal').textContent  = base.length;
+  document.getElementById('btnDraw').disabled    = rem === 0;
+}
+
+function starsHTML(lv) {
+  let h='';
+  for(let i=1;i<=4;i++) h+=`<span class="${i<=lv?'st-on':'st-off'}">★</span>`;
+  return h;
+}
+
+function populate(card) {
+  document.getElementById('cCat').textContent   = card.cat;
+  document.getElementById('cStars').innerHTML   = starsHTML(card.lv);
+  document.getElementById('cQ').textContent     = card.q;
+  document.getElementById('cD1').textContent    = card.d[0];
+  document.getElementById('cD2').textContent    = card.d[1];
+  const d3 = card.d[2] || '';
+  document.getElementById('cD3').textContent    = d3;
+  document.getElementById('d3row').style.display = d3 ? 'flex' : 'none';
+  document.getElementById('cTier').textContent  = TIERS[card.lv];
+  document.getElementById('cNum').textContent   = `NO.${card.id}`;
+  // resize scene height to fit card
+  resizeScene();
+}
+
+function resizeScene() {
+  requestAnimationFrame(()=>{
+    const front = document.getElementById('front');
+    const scene = document.getElementById('scene');
+    const inner = document.getElementById('inner');
+    const h = mode==='collab'
+      ? Math.max(460, front.scrollHeight + 2)
+      : 480;
+    scene.style.height = h + 'px';
+    inner.style.height = h + 'px';
+    document.querySelector('.back').style.height = h + 'px';
+    front.style.borderRadius = '24px';
+  });
+}
+
+function draw() {
+  if (busy) return;
+  const p = pool();
+  if (!p.length) return;
+  busy = true;
+  const card = p[Math.floor(Math.random()*p.length)];
+
+  if (flipped) {
+    document.getElementById('inner').classList.remove('flipped');
+    setTimeout(()=>{ populate(card); setTimeout(()=>reveal(card), 200); }, 460);
+  } else {
+    populate(card);
+    reveal(card);
+  }
+}
+
+function reveal(card) {
+  document.getElementById('inner').classList.add('flipped');
+  flipped = true;
+  drawn.add(card.id);
+  updateStats();
+  addHistory(card);
+  setTimeout(()=>{ busy=false; }, 900);
+}
+
+function addHistory(card) {
+  document.getElementById('emptyMsg').style.display='none';
+  const list = document.getElementById('histList');
+  const d    = document.createElement('div');
+  d.className = 'h-item';
+  let s=''; for(let i=0;i<card.lv;i++) s+='★';
+  d.innerHTML = `<div class="h-stars">${s}</div><div class="h-q">${card.q}</div>`;
+  list.insertBefore(d, list.firstChild);
+}
+
+function reset() {
+  if (busy) return;
+  drawn.clear(); flipped=false; busy=false;
+  document.getElementById('inner').classList.remove('flipped');
+  document.getElementById('histList').innerHTML='<div class="empty" id="emptyMsg">還沒有抽過任何卡牌</div>';
+  resizeScene();
+  updateStats();
+}
+
+function setFilter(lv, btn) {
+  filter=lv;
+  document.querySelectorAll('.f-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  updateStats();
+}
+
+function setMode(m) {
+  if (m===mode) return;
+  mode=m;
+  document.body.className=m;
+  document.getElementById('titleSub').textContent = m==='solo'
+    ? '抽一張卡，說一句真心話'
+    : '兩個人的對話，比一個人更深刻';
+  document.getElementById('backSym').textContent = m==='solo' ? '心' : '連';
+  resizeScene();
+}
+
+// init
+document.body.className='solo';
+resizeScene();
+updateStats();
+</script>
+</body>
+</html>
