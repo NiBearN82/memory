@@ -124,9 +124,34 @@ mark{background:rgba(81,168,221,.3);color:var(--pearl);border-radius:3px;padding
 /* detail sheet */
 .sheet{position:fixed;inset:0;z-index:20;display:none;background:rgba(10,11,16,.72);backdrop-filter:blur(4px);overflow-y:auto;padding:clamp(0px,3vw,40px) 0}
 .sheet.open{display:block}
-.panel{max-width:860px;margin:0 auto;background:var(--ink);border:1px solid rgba(200,165,90,.4);border-radius:22px;overflow:hidden;position:relative}
+.panel{max-width:860px;margin:0 auto;background:var(--ink);border:1px solid rgba(200,165,90,.4);border-radius:22px;overflow:clip;position:relative}
 @media(max-width:600px){.panel{border-radius:0;border:0;min-height:100%}}
 .panel .th{aspect-ratio:16/9}
+.player{position:relative;background:#000}
+.player.on{position:sticky;top:0;z-index:3;aspect-ratio:16/9}
+.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.poster{all:unset;cursor:pointer;display:block;position:relative;width:100%}
+.poster:focus-visible{outline:2px solid var(--glint);outline-offset:-4px}
+.pbtn{position:absolute;left:50%;top:50%;translate:-50% -50%;width:76px;height:76px;border-radius:50%;background:rgba(26,27,34,.78);border:1px solid rgba(200,165,90,.7);color:var(--pearl);font-size:28px;display:grid;place-items:center;padding-left:5px;transition:transform .2s}
+.poster:hover .pbtn{transform:scale(1.08)}
+.perr{margin:0;padding:22px;color:var(--silver);background:var(--panel)}
+.perr a{color:var(--glint)}
+.month{scroll-margin-top:84px}
+.rail{position:fixed;right:max(6px,env(safe-area-inset-right));top:86px;bottom:24px;z-index:6;width:64px;display:none;touch-action:none;user-select:none;-webkit-user-select:none}
+.rail.show{display:block}
+.rtrack{position:absolute;inset:0;display:flex;flex-direction:column;cursor:grab;outline:none}
+.rtrack:focus-visible{outline:2px solid var(--glint);border-radius:8px}
+.rail.drag .rtrack{cursor:grabbing}
+.rm{flex:1;min-height:4px;display:flex;align-items:center;justify-content:flex-end;position:relative}
+.rm i{display:block;height:2px;width:10px;background:var(--slate);border-radius:2px;transition:width .2s,background .2s}
+.rm.y i{width:16px;background:var(--silver)}
+.rm b{position:absolute;right:22px;font:italic 600 13px var(--orn);color:var(--silver);white-space:nowrap}
+.rm.on i{width:28px;height:3px;background:var(--glint)}
+.rtip{position:absolute;right:38px;translate:0 -50%;background:var(--mid);border:1px solid rgba(200,165,90,.6);border-radius:999px;padding:6px 13px;font:700 15px/1.2 var(--serif);color:var(--pearl);white-space:nowrap;pointer-events:none;box-shadow:0 10px 24px -10px #000;transition:top .15s}
+.rtip small{font:italic 600 15px var(--orn);color:var(--gilt);margin-right:5px}
+body.has-rail main.band{padding-right:max(4vw,80px)}
+@media(max-width:600px){.rail{width:30px;top:118px}.rm b{display:none}.rtip{right:30px;font-size:13px;padding:5px 10px;opacity:0;transition:opacity .3s,top .15s}.rail.active .rtip,.rail.drag .rtip{opacity:1}body.has-rail main.band{padding-right:40px}}
+@media(prefers-reduced-motion:reduce){.rtip,.pbtn{transition:none}}
 .close{position:absolute;top:12px;right:12px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(26,27,34,.85);color:var(--pearl);font-size:22px;cursor:pointer;z-index:2}
 .pbody{padding:18px clamp(16px,3vw,28px) 26px}
 .pbody h2{font:900 clamp(21px,3vw,27px)/1.35 var(--serif);margin:6px 0 10px;text-wrap:balance}
@@ -183,6 +208,7 @@ footer b{font:italic 600 16px var(--orn);color:var(--gilt)}
 
 <footer class="band"><div class="wrap"><span><b>Nibel · 尼貝爾</b>　創傷劇團 Trauma Troupe</span><span id="upd"></span></div></footer>
 
+<nav class="rail" id="rail" aria-label="年月滑桿"><div class="rtrack" id="rtrack" role="slider" tabindex="0" aria-label="目前瀏覽的年月，拖曳或用上下鍵跳到其他月份"></div><div class="rtip" id="rtip"></div></nav>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="ptitle"><div class="panel" id="panel"></div></div>
 
 <script>
@@ -207,9 +233,10 @@ const isLive=t=>/^\s*【[^】]*#/.test(t)||/繪畫接力大賽/.test(t);
 const isPod=t=>/要不要聽聽尼在說什麼|^S\d+EP\d+|^EP\d+/.test(t);
 const SC={clip:"直播精華",song:"翻唱・歌曲",topic:"議題短講"};
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const clean=t=>t.replace(/^【[^】]*】\s*/,"").replace(/^【[^】]*】\s*/,"").replace(/\s*#(連動|初見歡迎|降落歡迎)\s*/g," ").trim();
+const clean=t=>t.replace(/^【[^】]*】\s*/,"").replace(/^【[^】]*】\s*/,"").replace(/\s*🎭.*$/u,"").replace(/【CC字幕】/g,"").replace(/[\u200b\u202a-\u202e]/g,"").replace(/\s*@\S+/g,"").replace(/\s*#(連動|初見歡迎|初見歓迎|降落歡迎|歡迎降落|新人vtuber|vtuber|新書推薦|2026尼誕祭勒)(?=\s|$)/gi,"").trim();
 const secs=t=>String(t).split(":").reduce((a,b)=>a*60+(+b),0);
 const yt=(id,t)=>"https://youtu.be/"+encodeURIComponent(id)+(t?"?t="+secs(t):"");
+const tlink=(id,t)=>`href="${yt(id,t)}" target="_blank" rel="noopener" data-play="${esc(id)}|${secs(t)}"`;
 const norm=s=>String(s??"").toLowerCase().replace(/[\s・·．.、，,！!？?「」『』《》〈〉（）()【】#＃：:／/\-]/g,"");
 const WD="日一二三四五六";
 const NOISE=/^(OP|ED|開場|晚安|今日曲目回顧|待機|開台待機)/;
@@ -217,10 +244,10 @@ let D,S=[],byId={},SH=[],state={v:"all",cat:"",scat:"",q:""};
 
 function hl(text,q){const t=esc(text);if(!q)return t;const k=esc(q).replace(/[.*+?^${}()|[\]\\]/g,"\\$&");try{return t.replace(new RegExp(k,"gi"),m=>"<mark>"+m+"</mark>")}catch(e){return t}}
 const SIZES={v:["maxresdefault","hq720","sddefault","hqdefault"],s:["oardefault","oar2","hqdefault"]};
-window.nbFallback=img=>{const k=img.dataset.k,n=+img.dataset.n+1,list=SIZES[k];if(n>=list.length){img.onerror=null;return}img.dataset.n=n;img.src="https://i.ytimg.com/vi/"+img.dataset.id+"/"+list[n]+".jpg"};
+window.nbFallback=img=>{const k=img.dataset.k,n=+img.dataset.n+1,list=SIZES[k];if(n>=list.length){img.onerror=null;return}img.dataset.n=n;img.src="https://i.ytimg.com/vi/"+img.dataset.vid+"/"+list[n]+".jpg"};
 const imgOk=img=>{if(img.naturalWidth===120&&img.naturalHeight===90)nbFallback(img)};
 window.nbLoad=imgOk;
-function th(kind,id,eager){const sz=SIZES[kind][kind==="v"&&!eager?1:0];return `<img class="th" src="https://i.ytimg.com/vi/${encodeURIComponent(id)}/${sz}.jpg" data-k="${kind}" data-id="${esc(id)}" data-n="${kind==="v"&&!eager?1:0}" alt="" ${eager?"":'loading="lazy"'} decoding="async" onerror="nbFallback(this)" onload="nbLoad(this)">`}
+function th(kind,id,eager){const sz=SIZES[kind][kind==="v"&&!eager?1:0];return `<img class="th" src="https://i.ytimg.com/vi/${encodeURIComponent(id)}/${sz}.jpg" data-k="${kind}" data-vid="${esc(id)}" data-n="${kind==="v"&&!eager?1:0}" alt="" ${eager?"":'loading="lazy"'} decoding="async" onerror="nbFallback(this)" onload="nbLoad(this)">`}
 function prep(){
   S=D.streams.map(([date,id,dur,raw],i)=>{
     const live=isLive(raw)&&(!dur||secs(dur)>=1200);  // 20 分鐘以下的是剪輯或預告，不算直播
@@ -288,7 +315,7 @@ function hitRows(limit){
   const q=qn();if(!q)return"";
   const rows=[];S.forEach(r=>r.chapters.forEach(c=>{if(c.n.includes(q))rows.push([r,c])}));
   if(!rows.length)return"";
-  return `<h3 class="sect">時間軸裡找到的段落 <span>${rows.length}</span></h3><p class="sub">點一下就從那一秒開始播</p><div class="hits">${rows.slice(0,limit).map(([r,c])=>`<a class="hitrow" href="${yt(r.id,c.t)}" target="_blank" rel="noopener">${th("v",r.id)}<span><time>${esc(c.t)}</time>${hl(c.x,state.q)}<small>${esc(r.date.replaceAll("-","."))}・${esc(r.title)}</small></span></a>`).join("")}</div>${rows.length>limit?`<p class="note" style="margin:-18px 0 30px">還有 ${rows.length-limit} 段，關鍵字再具體一點會更好找</p>`:""}`}
+  return `<h3 class="sect">時間軸裡找到的段落 <span>${rows.length}</span></h3><p class="sub">點一下就在這裡從那一秒開始播放</p><div class="hits">${rows.slice(0,limit).map(([r,c])=>`<a class="hitrow" ${tlink(r.id,c.t)}>${th("v",r.id)}<span><time>${esc(c.t)}</time>${hl(c.x,state.q)}<small>${esc(r.date.replaceAll("-","."))}・${esc(r.title)}</small></span></a>`).join("")}</div>${rows.length>limit?`<p class="note" style="margin:-18px 0 30px">還有 ${rows.length-limit} 段，關鍵字再具體一點會更好找</p>`:""}`}
 
 function viewAll(){
   const base=S.filter(r=>matchStream(r,true)),list=S.filter(r=>matchStream(r));
@@ -322,8 +349,8 @@ function viewSongs(){
   const sets=S.filter(r=>r.songs).map(r=>[r,r.songs.filter(s=>!q||norm(s.s+s.a).includes(q)||norm(r.title).includes(q))]).filter(x=>x[1].length);
   const total=sets.reduce((a,x)=>a+x[1].length,0);
   const others=S.filter(r=>r.cats.includes("song")&&!r.songs&&(!q||r.hay.includes(q)));
-  let h=`<h3 class="sect">歌單 <span>${total} 首</span></h3><p class="sub">點時間碼直接跳到那首歌</p>`;
-  h+=sets.length?`<div class="sets">${sets.map(([r,songs])=>`<div class="set"><a class="head" href="${yt(r.id)}" target="_blank" rel="noopener">${th("v",r.id)}<span><small>${esc(r.date.replaceAll("-","."))}</small><b>${hl(r.title,state.q)}</b></span></a><ol>${songs.map(s=>`<li><a class="song" href="${yt(r.id,s.t)}" target="_blank" rel="noopener"><time>${esc(s.t)}</time><span><span class="sn">${hl(s.s,state.q)}</span>${s.a?`<span class="sa">${hl(s.a,state.q)}</span>`:""}</span></a></li>`).join("")}</ol></div>`).join("")}</div>`:"";
+  let h=`<h3 class="sect">歌單 <span>${total} 首</span></h3><p class="sub">點歌名就在這裡從那首歌開始播放</p>`;
+  h+=sets.length?`<div class="sets">${sets.map(([r,songs])=>`<div class="set"><a class="head" href="${yt(r.id)}" target="_blank" rel="noopener">${th("v",r.id)}<span><small>${esc(r.date.replaceAll("-","."))}</small><b>${hl(r.title,state.q)}</b></span></a><ol>${songs.map(s=>`<li><a class="song" ${tlink(r.id,s.t)}><time>${esc(s.t)}</time><span><span class="sn">${hl(s.s,state.q)}</span>${s.a?`<span class="sa">${hl(s.a,state.q)}</span>`:""}</span></a></li>`).join("")}</ol></div>`).join("")}</div>`:"";
   if(others.length)h+=`<section class="month" style="margin-top:24px"><h3 class="sect">其他歌回・歌雜 <span>${others.length}</span></h3><p class="sub">這幾場的歌單還在整理中，可以先點進去聽</p><div class="grid">${others.map(card).join("")}</div></section>`;
   if(!sets.length&&!others.length)h+=`<p class="empty">還沒找到這首歌，也許在還沒整理歌單的場次裡</p>`;
   return h}
@@ -331,25 +358,79 @@ function viewSongs(){
 function render(){
   document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-current",String(t.dataset.v===state.v)));
   document.getElementById("view").innerHTML=({all:viewAll,shorts:viewShorts,books:viewBooks,topics:viewTopics,songs:viewSongs}[state.v])();
-  renderBars();
+  renderBars();buildRail();
 }
+
+/* 右側年月滑桿 */
+const rail=document.getElementById("rail"),rtrack=document.getElementById("rtrack"),rtip=document.getElementById("rtip");
+let railMonths=[],curM="",dragging=false;
+const ctrlH=()=>document.querySelector(".controls").offsetHeight;
+function buildRail(){
+  railMonths=[...document.querySelectorAll(".month[id^='m-']")].map(x=>x.id.slice(2));
+  document.body.classList.toggle("has-rail",railMonths.length>1);
+  let lastY="";
+  rtrack.innerHTML=railMonths.map(k=>{const y=k.slice(0,4),first=y!==lastY;lastY=y;return `<span class="rm${first?" y":""}" data-m="${k}">${first?`<b>${y}</b>`:""}<i></i></span>`}).join("");
+  curM="";updateRail();
+}
+function updateRail(){
+  if(railMonths.length<2){rail.classList.remove("show");return}
+  const line=ctrlH()+60;let cur=railMonths[0];
+  for(const k of railMonths){const el=document.getElementById("m-"+k);if(el&&el.getBoundingClientRect().top<=line)cur=k;else break}
+  const first=document.getElementById("m-"+railMonths[0]);
+  rail.classList.toggle("show",!!first&&first.getBoundingClientRect().top<innerHeight*.75);
+  if(cur!==curM){curM=cur;rtrack.querySelectorAll(".rm").forEach(x=>x.classList.toggle("on",x.dataset.m===cur));
+    rtip.innerHTML=`<small>${cur.slice(0,4)}</small>${+cur.slice(5)} 月`;
+    rtrack.setAttribute("aria-valuetext",`${cur.slice(0,4)} 年 ${+cur.slice(5)} 月`)}
+  const on=rtrack.querySelector(".rm.on");if(on)rtip.style.top=(on.offsetTop+on.offsetHeight/2)+"px";
+}
+function goMonth(k){const el=document.getElementById("m-"+k);if(el)scrollTo({top:el.getBoundingClientRect().top+scrollY-ctrlH()-8,behavior:"auto"})}
+function railAt(y){const b=rtrack.getBoundingClientRect();const i=Math.max(0,Math.min(railMonths.length-1,Math.floor((y-b.top)/b.height*railMonths.length)));goMonth(railMonths[i])}
+rtrack.addEventListener("pointerdown",e=>{dragging=true;rtrack.setPointerCapture(e.pointerId);rail.classList.add("drag");railAt(e.clientY)});
+rtrack.addEventListener("pointermove",e=>{if(dragging)railAt(e.clientY)});
+const endDrag=()=>{dragging=false;rail.classList.remove("drag")};
+rtrack.addEventListener("pointerup",endDrag);rtrack.addEventListener("pointercancel",endDrag);
+rtrack.addEventListener("keydown",e=>{const i=railMonths.indexOf(curM);if(e.key==="ArrowDown"||e.key==="ArrowRight"){e.preventDefault();goMonth(railMonths[Math.min(railMonths.length-1,i+1)])}if(e.key==="ArrowUp"||e.key==="ArrowLeft"){e.preventDefault();goMonth(railMonths[Math.max(0,i-1)])}});
+let railRaf=0,railIdle=0;addEventListener("scroll",()=>{if(!railRaf)railRaf=requestAnimationFrame(()=>{railRaf=0;updateRail()});rail.classList.add("active");clearTimeout(railIdle);railIdle=setTimeout(()=>rail.classList.remove("active"),1200)},{passive:true});
+addEventListener("resize",updateRail);
 
 /* detail sheet */
 const sheet=document.getElementById("sheet"),panel=document.getElementById("panel");let lastFocus=null;
-function chapList(r,f){const q=norm(f);const list=r.chapters.filter(c=>!q||c.n.includes(q));return list.length?list.map(c=>`<a class="chap" href="${yt(r.id,c.t)}" target="_blank" rel="noopener"><time>${esc(c.t)}</time><span>${hl(c.x,f)}</span></a>`).join(""):`<p class="note">沒有符合的段落</p>`}
+function chapList(r,f){const q=norm(f);const list=r.chapters.filter(c=>!q||c.n.includes(q));return list.length?list.map(c=>`<a class="chap" ${tlink(r.id,c.t)}><time>${esc(c.t)}</time><span>${hl(c.x,f)}</span></a>`).join(""):`<p class="note">沒有符合的段落</p>`}
+/* 站內播放器：用 YouTube 官方嵌入播放器，直接跳到指定秒數 */
+let ytReady=null,player=null,playerId=null;
+function loadYT(){if(ytReady)return ytReady;ytReady=new Promise(res=>{window.onYouTubeIframeAPIReady=()=>res(window.YT);const sc=document.createElement("script");sc.src="https://www.youtube.com/iframe_api";document.head.appendChild(sc)});return ytReady}
+window.__nbPlayer=()=>player;
+function stopPlayer(){if(player){try{player.destroy()}catch(e){}}player=null;playerId=null}
+async function play(id,t){
+  if(!sheet.classList.contains("open")||panel.dataset.id!==id)openSheet(id);
+  const box=document.getElementById("player");if(!box)return;
+  box.classList.add("on");
+  if(player&&playerId===id&&player.seekTo){player.seekTo(t,true);player.playVideo();return}
+  stopPlayer();playerId=id;
+  box.innerHTML='<div id="ytp"></div>';
+  const YT=await loadYT();if(playerId!==id)return;
+  player=new YT.Player("ytp",{videoId:id,playerVars:{start:Math.floor(t),autoplay:1,playsinline:1,rel:0},
+    events:{onReady:e=>{e.target.seekTo(t,true);e.target.playVideo()},
+            onError:()=>{box.classList.remove("on");box.innerHTML=`<p class="perr">這部影片沒辦法在這裡播放（可能是會員限定）。<a href="${yt(id,t?String(t):"")}" target="_blank" rel="noopener">到 YouTube 從這裡開始看 ↗</a></p>`;stopPlayer()}}});
+}
+document.addEventListener("click",e=>{
+  const a=e.target.closest("[data-play]");if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button>0)return;
+  e.preventDefault();e.stopPropagation();const [id,t]=a.dataset.play.split("|");play(id,+t)},true);
+
 function openSheet(id){
-  const r=byId[id];if(!r)return;lastFocus=document.activeElement;
+  const r=byId[id];if(!r)return;if(!sheet.classList.contains("open"))lastFocus=document.activeElement;stopPlayer();
   const pills=r.cats.map(c=>`<span class="pill">${esc(CN[c])}</span>`).join("")+(r.collab?`<span class="pill">連動・來賓</span>`:"");
   const f=state.q;
-  panel.innerHTML=`<button class="close" id="close" aria-label="關閉">×</button>${th("v",r.id,true)}<div class="pbody"><div class="pmeta"><span>${esc(r.date.replaceAll("-","."))}</span><span>${esc(r.dur)}</span>${pills}</div><h2 id="ptitle">${esc(r.title)}</h2>${r.book?`<p class="note">書目：《${esc(r.book)}》${r.author?"／"+esc(r.author):""}</p>`:""}${r.topic?`<p class="note">本週專題：${esc(r.topic)}</p>`:""}<a class="watch" href="${yt(r.id)}" target="_blank" rel="noopener">▶ 到 YouTube 看這場</a>${r.cats.includes("member")?`<p class="note">這場是會員限定，需要加入頻道會員才能觀看</p>`:""}
+  panel.dataset.id=r.id;
+  panel.innerHTML=`<button class="close" id="close" aria-label="關閉">×</button><div class="player" id="player"><button class="poster" type="button" data-play="${esc(r.id)}|0" aria-label="在這裡播放">${th("v",r.id,true)}<span class="pbtn">▶</span></button></div><div class="pbody"><div class="pmeta"><span>${esc(r.date.replaceAll("-","."))}</span><span>${esc(r.dur)}</span>${pills}</div><h2 id="ptitle">${esc(r.title)}</h2>${r.book?`<p class="note">書目：《${esc(r.book)}》${r.author?"／"+esc(r.author):""}</p>`:""}${r.topic?`<p class="note">本週專題：${esc(r.topic)}</p>`:""}<a class="watch" href="${yt(r.id)}" target="_blank" rel="noopener">到 YouTube 看這場 ↗</a><p class="note">點時間軸的任何一段，上面的播放器就會從那一秒開始播</p>${r.cats.includes("member")?`<p class="note">這場是會員限定，需要加入頻道會員才能觀看</p>`:""}
   ${(()=>{const rel=SH.filter(x=>(D.shortSource||{})[x.id]===r.id);return rel.length?`<h3>從這場剪出來的 Shorts（${rel.length}）</h3><div class="shorts">${rel.map(x=>`<a class="short" href="https://www.youtube.com/shorts/${encodeURIComponent(x.id)}" target="_blank" rel="noopener"><span class="pic">${th("s",x.id)}</span><span class="t">${esc(x.title)}</span></a>`).join("")}</div>`:""})()}
-  ${r.songs?`<h3>歌單（${r.songs.length} 首）</h3>${r.songs.map(s=>`<a class="chap" href="${yt(r.id,s.t)}" target="_blank" rel="noopener"><time>${esc(s.t)}</time><span>${esc(s.s)}${s.a?`<span class="sa">${esc(s.a)}</span>`:""}</span></a>`).join("")}`:""}
+  ${r.songs?`<h3>歌單（${r.songs.length} 首）</h3>${r.songs.map(s=>`<a class="chap" ${tlink(r.id,s.t)}><time>${esc(s.t)}</time><span>${esc(s.s)}${s.a?`<span class="sa">${esc(s.a)}</span>`:""}</span></a>`).join("")}`:""}
   ${r.chapters.length?`<h3>時間軸（${r.chapters.length} 段）<input id="cf" type="text" placeholder="在這場裡搜尋" value="${esc(f&&chapHits(r).length?f:"")}" aria-label="在這場的時間軸裡搜尋"></h3><div id="cl">${chapList(r,f&&chapHits(r).length?f:"")}</div>`:`<h3>時間軸</h3><p class="note">這場的說明欄還沒有時間軸</p>`}</div>`;
   sheet.classList.add("open");document.body.style.overflow="hidden";sheet.scrollTop=0;
   document.getElementById("close").focus();
   const cf=document.getElementById("cf");if(cf)cf.addEventListener("input",()=>{document.getElementById("cl").innerHTML=chapList(r,cf.value.trim())});
 }
-function closeSheet(){sheet.classList.remove("open");document.body.style.overflow="";if(lastFocus)lastFocus.focus()}
+function closeSheet(){stopPlayer();sheet.classList.remove("open");document.body.style.overflow="";if(lastFocus)lastFocus.focus()}
 sheet.addEventListener("click",e=>{if(e.target===sheet||e.target.closest("#close"))closeSheet()});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&sheet.classList.contains("open"))closeSheet()});
 
