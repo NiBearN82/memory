@@ -1,5 +1,5 @@
 {
- "_說明": "人工整理的資料。update.py 每次抓完 YouTube 後會套用這裡的內容。books：說書書單 [影片ID, 書名, 作者]；news：新聞久一點專題名稱；setlists：歌單 [時間, 歌名, 歌手]；shortCats：Shorts 分類（clip 直播精華／song 翻唱・歌曲／topic 議題短講）；shortTitles：Shorts 顯示用標題；shortSource：Shorts 剪自哪一場直播；noChapters：說明欄的時間碼不是時間軸的影片；hide：不想放進紀錄館的影片ID",
+ "_說明": "人工整理的資料。update.py 每次抓完 YouTube 後會套用這裡的內容。books：說書書單 [影片ID, 書名, 作者]；news：新聞久一點專題名稱；setlists：歌單 [時間, 歌名, 歌手]；shortCats：Shorts 分類（clip 直播精華／song 翻唱・歌曲／topic 議題短講）；shortTitles：Shorts 顯示用標題；shortSource：Shorts 剪自哪一場直播；noChapters：說明欄的時間碼不是時間軸的影片；hide：不想放進紀錄館的影片ID；shortsSince：只收這天以後的 Shorts",
  "channelHandle": "@尼貝爾Nibel",
  "books": [
   [
@@ -146,6 +146,11 @@
    "jv52TiCil6k",
    "Vtuberの哲学",
    ""
+  ],
+  [
+   "Fzprr3wNq_k",
+   "我想把這個世界讀給你聽",
+   "李尚龍"
   ]
  ],
  "news": {
@@ -745,12 +750,15 @@
   "DS7ecTLMd4I": "【初配信精華】尼不是冰霸王，是冰炫風吧",
   "fZR1MheldyY": "【初配信精華】初配信被不知名海盜搶走了",
   "hmqgE-twSQc": "【初配信精華】你說這是初配信？我不信",
-  "4PN7fa5c9Co": "尼在這，明天見！"
+  "4PN7fa5c9Co": "尼在這，明天見！",
+  "RYSf3RBg5hY": "翻唱 Shorts",
+  "Zs6uYQf4R_Q": "翻唱 Shorts"
  },
  "shortSource": {},
  "noChapters": [
   "J5dG_rgllj8",
   "JBMwj6Cik6E"
  ],
- "hide": []
+ "hide": [],
+ "shortsSince": "2025-06-04"
 }

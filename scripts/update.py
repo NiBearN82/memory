@@ -76,9 +76,21 @@ def short_cat(t):
 
 
 def auto_book(title):
-    """尼看什麼的標題裡第一個《書名》。"""
+    """標題裡第一個《書名》和作者（作者寫在書名前面的「｜」後，或書名後面）。"""
     m = re.search(r"《([^》]+)》", title)
-    return m.group(1).strip() if m else None
+    if not m:
+        return None
+    before = re.search(r"[｜|]\s*([^｜|《》#]{2,30}?)\s*《", title[: m.end()])
+    after = re.match(r"\s*([^【｜|#《》\s][^【｜|#《》]{1,29})", title[m.end():])
+    author = ""
+    if before and re.search(r"[\u4e00-\u9fff\u3040-\u30ff]", before.group(1)):
+        author = before.group(1).strip()
+    elif after and re.search(r"[\u4e00-\u9fff\u3040-\u30ff]", after.group(1)):
+        author = after.group(1).strip()
+    return m.group(1).strip(), author
+
+
+PODCAST = re.compile(r"要不要聽聽尼在說什麼|^S\d+EP\d+|^EP\d+")
 
 
 def auto_topic(title):
@@ -142,17 +154,19 @@ def main():
             continue
         dur = iso_dur(v.get("contentDetails", {}).get("duration"))
         live = v.get("liveStreamingDetails", {})
-        if live.get("actualStartTime"):
-            if vid not in streams:
-                n_new_v += 1
-            streams[vid] = [tpe_date(live["actualStartTime"]), vid, dur, sn["title"]]
-            c = chapters(sn.get("description"))
-            if c and vid not in no_ch:
-                chs[vid] = c
-        elif (vid in shorts_set) if shorts_set is not None else (0 < dur_secs(dur) <= 180):
+        is_short = (vid in shorts_set) if shorts_set is not None else (0 < dur_secs(dur) <= 180 and not live)
+        if is_short:
             if vid not in shorts:
                 n_new_s += 1
                 shorts[vid] = [tpe_date(sn["publishedAt"]), vid, short_cat(sn["title"]), clean_short_title(sn["title"])]
+            continue
+        # 直播、Podcast、翻唱 MV 等一般影片都收進來，網站會依標題自動分類
+        if vid not in streams:
+            n_new_v += 1
+        streams[vid] = [tpe_date(live.get("actualStartTime") or sn["publishedAt"]), vid, dur, sn["title"]]
+        c = chapters(sn.get("description"))
+        if c and vid not in no_ch:
+            chs[vid] = c
 
     # 套用人工整理的資料
     for vid, cat in extra.get("shortCats", {}).items():
@@ -161,6 +175,9 @@ def main():
     for vid, t in extra.get("shortTitles", {}).items():
         if vid in shorts:
             shorts[vid][3] = t
+    since = extra.get("shortsSince", "")
+    for vid in [k for k, v in shorts.items() if v[0] < since]:
+        shorts.pop(vid)
     for vid in hide:
         streams.pop(vid, None)
         shorts.pop(vid, None)
@@ -169,10 +186,10 @@ def main():
     books = {b[0]: b for b in extra.get("books", [])}
     news = dict(extra.get("news", {}))
     for s in streams.values():
-        if "尼看什麼" in s[3] and s[1] not in books:
+        if ("尼看什麼" in s[3] or PODCAST.search(s[3])) and s[1] not in books:
             b = auto_book(s[3])
             if b:
-                books[s[1]] = [s[1], b, ""]
+                books[s[1]] = [s[1], b[0], b[1]]
         if "新聞久一點" in s[3] and s[1] not in news:
             t = auto_topic(s[3])
             if t:
