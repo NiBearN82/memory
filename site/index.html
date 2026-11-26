@@ -223,7 +223,7 @@ window.nbLoad=imgOk;
 function th(kind,id,eager){const sz=SIZES[kind][kind==="v"&&!eager?1:0];return `<img class="th" src="https://i.ytimg.com/vi/${encodeURIComponent(id)}/${sz}.jpg" data-k="${kind}" data-id="${esc(id)}" data-n="${kind==="v"&&!eager?1:0}" alt="" ${eager?"":'loading="lazy"'} decoding="async" onerror="nbFallback(this)" onload="nbLoad(this)">`}
 function prep(){
   S=D.streams.map(([date,id,dur,raw],i)=>{
-    const live=isLive(raw);
+    const live=isLive(raw)&&(!dur||secs(dur)>=1200);  // 20 分鐘以下的是剪輯或預告，不算直播
     const cats=live?CATS.filter(c=>c[0]!=="talk"&&c[2].test(raw)).map(c=>c[0]):[isPod(raw)?"podcast":"work"];
     if(!cats.length)cats.push("talk");
     const r={i,date,id,dur,raw,live,title:live?clean(raw):raw.replace(/\s*【CC字幕】/,"").replace(/\s*#\S+/g,"").replace(/\s*@尼貝爾Nibel\S*/g,"").trim(),cats,collab:/連動|聯動|with|ft\.|feat\./i.test(raw),ym:date.slice(0,7)};
