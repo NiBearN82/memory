@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>尼貝爾直播紀錄館</title>
+<meta name="description" content="VTuber 尼貝爾 Nibel 的直播紀錄：時間軸、書單、議題、歌單與 Shorts 精華，每天自動更新。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700;900&family=Noto+Sans+TC:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,600;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+/* VOICE: elegant, a little mysterious — a theatre troupe's programme archive for 哈尼們
+   IDEA: 創傷劇團的演出節目冊：每一場直播是一張「演出劇照」，翻開就是那一場的時間軸
+   PICTURE: wall of real stream thumbnails; the newest show as a large poster; a month-by-month bar strip
+   COLOUR and TYPE: Ink Night ground, Midnight panels, Glint single accent, Gilt ✦ ornaments; Noto Serif TC 900 / Noto Sans TC / Cormorant italic numerals
+   LAYOUT: tartan header (title + featured poster) → year strip → sticky search + tabs → thumbnail grids, detail sheet with chapters */
+:root{color-scheme:dark;--ink:#1A1B22;--mid:#1E2A4F;--slate:#44597F;--glint:#51A8DD;--pearl:#EEF0F4;--silver:#B9BDC8;--gilt:#C8A55A;--rule:#2A2C36;--panel:#20222B;
+--serif:"Noto Serif TC","PMingLiU",serif;--sans:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;--orn:"Cormorant Garamond",Georgia,serif}
+:root[data-theme=light],:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--ink);color:var(--pearl);font:16px/1.65 var(--sans);overflow-x:clip}
+a{color:inherit}
+button{font:inherit;color:inherit}
+.band{padding:clamp(24px,4vw,52px) max(4vw,14px)}
+.wrap{max-width:1240px;margin:0 auto}
+header{position:relative;background-color:var(--mid);background-image:repeating-linear-gradient(45deg,rgba(10,12,20,.6) 0 26px,transparent 26px 52px),repeating-linear-gradient(-45deg,rgba(10,12,20,.6) 0 26px,transparent 26px 52px),repeating-linear-gradient(45deg,transparent 0 12px,rgba(81,168,221,.3) 12px 13px,transparent 13px 26px)}
+header::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(26,27,34,.97) 0%,rgba(26,27,34,.85) 55%,rgba(26,27,34,.6) 100%)}
+header .wrap{position:relative}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(20px,4vw,48px);align-items:center}
+.eyebrow{font:italic 600 20px/1.2 var(--orn);color:var(--gilt);margin:0 0 10px}
+h1{font:900 clamp(34px,5.6vw,54px)/1.08 var(--serif);margin:0;text-wrap:balance}
+.lede{color:var(--silver);max-width:46ch;margin:14px 0 0}
+.stats{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:22px}
+.stat b{display:block;font:600 clamp(28px,3.6vw,40px)/1 var(--orn)}
+.stat span{font-size:13px;color:var(--silver)}
+.stat:first-child b{color:var(--glint)}
+.feat{all:unset;cursor:pointer;display:block;position:relative;border-radius:22px;overflow:hidden;border:1px solid rgba(200,165,90,.5);outline:1px solid rgba(200,165,90,.22);outline-offset:8px;box-shadow:0 30px 60px -30px #000}
+.feat:focus-visible{outline:2px solid var(--glint)}
+.feat .th{aspect-ratio:16/9}
+.feat .cap{position:absolute;inset:auto 0 0 0;padding:44px 18px 14px;background:linear-gradient(transparent,rgba(26,27,34,.95))}
+.feat .cap small{font:italic 600 15px var(--orn);color:var(--gilt)}
+.feat .cap b{display:block;font:700 clamp(16px,2vw,20px)/1.4 var(--serif);text-wrap:balance}
+.th{display:block;width:100%;height:auto;background:var(--panel);object-fit:cover;color:transparent}
+.strip{margin-top:28px;background:rgba(26,27,34,.75);border:1px solid rgba(200,165,90,.3);border-radius:20px;padding:16px 16px 10px}
+.strip h2{font:700 16px/1.3 var(--serif);margin:0;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.strip h2 small{font:400 13px var(--sans);color:var(--silver)}
+.bar-wrap{overflow-x:auto}.bar-inner{min-width:560px}
+.bars{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:6px;align-items:end;height:120px;margin-top:8px}
+.bar{all:unset;cursor:pointer;display:flex;flex-direction:column;justify-content:flex-end;height:100%;position:relative}
+.bar:focus-visible{outline:2px solid var(--glint);outline-offset:2px}
+.bar i{display:block;background:var(--slate);border-radius:5px 5px 0 0;transition:height .5s}
+.bar i.on{background:var(--glint);border-radius:0}.bar i.on:last-child{border-radius:5px 5px 0 0}
+.bar em{position:absolute;top:-2px;left:0;right:0;text-align:center;font:italic 600 13px var(--orn);color:var(--silver)}
+.months{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:6px;margin-top:4px;font:italic 500 13px var(--orn);color:var(--silver);text-align:center}
+.controls{position:sticky;top:0;z-index:5;background:rgba(26,27,34,.97);border-bottom:1px solid var(--rule);padding:10px max(4vw,14px)}
+.controls .wrap{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center}
+.search{flex:1 1 280px;position:relative}
+.search input{width:100%;font:16px var(--sans);color:var(--pearl);background:var(--panel);border:1px solid var(--rule);border-radius:999px;padding:10px 44px 10px 18px;min-height:44px}
+.search input:focus{outline:2px solid var(--glint);border-color:transparent}
+.search button{position:absolute;right:6px;top:50%;translate:0 -50%;width:34px;height:34px;border-radius:50%;border:0;background:transparent;color:var(--silver);font-size:20px;cursor:pointer}
+.tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.tab,.chip{font:500 15px var(--sans);color:var(--silver);background:transparent;border:1px solid var(--slate);border-radius:999px;padding:7px 15px;min-height:40px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;flex:none}
+.tab[aria-current=true]{background:var(--glint);color:var(--ink);border-color:var(--glint);font-weight:700}
+.tab:focus-visible,.chip:focus-visible,a:focus-visible,.card:focus-visible{outline:2px solid var(--glint);outline-offset:2px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+.chip{font-size:14px;padding:5px 12px;min-height:36px}
+.chip[aria-pressed=true]{background:var(--mid);color:var(--pearl);border-color:var(--gilt)}
+.chip small{font:italic 600 14px var(--orn);color:var(--gilt)}
+main{min-height:60vh}
+.count{color:var(--silver);font-size:14px;margin:0 0 14px}
+h3.sect{font:900 24px/1.3 var(--serif);margin:8px 0 4px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+h3.sect::before{content:"✦";color:var(--gilt);font-size:18px}
+h3.sect span{font:italic 600 17px var(--orn);color:var(--gilt)}
+p.sub{color:var(--silver);margin:0 0 14px;font-size:14px}
+.month{margin:0 0 30px}
+.month h4{font:700 19px/1.3 var(--serif);margin:0 0 12px;padding-bottom:8px;border-bottom:1px solid var(--rule);display:flex;gap:10px;align-items:baseline}
+.month h4 span{font:italic 600 16px var(--orn);color:var(--gilt)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px 16px}
+.card{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:8px;border-radius:14px}
+.card .pic{position:relative;border-radius:12px;overflow:hidden;background:var(--panel)}
+.card .th{aspect-ratio:16/9;transition:transform .35s}
+.card:hover .th{transform:scale(1.04)}
+.badge{position:absolute;font-size:12px;line-height:1;padding:5px 8px;border-radius:999px;background:rgba(26,27,34,.88);color:var(--pearl);white-space:nowrap}
+.badge.dur{right:8px;bottom:8px;font:italic 600 14px var(--orn);padding:4px 8px}
+.badge.cat{left:8px;top:8px}
+.badge.mem{left:8px;top:8px;background:var(--gilt);color:var(--ink);font-weight:700}
+.badge.hit{right:8px;top:8px;background:var(--glint);color:var(--ink);font-weight:700}
+.card .t{font-weight:500;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card .d{font-size:13px;color:var(--silver);display:flex;gap:8px;flex-wrap:wrap}
+mark{background:rgba(81,168,221,.3);color:var(--pearl);border-radius:3px;padding:0 1px}
+.hits{display:grid;gap:8px;margin:0 0 30px}
+.hitrow{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;align-items:center;text-decoration:none;background:var(--panel);border:1px solid var(--rule);border-radius:14px;padding:8px}
+.hitrow:hover{border-color:var(--slate)}
+.hitrow .th{aspect-ratio:16/9;border-radius:8px}
+.hitrow time{font:italic 600 18px var(--orn);color:var(--glint);margin-right:8px;white-space:nowrap}
+.hitrow small{display:block;color:var(--silver);font-size:13px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.books{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+.book{all:unset;cursor:pointer;display:grid;grid-template-rows:auto 1fr;background:var(--panel);border:1px solid var(--rule);border-radius:18px;overflow:hidden}
+.book:hover{border-color:rgba(200,165,90,.6)}
+.book .th{aspect-ratio:16/9}
+.book .in{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px}
+.book .n{font:italic 600 15px var(--orn);color:var(--gilt)}
+.book h4{font:900 19px/1.35 var(--serif);margin:0;text-wrap:balance}
+.book .au{color:var(--silver);font-size:14px}
+.shorts{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px 12px}
+.short{display:flex;flex-direction:column;gap:6px;text-decoration:none}
+.short .pic{position:relative;border-radius:14px;overflow:hidden}
+.short .th{aspect-ratio:9/16;transition:transform .35s}
+.short:hover .th{transform:scale(1.04)}
+.short .t{font-size:14px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.short .d{font:italic 600 14px var(--orn);color:var(--silver)}
+.sets{column-width:340px;column-gap:16px}
+.set{break-inside:avoid;background:var(--panel);border:1px solid var(--rule);border-radius:18px;overflow:hidden;margin:0 0 16px}
+.set .head{display:grid;grid-template-columns:120px minmax(0,1fr);gap:12px;align-items:center;padding:10px;text-decoration:none;border-bottom:1px solid var(--rule)}
+.set .head .th{aspect-ratio:16/9;border-radius:8px}
+.set .head small{display:block;font:italic 600 14px var(--orn);color:var(--gilt)}
+.set .head b{font:700 15px/1.4 var(--serif)}
+.set ol{list-style:none;margin:0;padding:4px 14px 10px}
+.song{display:grid;grid-template-columns:4.4em minmax(0,1fr);gap:10px;padding:6px 0;border-top:1px solid var(--rule);text-decoration:none}
+.set li:first-child .song{border-top:0}
+.song:hover .sn{color:var(--glint)}
+.song time{font:italic 600 15px var(--orn);color:var(--glint);text-align:right;white-space:nowrap}
+.sn{font-weight:500}.sa{color:var(--silver);font-size:14px;margin-left:8px}
+.empty{padding:40px 0;color:var(--silver);text-align:center}
+/* detail sheet */
+.sheet{position:fixed;inset:0;z-index:20;display:none;background:rgba(10,11,16,.72);backdrop-filter:blur(4px);overflow-y:auto;padding:clamp(0px,3vw,40px) 0}
+.sheet.open{display:block}
+.panel{max-width:860px;margin:0 auto;background:var(--ink);border:1px solid rgba(200,165,90,.4);border-radius:22px;overflow:hidden;position:relative}
+@media(max-width:600px){.panel{border-radius:0;border:0;min-height:100%}}
+.panel .th{aspect-ratio:16/9}
+.close{position:absolute;top:12px;right:12px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(26,27,34,.85);color:var(--pearl);font-size:22px;cursor:pointer;z-index:2}
+.pbody{padding:18px clamp(16px,3vw,28px) 26px}
+.pbody h2{font:900 clamp(21px,3vw,27px)/1.35 var(--serif);margin:6px 0 10px;text-wrap:balance}
+.pmeta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;color:var(--silver);font-size:14px}
+.pill{font-size:12.5px;line-height:1;padding:6px 11px;border-radius:999px;background:var(--mid);color:var(--silver);white-space:nowrap}
+.watch{display:inline-flex;align-items:center;gap:8px;margin:16px 0 4px;background:var(--glint);color:var(--ink);font-weight:700;text-decoration:none;border-radius:999px;padding:11px 20px;min-height:44px}
+.pbody h3{font:700 18px var(--serif);margin:22px 0 8px;display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.pbody h3 input{font:15px var(--sans);color:var(--pearl);background:var(--panel);border:1px solid var(--rule);border-radius:999px;padding:7px 14px;min-height:38px;width:min(240px,100%)}
+.chap{display:grid;grid-template-columns:4.6em minmax(0,1fr);gap:12px;padding:7px 4px;border-top:1px solid var(--rule);text-decoration:none;border-radius:6px}
+.chap:hover{background:var(--panel)}
+.chap time{font:italic 600 16px var(--orn);color:var(--glint);text-align:right;white-space:nowrap}
+.note{color:var(--silver);font-size:14px}
+footer{color:var(--silver);font-size:13px;border-top:1px solid var(--rule)}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+footer b{font:italic 600 16px var(--orn);color:var(--gilt)}
+@media(max-width:800px){.hero{grid-template-columns:minmax(0,1fr)}.feat{order:2}}
+@media(max-width:600px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 10px}.card .t{font-size:14px}.hitrow{grid-template-columns:110px minmax(0,1fr)}.shorts{grid-template-columns:repeat(2,minmax(0,1fr))}.set .head{grid-template-columns:96px minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){.bar i,.card .th,.short .th{transition:none}}
+</style>
+</head>
+<body>
+<header class="band">
+  <div class="wrap">
+    <div class="hero">
+      <div>
+        <p class="eyebrow">Trauma Troupe · Stream Archive</p>
+        <h1>尼貝爾直播紀錄館</h1>
+        <p class="lede">從 2025 年 6 月初配信到現在的每一場演出都在這裡，每天自動更新。搜尋一個關鍵字，連時間軸裡的段落也找得到，點下去就從那一秒開始看。</p>
+        <div class="stats" id="stats"></div>
+      </div>
+      <button class="feat" id="feat" type="button" aria-label="最新一場直播"></button>
+    </div>
+    <div class="strip">
+      <h2><span>演出年表</span><small>點一個月份，直接跳到那個月</small></h2>
+      <div class="bar-wrap"><div class="bar-inner"><div class="bars" id="bars"></div><div class="months" id="months"></div></div></div>
+    </div>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="wrap">
+    <div class="search"><input id="q" type="text" enterkeyhint="search" placeholder="搜尋標題、時間軸、書名、歌名…" aria-label="搜尋直播紀錄" autocomplete="off"><button id="clr" type="button" aria-label="清除搜尋" hidden>×</button></div>
+    <nav class="tabs" aria-label="檢視">
+      <a class="tab" href="#all" data-v="all">直播</a>
+      <a class="tab" href="#shorts" data-v="shorts">Shorts</a>
+      <a class="tab" href="#books" data-v="books">書單</a>
+      <a class="tab" href="#topics" data-v="topics">議題</a>
+      <a class="tab" href="#songs" data-v="songs">歌單</a>
+    </nav>
+  </div>
+</div>
+
+<main class="band"><div class="wrap" id="view"><p class="empty">載入中…</p></div></main>
+
+<footer class="band"><div class="wrap"><span><b>Nibel · 尼貝爾</b>　創傷劇團 Trauma Troupe</span><span id="upd"></span></div></footer>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="ptitle"><div class="panel" id="panel"></div></div>
+
+<script>
+{
+const CATS=[
+ ["member","會員限定",/會員限定|股東大會/],
+ ["news","新聞久一點",/新聞久一點/],
+ ["book","尼看什麼・說書",/尼看什麼/],
+ ["song","歌回・歌雜",/歌回|歌雜/],
+ ["issue","議題與尼",/議題與尼|商Talk腦筋/],
+ ["debate","辯論",/來辯|來三辯/],
+ ["drama","戲劇雜談・朗讀",/戲劇雜談|尼在劇場|台詞回|朗讀|尼好香|主題回/],
+ ["podcast","Podcast 特別篇",/要不要聽聽尼在說什麼|演後座談/],
+ ["game","遊戲",/#遊戲|繪畫接力/],
+ ["hunter","獵人是尼・旅遊",/獵人是尼|雲端旅遊|租房挑戰|聊日本/],
+ ["special","紀念・生日",/誕生日|尼誕祭|Say尼快樂|周年|一個月紀念|初配信|收益化|萬訂|1111|元宵/],
+ ["talk","雜談",/./]
+];
+const CN=Object.fromEntries(CATS.map(c=>[c[0],c[1]]));
+const SC={clip:"直播精華",song:"翻唱・歌曲",topic:"議題短講"};
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const clean=t=>t.replace(/^【[^】]*】\s*/,"").replace(/^【[^】]*】\s*/,"").replace(/\s*#(連動|初見歡迎|降落歡迎)\s*/g," ").trim();
+const secs=t=>String(t).split(":").reduce((a,b)=>a*60+(+b),0);
+const yt=(id,t)=>"https://youtu.be/"+encodeURIComponent(id)+(t?"?t="+secs(t):"");
+const norm=s=>String(s??"").toLowerCase().replace(/[\s・·．.、，,！!？?「」『』《》〈〉（）()【】#＃：:／/\-]/g,"");
+const WD="日一二三四五六";
+const NOISE=/^(OP|ED|開場|晚安|今日曲目回顧|待機|開台待機)/;
+let D,S=[],byId={},SH=[],state={v:"all",cat:"",scat:"",q:""};
+
+function hl(text,q){const t=esc(text);if(!q)return t;const k=esc(q).replace(/[.*+?^${}()|[\]\\]/g,"\\$&");try{return t.replace(new RegExp(k,"gi"),m=>"<mark>"+m+"</mark>")}catch(e){return t}}
+const SIZES={v:["maxresdefault","hq720","sddefault","hqdefault"],s:["oardefault","oar2","hqdefault"]};
+window.nbFallback=img=>{const k=img.dataset.k,n=+img.dataset.n+1,list=SIZES[k];if(n>=list.length){img.onerror=null;return}img.dataset.n=n;img.src="https://i.ytimg.com/vi/"+img.dataset.id+"/"+list[n]+".jpg"};
+const imgOk=img=>{if(img.naturalWidth===120&&img.naturalHeight===90)nbFallback(img)};
+window.nbLoad=imgOk;
+function th(kind,id,eager){const sz=SIZES[kind][kind==="v"&&!eager?1:0];return `<img class="th" src="https://i.ytimg.com/vi/${encodeURIComponent(id)}/${sz}.jpg" data-k="${kind}" data-id="${esc(id)}" data-n="${kind==="v"&&!eager?1:0}" alt="" ${eager?"":'loading="lazy"'} decoding="async" onerror="nbFallback(this)" onload="nbLoad(this)">`}
+function prep(){
+  S=D.streams.map(([date,id,dur,raw],i)=>{
+    const cats=CATS.filter(c=>c[0]!=="talk"&&c[2].test(raw)).map(c=>c[0]);
+    if(!cats.length)cats.push("talk");
+    const r={i,date,id,dur,raw,title:clean(raw),cats,collab:/連動|聯動|with|ft\.|feat\./i.test(raw),ym:date.slice(0,7)};
+    const b=D.books.find(x=>x[0]===id);if(b){r.book=b[1];r.author=b[2]}
+    if(D.news[id])r.topic=D.news[id];
+    r.chapters=(D.chapters[id]||[]).map(([t,x])=>({t,x,n:norm(x)}));
+    let songs=D.setlists[id]?D.setlists[id].map(s=>({t:s[0],s:s[1],a:s[2]})):null;
+    if(!songs){
+      const sl=r.chapters.filter(c=>/^歌回[①-⑳]/.test(c.x));
+      if(sl.length)songs=sl.map(c=>{const m=c.x.replace(/^歌回[①-⑳]：?/,"").split(/\s+-\s+/);return m.length>1?{t:c.t,s:m.slice(1).join(" - "),a:m[0]}:{t:c.t,s:m[0],a:""}});
+      else if(cats.includes("song")&&r.chapters.length)songs=r.chapters.filter(c=>!NOISE.test(c.x)).map(c=>({t:c.t,s:c.x,a:""}));
+    }
+    r.songs=songs&&songs.length?songs:null;
+    r.hay=norm([r.title,r.book,r.author,r.topic,(r.songs||[]).map(s=>s.s+s.a).join("")].join(""));
+    byId[id]=r;return r});
+  SH=D.shorts.map(([date,id,cat,title],i)=>({i,date,id,cat,title,hay:norm(title)}));
+}
+const qn=()=>norm(state.q);
+function chapHits(r){const q=qn();return q?r.chapters.filter(c=>c.n.includes(q)):[]}
+function matchStream(r,ignoreCat){
+  if(!ignoreCat&&state.cat&&!r.cats.includes(state.cat)&&!(state.cat==="collab"&&r.collab))return false;
+  const q=qn();if(!q)return true;
+  return r.hay.includes(q)||r.chapters.some(c=>c.n.includes(q));
+}
+
+function renderStats(){
+  const n=k=>S.filter(r=>r.cats.includes(k)).length;
+  const hours=Math.round(S.reduce((a,r)=>a+secs(r.dur),0)/3600);
+  const chs=S.reduce((a,r)=>a+r.chapters.length,0);
+  document.getElementById("stats").innerHTML=[[S.length,"場直播"],[hours,"小時的陪伴"],[chs,"個時間軸段落"],[D.books.length,"本書與讀物"],[SH.length,"支 Shorts"]].map(([a,b])=>`<div class="stat"><b>${a}</b><span>${b}</span></div>`).join("");
+  document.getElementById("upd").textContent="資料自動更新・最後更新 "+String(D.updated).replace("T"," ").slice(0,16);
+  const f=S[0];
+  const feat=document.getElementById("feat");
+  feat.dataset.id=f.id;
+  feat.innerHTML=`${th("v",f.id,true)}<span class="cap"><small>Latest · ${esc(f.date.replaceAll("-","."))}</small><b>${esc(f.title)}</b></span>`;
+}
+
+function renderBars(){
+  const first=S[S.length-1].ym,last=S[0].ym,ms=[];
+  let [y,m]=first.split("-").map(Number);
+  while(true){const k=y+"-"+String(m).padStart(2,"0");ms.push(k);if(k===last)break;m++;if(m>12){m=1;y++}}
+  const max=Math.max(...ms.map(k=>S.filter(r=>r.ym===k).length));
+  const active=state.v==="all";
+  document.getElementById("bars").innerHTML=ms.map(k=>{
+    const all=S.filter(r=>r.ym===k),on=active?all.filter(r=>matchStream(r)).length:all.length,off=all.length-on;
+    const h=v=>(v/max*86).toFixed(1)+"%";
+    return `<button class="bar" data-m="${k}" aria-label="${k.replace("-","年")}月，${all.length}場"><em>${on||""}</em><i style="height:${h(off)}"></i><i class="on" style="height:${h(on)}"></i></button>`}).join("");
+  document.getElementById("months").innerHTML=ms.map(k=>{const mm=+k.slice(5);return `<span>${mm===1||k===ms[0]?k.slice(2,4)+"/":""}${mm}</span>`}).join("");
+}
+
+function chips(list){
+  const opts=[["","全部"],...CATS.map(c=>[c[0],c[1]]),["collab","連動・來賓"]];
+  return `<div class="chips" role="group" aria-label="節目分類">${opts.map(([k,l])=>{const c=k===""?list.length:list.filter(r=>k==="collab"?r.collab:r.cats.includes(k)).length;if(!c&&k)return"";return `<button class="chip" data-cat="${k}" aria-pressed="${state.cat===k}">${esc(l)} <small>${c}</small></button>`}).join("")}</div>`}
+
+function card(r){
+  const hits=chapHits(r).length;
+  const tag=r.cats.includes("member")?`<span class="badge mem">會員限定</span>`:`<span class="badge cat">${esc(CN[r.cats[0]])}</span>`;
+  const d=new Date(r.date+"T00:00:00");
+  return `<button class="card" data-id="${esc(r.id)}"><span class="pic">${th("v",r.id)}${tag}${hits?`<span class="badge hit">${hits} 段符合</span>`:""}${r.dur?`<span class="badge dur">${esc(r.dur)}</span>`:""}</span><span class="t">${hl(r.title,state.q)}</span><span class="d"><span>${r.date.slice(5).replace("-","/")}（${WD[d.getDay()]}）</span>${r.chapters.length?`<span>時間軸 ${r.chapters.length}</span>`:""}${r.songs?`<span>歌單 ${r.songs.length}</span>`:""}</span></button>`}
+
+function hitRows(limit){
+  const q=qn();if(!q)return"";
+  const rows=[];S.forEach(r=>r.chapters.forEach(c=>{if(c.n.includes(q))rows.push([r,c])}));
+  if(!rows.length)return"";
+  return `<h3 class="sect">時間軸裡找到的段落 <span>${rows.length}</span></h3><p class="sub">點一下就從那一秒開始播</p><div class="hits">${rows.slice(0,limit).map(([r,c])=>`<a class="hitrow" href="${yt(r.id,c.t)}" target="_blank" rel="noopener">${th("v",r.id)}<span><time>${esc(c.t)}</time>${hl(c.x,state.q)}<small>${esc(r.date.replaceAll("-","."))}・${esc(r.title)}</small></span></a>`).join("")}</div>${rows.length>limit?`<p class="note" style="margin:-18px 0 30px">還有 ${rows.length-limit} 段，關鍵字再具體一點會更好找</p>`:""}`}
+
+function viewAll(){
+  const base=S.filter(r=>matchStream(r,true)),list=S.filter(r=>matchStream(r));
+  const g={};list.forEach(r=>(g[r.ym]=g[r.ym]||[]).push(r));
+  const body=Object.keys(g).map(k=>`<section class="month" id="m-${k}"><h4>${+k.slice(0,4)} 年 ${+k.slice(5)} 月 <span>${g[k].length} shows</span></h4><div class="grid">${g[k].map(card).join("")}</div></section>`).join("");
+  return hitRows(30)+(state.q?`<h3 class="sect">符合的直播 <span>${list.length}</span></h3>`:"")+chips(base)+(state.q?"":`<p class="count">共 ${list.length} 場，點縮圖看時間軸</p>`)+(body||`<p class="empty">沒有符合的直播，換個關鍵字試試看</p>`)}
+
+function viewShorts(){
+  const q=qn(),base=SH.filter(s=>!q||s.hay.includes(q)),list=base.filter(s=>!state.scat||s.cat===state.scat);
+  const ch=`<div class="chips" role="group" aria-label="Shorts 分類">${[["","全部"],...Object.entries(SC)].map(([k,l])=>`<button class="chip" data-scat="${k}" aria-pressed="${state.scat===k}">${l} <small>${k?base.filter(s=>s.cat===k).length:base.length}</small></button>`).join("")}</div>`;
+  return `<h3 class="sect">Shorts 精華 <span>${list.length}</span></h3><p class="sub">直播精華、翻唱和議題短講，點了直接開 YouTube Shorts</p>`+ch+(list.length?`<div class="shorts">${list.map(s=>`<a class="short" href="https://www.youtube.com/shorts/${encodeURIComponent(s.id)}" target="_blank" rel="noopener"><span class="pic">${th("s",s.id)}<span class="badge cat">${SC[s.cat]}</span></span><span class="t">${hl(s.title,state.q)}</span><span class="d">${esc(s.date.replaceAll("-","."))}</span></a>`).join("")}</div>`:`<p class="empty">沒有符合的 Shorts</p>`)}
+
+function viewBooks(){
+  const all=D.books.map(b=>byId[b[0]]).sort((a,b)=>b.date.localeCompare(a.date));all.forEach((r,i)=>r.no=all.length-i);
+  const list=all.filter(r=>matchStream(r,true));
+  return `<h3 class="sect">說書書單 <span>${list.length}</span></h3><p class="sub">尼看什麼・說書直播讀過的書，新的在前</p>`+(list.length?`<div class="books">${list.map(r=>`<button class="book" data-id="${esc(r.id)}">${th("v",r.id)}<span class="in"><span class="n">No. ${String(r.no).padStart(2,"0")}・${esc(r.date.replaceAll("-","."))}</span><h4>《${hl(r.book,state.q)}》</h4>${r.author?`<span class="au">${hl(r.author,state.q)}</span>`:""}</span></button>`).join("")}</div>`:`<p class="empty">書單裡沒有符合的書</p>`)}
+
+function viewTopics(){
+  const f=r=>matchStream(r,true);
+  const groups=[
+   ["新聞久一點・本週專題","每週一 20:00，一週國內外新聞，中段放一個深入專題",S.filter(r=>r.topic&&f(r)),r=>r.topic],
+   ["議題與尼","找來賓、翻資料，把一個社會議題講清楚",S.filter(r=>r.cats.includes("issue")&&f(r)),r=>r.title],
+   ["週三來辯","一個人拆正方、反方，最後給出自己的結論",S.filter(r=>r.cats.includes("debate")&&f(r)),r=>r.title],
+   ["戲劇雜談","從演員的角度聊表演、劇本與產業",S.filter(r=>/戲劇雜談/.test(r.raw)&&f(r)),r=>r.title]
+  ].filter(g=>g[2].length);
+  if(!groups.length)return `<p class="empty">議題裡沒有符合的內容</p>`;
+  return groups.map(([h,sub,rows,lab])=>`<section class="month"><h3 class="sect">${h} <span>${rows.length}</span></h3><p class="sub">${sub}</p><div class="grid">${rows.map(r=>`<button class="card" data-id="${esc(r.id)}"><span class="pic">${th("v",r.id)}<span class="badge dur">${esc(r.dur)}</span></span><span class="t">${hl(lab(r),state.q)}</span><span class="d"><span>${esc(r.date.replaceAll("-","."))}</span>${r.chapters.length?`<span>時間軸 ${r.chapters.length}</span>`:""}</span></button>`).join("")}</div></section>`).join("")}
+
+function viewSongs(){
+  const q=qn();
+  const sets=S.filter(r=>r.songs).map(r=>[r,r.songs.filter(s=>!q||norm(s.s+s.a).includes(q)||norm(r.title).includes(q))]).filter(x=>x[1].length);
+  const total=sets.reduce((a,x)=>a+x[1].length,0);
+  const others=S.filter(r=>r.cats.includes("song")&&!r.songs&&(!q||r.hay.includes(q)));
+  let h=`<h3 class="sect">歌單 <span>${total} 首</span></h3><p class="sub">點時間碼直接跳到那首歌</p>`;
+  h+=sets.length?`<div class="sets">${sets.map(([r,songs])=>`<div class="set"><a class="head" href="${yt(r.id)}" target="_blank" rel="noopener">${th("v",r.id)}<span><small>${esc(r.date.replaceAll("-","."))}</small><b>${hl(r.title,state.q)}</b></span></a><ol>${songs.map(s=>`<li><a class="song" href="${yt(r.id,s.t)}" target="_blank" rel="noopener"><time>${esc(s.t)}</time><span><span class="sn">${hl(s.s,state.q)}</span>${s.a?`<span class="sa">${hl(s.a,state.q)}</span>`:""}</span></a></li>`).join("")}</ol></div>`).join("")}</div>`:"";
+  if(others.length)h+=`<section class="month" style="margin-top:24px"><h3 class="sect">其他歌回・歌雜 <span>${others.length}</span></h3><p class="sub">這幾場的歌單還在整理中，可以先點進去聽</p><div class="grid">${others.map(card).join("")}</div></section>`;
+  if(!sets.length&&!others.length)h+=`<p class="empty">還沒找到這首歌，也許在還沒整理歌單的場次裡</p>`;
+  return h}
+
+function render(){
+  document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-current",String(t.dataset.v===state.v)));
+  document.getElementById("view").innerHTML=({all:viewAll,shorts:viewShorts,books:viewBooks,topics:viewTopics,songs:viewSongs}[state.v])();
+  renderBars();
+}
+
+/* detail sheet */
+const sheet=document.getElementById("sheet"),panel=document.getElementById("panel");let lastFocus=null;
+function chapList(r,f){const q=norm(f);const list=r.chapters.filter(c=>!q||c.n.includes(q));return list.length?list.map(c=>`<a class="chap" href="${yt(r.id,c.t)}" target="_blank" rel="noopener"><time>${esc(c.t)}</time><span>${hl(c.x,f)}</span></a>`).join(""):`<p class="note">沒有符合的段落</p>`}
+function openSheet(id){
+  const r=byId[id];if(!r)return;lastFocus=document.activeElement;
+  const pills=r.cats.map(c=>`<span class="pill">${esc(CN[c])}</span>`).join("")+(r.collab?`<span class="pill">連動・來賓</span>`:"");
+  const f=state.q;
+  panel.innerHTML=`<button class="close" id="close" aria-label="關閉">×</button>${th("v",r.id,true)}<div class="pbody"><div class="pmeta"><span>${esc(r.date.replaceAll("-","."))}</span><span>${esc(r.dur)}</span>${pills}</div><h2 id="ptitle">${esc(r.title)}</h2>${r.book?`<p class="note">書目：《${esc(r.book)}》${r.author?"／"+esc(r.author):""}</p>`:""}${r.topic?`<p class="note">本週專題：${esc(r.topic)}</p>`:""}<a class="watch" href="${yt(r.id)}" target="_blank" rel="noopener">▶ 到 YouTube 看這場</a>${r.cats.includes("member")?`<p class="note">這場是會員限定，需要加入頻道會員才能觀看</p>`:""}
+  ${(()=>{const rel=SH.filter(x=>(D.shortSource||{})[x.id]===r.id);return rel.length?`<h3>從這場剪出來的 Shorts（${rel.length}）</h3><div class="shorts">${rel.map(x=>`<a class="short" href="https://www.youtube.com/shorts/${encodeURIComponent(x.id)}" target="_blank" rel="noopener"><span class="pic">${th("s",x.id)}</span><span class="t">${esc(x.title)}</span></a>`).join("")}</div>`:""})()}
+  ${r.songs?`<h3>歌單（${r.songs.length} 首）</h3>${r.songs.map(s=>`<a class="chap" href="${yt(r.id,s.t)}" target="_blank" rel="noopener"><time>${esc(s.t)}</time><span>${esc(s.s)}${s.a?`<span class="sa">${esc(s.a)}</span>`:""}</span></a>`).join("")}`:""}
+  ${r.chapters.length?`<h3>時間軸（${r.chapters.length} 段）<input id="cf" type="text" placeholder="在這場裡搜尋" value="${esc(f&&chapHits(r).length?f:"")}" aria-label="在這場的時間軸裡搜尋"></h3><div id="cl">${chapList(r,f&&chapHits(r).length?f:"")}</div>`:`<h3>時間軸</h3><p class="note">這場的說明欄還沒有時間軸</p>`}</div>`;
+  sheet.classList.add("open");document.body.style.overflow="hidden";sheet.scrollTop=0;
+  document.getElementById("close").focus();
+  const cf=document.getElementById("cf");if(cf)cf.addEventListener("input",()=>{document.getElementById("cl").innerHTML=chapList(r,cf.value.trim())});
+}
+function closeSheet(){sheet.classList.remove("open");document.body.style.overflow="";if(lastFocus)lastFocus.focus()}
+sheet.addEventListener("click",e=>{if(e.target===sheet||e.target.closest("#close"))closeSheet()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&sheet.classList.contains("open"))closeSheet()});
+
+function route(){const h=location.hash.slice(1);state.v=["books","topics","songs","shorts"].includes(h)?h:"all";render()}
+document.getElementById("view").addEventListener("click",e=>{
+  const c=e.target.closest(".chip");if(c){if("cat" in c.dataset)state.cat=c.dataset.cat;if("scat" in c.dataset)state.scat=c.dataset.scat;render();return}
+  const k=e.target.closest("[data-id]");if(k)openSheet(k.dataset.id)});
+document.getElementById("feat").addEventListener("click",e=>openSheet(e.currentTarget.dataset.id));
+document.getElementById("bars").addEventListener("click",e=>{
+  const b=e.target.closest(".bar");if(!b)return;
+  if(state.v!=="all"){history.replaceState(null,"","#all");state.v="all"}
+  if(!document.getElementById("m-"+b.dataset.m)){state.cat="";state.q="";qi.value="";clr.hidden=true}
+  render();
+  document.getElementById("m-"+b.dataset.m)?.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})});
+const qi=document.getElementById("q"),clr=document.getElementById("clr");let tm;
+qi.addEventListener("input",()=>{clr.hidden=!qi.value;clearTimeout(tm);tm=setTimeout(()=>{state.q=qi.value.trim();render()},180)});
+clr.addEventListener("click",()=>{qi.value="";clr.hidden=true;state.q="";render();qi.focus()});
+window.addEventListener("hashchange",route);
+
+fetch("data.json").then(r=>r.json()).then(d=>{D=d;prep();renderStats();route()}).catch(()=>{document.getElementById("view").innerHTML='<p class="empty">資料載入失敗，請重新整理一次</p>'});
+}
+</script>
+</body>
+</html>

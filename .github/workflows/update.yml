@@ -1,0 +1,53 @@
+name: 每日更新直播紀錄館
+
+on:
+  schedule:
+    - cron: "17 5,17 * * *"   # 每 12 小時一次：台灣時間每天 01:17、13:17
+  workflow_dispatch:          # 也可以在 Actions 頁面手動按「Run workflow」
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 從 YouTube 抓最新的直播與 Shorts
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+        run: python scripts/update.py
+      - name: 有新資料就存回 repo
+        run: |
+          if ! git diff --quiet -- site/data.json; then
+            git config user.name "nibel-archive-bot"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add site/data.json
+            git commit -m "自動更新直播資料"
+            git push
+          fi
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
