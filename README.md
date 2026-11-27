@@ -53,3 +53,10 @@ VTuber 尼貝爾 Nibel 的直播紀錄網站：直播縮圖牆、時間軸搜尋
 2. 資料夾連結貼到 `data/extra.json` 的 `coverFolder`。
 3. 認證：GitHub Secrets 新增 `GDRIVE_SA_JSON`（服務帳戶 JSON 金鑰），並把資料夾共享給服務帳戶信箱（檢視者）。
 4. 每 4 小時自動更新時會一起抓新封面，白邊會自動裁掉；雲端硬碟刪掉的圖，網站也會拿掉。
+
+## 背景照片來源
+- 書店：Pexels #1290141（Livraria Lello）
+- 報攤：Pexels #36150701
+- 唱片：Pexels #21821336
+- 入口書架：Pexels #159711
+皆為 Pexels License，可免費使用；網站上已做模糊與調暗處理。

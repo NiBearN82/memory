@@ -463,6 +463,59 @@ body[data-sec="home"] footer.band{margin-top:0}
 .pdrng{font-family:"Cormorant Garamond",serif;font-weight:700;font-size:26px}
 @media(max-width:700px){.mastrow{grid-template-columns:1fr}.pdate{border-left:0;border-top:1px solid #1F1B16;flex-direction:row;flex-wrap:wrap;gap:4px 10px;min-width:0}.pdbig{font-size:36px}.pdw{margin:0}.pdrng{font-size:20px}}
 
+/* ===== 分館背景 ===== */
+body[data-sec="news"] main.band{background:linear-gradient(rgba(16,18,28,.35),rgba(16,18,28,.75)),url(assets/bg-news.jpg) center/cover fixed}
+body[data-sec="books"] main.band{background:linear-gradient(rgba(16,18,28,.35),rgba(16,18,28,.75)),url(assets/bg-books.jpg) center/cover fixed}
+body[data-sec="songs"] main.band{background:linear-gradient(rgba(16,18,28,.4),rgba(16,18,28,.8)),url(assets/bg-songs.jpg) center/cover fixed}
+.stand{background:rgba(35,38,52,.75);backdrop-filter:blur(8px)}
+/* ===== 新聞：左報紙、右日期 ===== */
+.newsgrid{display:grid;grid-template-columns:minmax(0,2fr) minmax(260px,1fr);gap:30px;align-items:start}
+.newsgrid .papers{max-width:none;margin:0}
+.ndate{position:sticky;top:calc(var(--ctrl,72px) + 24px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;padding:30px 24px 26px;border-radius:24px;color:#F4F1E8;background:rgba(18,20,30,.55);-webkit-backdrop-filter:blur(18px) saturate(1.3);backdrop-filter:blur(18px) saturate(1.3);border:1px solid rgba(255,255,255,.18);box-shadow:0 20px 50px -20px rgba(0,0,0,.8);text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.ndno{font-size:14px;font-weight:900;background:#B3261E;color:#fff;padding:3px 14px;border-radius:999px;margin-bottom:14px;text-shadow:none}
+.ndl{font-size:13px;font-weight:900;letter-spacing:.3em;color:#F2D46B}
+.ndbig{font-family:"Cormorant Garamond",serif;font-weight:700;font-size:clamp(64px,7vw,104px);line-height:1}
+.ndbig i,.ndrng i{font-style:normal;color:#F2D46B;margin:0 4px}
+.ndw{font-size:16px;color:#E6E2D6;margin-bottom:6px}
+.ndsep{width:60%;height:1px;background:rgba(255,255,255,.3);margin:14px 0}
+.ndrng{font-family:"Cormorant Garamond",serif;font-weight:700;font-size:clamp(34px,3.6vw,50px);line-height:1.1}
+.ndhead{margin-top:16px;font-family:"Noto Serif TC",serif;font-weight:700;font-size:16px;line-height:1.5;color:#F4F1E8}
+@media(max-width:900px){.newsgrid{grid-template-columns:1fr}.ndate{position:fixed;left:12px;right:12px;bottom:12px;top:auto;z-index:40;flex-direction:row;flex-wrap:wrap;justify-content:center;gap:4px 12px;padding:10px 14px;border-radius:16px}.ndno{margin:0}.ndbig{font-size:40px}.ndrng{font-size:26px}.ndsep,.ndhead{display:none}.ndw{margin:0}}
+
+/* ===== 點唱機本體（加強結構） ===== */
+.jukebox{padding-top:110px;padding-bottom:24px;overflow:visible}
+.jbcrown{position:absolute;top:58px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2;pointer-events:none}
+.jbcrown b{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:700;font-size:30px;letter-spacing:.2em;color:#F6D78A;text-shadow:0 0 12px rgba(246,215,138,.7)}
+.jbcrown small{font-size:10px;letter-spacing:.25em;color:#F2A7B5}
+.jbtube{position:absolute;top:150px;bottom:150px;width:22px;border-radius:12px;background:linear-gradient(180deg,#F2A7B5,#E9B872 35%,#51A8DD 70%,#B9A3F2);box-shadow:0 0 18px rgba(242,167,181,.55),inset 0 0 0 3px rgba(255,255,255,.25);overflow:hidden;animation:glow 6s linear infinite}
+.jbtube.l{left:22px}.jbtube.r{right:22px}
+.jbtube i{position:absolute;left:5px;width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.6);animation:bubble 3.6s linear infinite}
+.jbtube i:nth-child(2){animation-delay:-1.2s;left:7px;width:8px;height:8px}.jbtube i:nth-child(3){animation-delay:-2.4s}
+@keyframes bubble{from{top:100%}to{top:-12px}}
+.jbdeck{padding:0 34px}
+.jbkeys{display:grid;grid-template-columns:repeat(8,1fr);gap:5px;width:84%;margin-top:4px}
+.jbkeys i{font-style:normal;font-size:10px;font-weight:900;color:#3B2A12;background:linear-gradient(#FFF3D6,#E3CFA3);border-radius:5px;padding:5px 0;box-shadow:0 3px 0 #8A5A24}
+.jbkeys i.on{background:linear-gradient(#F2A7B5,#d98a99);color:#3A1520;box-shadow:0 1px 0 #8a4a57;transform:translateY(2px)}
+.jbspk{display:flex;align-items:center;justify-content:space-between;width:90%;margin-top:6px}
+.spk{width:88px;height:88px;border-radius:50%;background:repeating-radial-gradient(circle,#2a2140 0 3px,#C8A55A 3px 4px);box-shadow:0 0 0 4px #6B4B1F,inset 0 0 14px rgba(0,0,0,.6)}
+.coin{display:flex;flex-direction:column;align-items:center;gap:4px;color:#C8A55A;font-size:11px;font-weight:900}
+.coin i{width:8px;height:30px;border-radius:4px;background:#111;box-shadow:0 0 0 4px #C8A55A}
+.jbfeet{position:absolute;left:40px;right:40px;bottom:-16px;display:flex;justify-content:space-between}
+.jbfeet i{width:48px;height:14px;border-radius:0 0 10px 10px;background:linear-gradient(#C8A55A,#6B4B1F)}
+.jbgrill{display:none}
+@media(max-width:560px){.jbtube{width:14px;top:140px}.jbtube.l{left:14px}.jbtube.r{right:14px}.spk{width:60px;height:60px}.jbcrown b{font-size:22px}}
+
+/* ===== 唱盤＋影片彈窗 ===== */
+.ttwrap{position:relative;margin-top:10px;padding-bottom:20px}
+.mini{position:absolute;right:-6px;bottom:-30px;z-index:5;width:min(330px,72%);margin:0;background:rgba(15,17,28,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.mini .minibar{padding:6px 8px}
+.mini .mbtn{width:30px;height:30px;font-size:13px}
+.mini.min .minivid{height:0;aspect-ratio:auto;overflow:hidden}
+.mini.min{width:min(260px,60%)}
+@media(max-width:900px){.mini{position:fixed;right:10px;bottom:10px;width:min(300px,80vw)}}
+.flow{background:rgba(14,16,26,.45);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+@media(prefers-reduced-motion:reduce){.jbtube,.jbtube i{animation:none}}
+
 </style>
 </head>
 <body>
@@ -629,7 +682,7 @@ const DESC=/版|現場|名場面|大考驗|混入|片段|清唱|翻車|敷衍|�
 const cleanDesc=t=>String(t||"").replace(/（([^（）]*)）/g,(m,x)=>DESC.test(x)?"":m).replace(/\s+$/,"").trim();
 const SONG_ALIAS={"我只在乎你":["時の流れに身をまかせ","鄧麗君"],"sosweet":["Love so sweet","嵐"],"ghostcity":["幽霊東京","Ayase"],"幽靈東京":["幽霊東京","Ayase"],"幽灵东京":["幽霊東京","Ayase"],"藍雨":["Rainy Blue","德永英明 / 張學友《藍雨》"],"いつも何度でも":["命運的名字","千與千尋主題曲"],"亜麻色の髪の乙女":["亞麻色頭髮的少女","島谷瞳"],"世界の秘密":["世界的秘密","Vaundy"],"千本桜":["千本櫻","初音未來"],"ありのままで":["Let It Go","冰雪奇緣"]};
 // 尼貝爾確認過的語種（唱什麼語言就標什麼，可以多個）
-const LANG_FIX={"rainyblue":["中文","日文"],"彼個所在":["中文","台語","粵語"],"碼頭姑娘":["中文"],"我要你愛":["中文"],"四月望雨":["台語"],"人生無謂":["中文"],"七彩的微風":["中文"],"命運的名字":["日文"],"亞麻色頭髮的少女":["日文"],"海市蜃樓":["日文"],"幽霊東京":["日文"],
+const LANG_FIX={"rainyblue":["中文","日文"],"彼個所在":["中文","台語","粵語"],"蜚蜚":["粵語"],"碼頭姑娘":["中文"],"我要你愛":["中文"],"四月望雨":["台語"],"人生無謂":["中文"],"七彩的微風":["中文"],"命運的名字":["日文"],"亞麻色頭髮的少女":["日文"],"海市蜃樓":["日文"],"幽霊東京":["日文"],
  "reflection":["日文"],"partofyourworld":["日文"],"letitgo":["日文"],"doyouwanttobuildasnowman":["日文"],"forthefirsttimeinforever":["日文"],"loveisanopendoor":["日文"],"awholenewworld":["日文"],"underthesea":["日文"]};
 const LANG_TW=/^(傷心酒店|歡喜就好|查某囡仔|落雨聲|舞女|愛情恰恰|阿嬤的話|放我去飛|花若離枝|四月望雨|萬千花蕊慈母悲哀|世界恬靜落來的時)$/;
 const LANG_JA=/^(祝福|群青|本能|炎|未来予想図II|世界的秘密|亞麻色頭髮的少女|千本櫻|海市蜃樓|打上花火|少女S|命運的名字|春日影|紅蓮華|殘響散歌|Love so sweet|so sweet|Happiness|A·RA·SHI|Everything|RAIN|LA·LA·LA LOVE SONG|U\.S\.A\.|sister's noise|God knows\.\.\.|Snow halation|SAKURA|YELL|Rainy Blue|倍倍Fight！)$/i;
@@ -772,7 +825,7 @@ function render(){
   else html=({all:viewAll,shorts:viewShorts,topics:viewTopics}[state.v]||viewAll)();
   document.getElementById("view").innerHTML=html;
   if(state.sec==="live")renderBars();
-  buildRail();if(state.sec==="songs")initFlows();animView();
+  buildRail();if(state.sec==="songs")initFlows();if(state.sec==="news")updNews();animView();
   document.documentElement.style.setProperty("--ctrl",(document.querySelector(".controls").offsetHeight||0)+"px");
 }
 
@@ -903,6 +956,8 @@ const BOOK_CATS=[
   ["bl","BL・耽美","Boys' Love","swirl",["BLPT"]]];
 const bookCat=b=>(BOOK_CATS.find(c=>c[4].some(w=>b.title.includes(w)))||["other"])[0];
 const BCN=Object.fromEntries(BOOK_CATS.map(c=>[c[0],c]));
+const MUSICAL=/^(台北不是我尋找心方向的家|喜歡你|柏林的雪|我非我願|七點二十分的反省|畫你的模樣|人生無謂|四月望雨|世界恬靜落來的時|我要走向你|但是夢只會更遠|翻譯的女人|有時候愛|被雨傷透|On My Own)$/;
+const isMus=x=>MUSICAL.test(x.title);
 const LANG_ORDER=["中文","台語","日文","韓文","英文","粵語","其他"];
 
 function goSec(h){if(location.hash==="#"+h)route();else location.hash=h}
@@ -941,17 +996,23 @@ function viewNews(){
   const q=qn();const all=S.filter(r=>/新聞久一點/.test(r.raw||r.title));const list=all.filter(r=>!q||r.hay.includes(q));
   return `<div class="stand"><div class="awning" aria-hidden="true"></div>
     <div class="standhead"><img class="shani" src="${HANI("cube")}" alt=""><div><p class="eyebrow">News Stand · 新聞久一點</p><h2>尼貝爾報紙攤</h2><p class="sub">每週一 20:00 的新聞直播，一期一份報紙，共 ${all.length} 期。往下滑翻報紙，點一份就能看整場時間軸</p></div></div></div>
-    ${list.length?`<div class="papers">${list.map(r=>{const n=newsInfo(r),no=all.length-all.indexOf(r),dt=new Date(r.date+"T12:00:00");
-      return `<button class="paper" data-id="${esc(r.id)}" style="--r:${((hash(r.id)%7)-3)*.4}deg;--s:${(hash(r.id)>>3)%3}" aria-label="第 ${no} 期 ${esc(n.range)} ${esc(n.head)}">
+    ${list.length?`<div class="newsgrid"><div class="papers">${list.map(r=>{const n=newsInfo(r),no=all.length-all.indexOf(r),dt=new Date(r.date+"T12:00:00");
+      return `<button class="paper" data-id="${esc(r.id)}" data-no="${no}" data-md="${dt.getMonth()+1}/${dt.getDate()}" data-wd="週${WD[dt.getDay()]}・${dt.getFullYear()}" data-rng="${esc(n.rng)}" data-head="${esc(n.head)}" style="--r:${((hash(r.id)%7)-3)*.4}deg;--s:${(hash(r.id)>>3)%3}" aria-label="第 ${no} 期 ${esc(n.range)} ${esc(n.head)}">
       <span class="pedge" aria-hidden="true"></span>
       <span class="ptop"><span>第 ${no} 期</span><span>${dt.getFullYear()} 年 ${esc(n.range)}</span><span>每週一出刊・尼貝爾新聞社</span></span>
-      <span class="mastrow"><span class="mast"><img src="${HANI("cube")}" alt=""><b>新聞久一點</b><small>Weekly News Digest</small></span><span class="pdate"><span class="pdl">直播</span><span class="pdbig">${dt.getMonth()+1}<i>/</i>${dt.getDate()}</span><span class="pdw">週${WD[dt.getDay()]}・${dt.getFullYear()}</span><span class="pdl">新聞範圍</span><span class="pdrng">${esc(n.rng)}</span></span></span>
+      <span class="mast"><img src="${HANI("cube")}" alt=""><b>新聞久一點</b><small>Weekly News Digest</small></span>
       <span class="kick">${n.hasTopic?"本週專題":"本週頭條"}</span>
       <span class="headl">${hl(n.head,state.q)}</span>
       ${n.tags.length?`<span class="ptags">${n.tags.map(x=>`<i>${esc(x)}</i>`).join("")}</span>`:""}
       <span class="pcols"><span class="pphoto">${th("v",r.id)}<small>${esc(r.date.replaceAll("-","."))}（${WD[dt.getDay()]}）直播・全長 ${esc(r.dur)}</small></span>
         <span class="pidx">${n.ch.length?n.ch.slice(0,28).map(c=>`<span class="pi"><time>${esc(c.t)}</time>${hl(c.x,state.q)}</span>`).join(""):`<span class="pi">這期還沒有時間軸，點進來看整場直播</span>`}</span></span>
-      <span class="pfoot"><span>本期共 ${n.ch.length} 則</span><span class="pcta">翻開這期報紙 →</span></span></button>`}).join("")}</div>`:`<p class="empty">報紙攤沒有符合的報紙</p>`}`}
+      <span class="pfoot"><span>本期共 ${n.ch.length} 則</span><span class="pcta">翻開這期報紙 →</span></span></button>`}).join("")}</div><aside class="ndate" id="ndate" aria-live="polite"></aside></div>`:`<p class="empty">報紙攤沒有符合的報紙</p>`}`}
+function updNews(){const a=document.getElementById("ndate");if(!a)return;const ps=[...document.querySelectorAll(".paper")];if(!ps.length)return;
+  const line=(document.querySelector(".controls")?.offsetHeight||0)+80;let cur=ps[0];for(const p of ps){if(p.getBoundingClientRect().top<=line)cur=p;else break}
+  if(a.dataset.cur===cur.dataset.id)return;a.dataset.cur=cur.dataset.id;const d=cur.dataset;
+  a.innerHTML=`<span class="ndno">第 ${d.no} 期</span><span class="ndl">直播日期</span><span class="ndbig">${d.md.replace("/","<i>/</i>")}</span><span class="ndw">${d.wd}</span><span class="ndsep"></span><span class="ndl">新聞範圍</span><span class="ndrng">${d.rng.replace("–","<i>–</i>")}</span><span class="ndhead">${d.head}</span>`;
+  if(G())gsap.fromTo(a.children,{y:8,autoAlpha:0},{y:0,autoAlpha:1,duration:.3,stagger:.03})}
+addEventListener("scroll",()=>{if(state.sec==="news")requestAnimationFrame(updNews)},{passive:true});
 
 /* ---------- 說書：書櫃 ---------- */
 function viewCabinets(){
@@ -997,12 +1058,12 @@ let juke=null;const flowIdx={};
 function viewJukebox(){
   const q=qn();const base=RECS.filter(x=>!q||x.hay.includes(q));
   if(!juke||!base.includes(juke))juke=[...base].sort((a,b)=>b.n-a.n||b.last.localeCompare(a.last))[0]||null;
-  const stacks=LANG_ORDER.map(l=>[l,base.filter(x=>x.langs.includes(l)).sort((a,b)=>b.n-a.n||b.last.localeCompare(a.last))]).filter(s=>s[1].length);
+  const srt=(a,b)=>b.n-a.n||b.last.localeCompare(a.last);const stacks=[...LANG_ORDER.map(l=>[l,base.filter(x=>!isMus(x)&&x.langs.includes(l)).sort(srt)]),["音樂劇",base.filter(isMus).sort(srt)]].filter(s=>s[1].length);
   return `<div class="jbwrap">
     <div class="jukebox" id="jukebox" aria-live="polite">${jukeInner()}</div>
-    <div class="jbside"><p class="eyebrow">Jukebox · 歌曲</p><h2>尼貝爾點唱機</h2><p class="sub">${base.length} 首歌、唱過 ${base.reduce((a,x)=>a+x.n,0)} 次。下面的唱片按語種分成好幾疊，左右滑動挑一張，點中間那張就會把唱片從封套裡抽出來、放上點唱機</p>
+    <div class="jbside"><p class="eyebrow">Jukebox · 歌曲</p><h2>尼貝爾點唱機</h2><p class="sub">${base.length} 首歌、唱過 ${base.reduce((a,x)=>a+x.n,0)} 次。下面的唱片按語種分成好幾疊，左右滑動挑一張，點一張唱片，就會把它從封套抽出來、放上唱盤直接播放</p>
       <div class="jbjump">${stacks.map(([l,a])=>`<a href="#flow-${esc(l)}" data-flowjump="${esc(l)}">${esc(l)} <small>${a.length}</small></a>`).join("")}</div>
-      <div class="bigtt" aria-hidden="true"><div class="btt3d"><div class="btop"><span class="bplat"></span><span class="bdisc" id="bdisc">${juke?`<span class="blabel">${sleeve(juke)}</span>`:""}</span><span class="bspindle"></span><span class="barm" id="barm"><i></i></span><span class="bknob k1"></span><span class="bknob k2"></span></div><div class="bfront"><span class="bled"></span><span class="bbrand">NIBEL ✦ HI-FI</span></div></div><div class="bshadow"></div></div><div class="mini" id="mini" hidden><div class="minivid"><div id="miniyt"></div></div><div class="minibar"><span class="mtitle" id="mtitle"></span><button class="mbtn" id="mtoggle" aria-label="暫停">❚❚</button><button class="mbtn" id="mstop" aria-label="停止">✕</button></div></div></div></div>
+      <div class="ttwrap"><div class="bigtt" aria-hidden="true"><div class="btt3d"><div class="btop"><span class="bplat"></span><span class="bdisc" id="bdisc">${juke?`<span class="blabel">${sleeve(juke)}</span>`:""}</span><span class="bspindle"></span><span class="barm" id="barm"><i></i></span><span class="bknob k1"></span><span class="bknob k2"></span></div><div class="bfront"><span class="bled"></span><span class="bbrand">NIBEL ✦ HI-FI</span></div></div><div class="bshadow"></div></div><div class="mini" id="mini" hidden><div class="minibar"><span class="mtitle" id="mtitle"></span><button class="mbtn" id="mmin" aria-label="縮小影片">–</button><button class="mbtn" id="mtoggle" aria-label="暫停">❚❚</button><button class="mbtn" id="mstop" aria-label="關閉">✕</button></div><div class="minivid"><div id="miniyt"></div></div></div></div></div></div>
     ${stacks.map(([l,a])=>`<section class="stack" id="flow-${esc(l)}"><h3 class="sect">${esc(l)} <span>${a.length} 張</span></h3>
       <div class="flow" data-lang="${esc(l)}" tabindex="0" role="listbox" aria-label="${esc(l)}唱片，左右鍵切換，Enter 放進點唱機">
         <button class="fnav prev" data-fnav="-1" aria-label="上一張">‹</button>
@@ -1011,13 +1072,15 @@ function viewJukebox(){
       <p class="cfcap" aria-live="polite"></p></section>`).join("")}
     ${base.length?"":`<p class="empty">唱片架上還沒有這首歌</p>`}`}
 function jukeInner(){const x=juke;if(!x)return `<div class="jbdeck"><p class="note">沒有符合的歌</p></div>`;
-  return `<span class="jbarch" aria-hidden="true"></span><img class="jbhani" src="${HANI("round")}" alt="" aria-hidden="true">
+  return `<span class="jbcrown" aria-hidden="true"><b>NIBEL</b><small>✦ SELECT-O-MATIC ✦</small></span><span class="jbarch" aria-hidden="true"></span><span class="jbtube l" aria-hidden="true"><i></i><i></i><i></i></span><span class="jbtube r" aria-hidden="true"><i></i><i></i><i></i></span><img class="jbhani" src="${HANI("round")}" alt="" aria-hidden="true">
    <div class="jbdeck">
      <span class="jbsleeve">${sleeve(x)}</span>
    </div>
    <div class="jbinfo"><span class="jblang">${esc(x.lang)}・唱過 ${x.n} 次</span><b>${esc(x.title)}</b>${x.artist?`<small>${esc(x.artist)}</small>`:""}</div>
    <div class="jbbtns"><button class="jbplay" data-jplay="${esc(x.k)}">▶ 播放最近一次</button><button class="jbmore" data-rec="${esc(x.k)}">全部 ${x.n} 次演唱</button></div>
-   <span class="jbgrill" aria-hidden="true"></span>`}
+   <span class="jbkeys" aria-hidden="true">${["A","B","C","D","E","F","G","H"].map((k,i)=>`<i class="${i===hash(x.k)%8?"on":""}">${k}${1+hash(x.k+k)%9}</i>`).join("")}</span>
+   <span class="jbspk" aria-hidden="true"><span class="spk"></span><span class="coin"><i></i><small>25¢</small></span><span class="spk"></span></span>
+   <span class="jbfeet" aria-hidden="true"><i></i><i></i></span>`}
 function setJuke(k,fromEl){const x=RECS.find(y=>y.k===k);if(!x)return;juke=x;const jb=document.getElementById("jukebox");if(!jb)return;
   const go=()=>{jb.innerHTML=jukeInner();const bd=document.getElementById("bdisc"),arm=document.getElementById("barm");if(bd)bd.innerHTML=`<span class="blabel">${sleeve(x)}</span>`;
     if(G()){const sl=jb.querySelector(".jbsleeve");const tl=gsap.timeline();tl.from(sl,{y:-30,autoAlpha:0,duration:.35,ease:"power2.out"});
@@ -1031,7 +1094,7 @@ let mini=null,miniVid=null;
 function miniState(on){document.querySelector(".bigtt")?.classList.toggle("playing",on);const t=document.getElementById("mtoggle");if(t){t.textContent=on?"❚❚":"▶";t.setAttribute("aria-label",on?"暫停":"播放")}}
 async function miniPlay(x){const p=x.perf[0],id=p.r.id,t=secs(p.t);stopPlayer();
   const box=document.getElementById("mini");if(!box){openRecord(x.k);play(id,t);return}
-  box.hidden=false;document.getElementById("mtitle").innerHTML=`♪ ${esc(x.title)}<small>${esc(p.r.date.replaceAll("-","."))}・從 ${esc(p.t)} 開始</small>`;
+  box.hidden=false;box.classList.remove("min");document.getElementById("mtitle").innerHTML=`♪ ${esc(x.title)}<small>${esc(p.r.date.replaceAll("-","."))}・從 ${esc(p.t)} 開始</small>`;
   const YT=await loadYT();
   if(mini&&miniVid===id&&mini.seekTo){mini.seekTo(t,true);mini.playVideo();return}
   if(mini){try{mini.destroy()}catch(e){}}
@@ -1052,12 +1115,12 @@ function initFlows(){
       const x=RECS.find(y=>y.k===items[idx]?.dataset.cf);if(cap&&x)cap.innerHTML=`<b>${esc(x.title)}</b><small>${idx+1} / ${items.length}</small>`;flowIdx[lang]=idx};
     const go=n=>{idx=Math.max(0,Math.min(items.length-1,n));lay()};
     f._go=go;f._idx=()=>idx;lay();
-    f.addEventListener("keydown",e=>{if(e.key==="ArrowRight"){e.preventDefault();go(idx+1)}else if(e.key==="ArrowLeft"){e.preventDefault();go(idx-1)}else if(e.key==="Enter"){e.preventDefault();setJuke(items[idx].dataset.cf,items[idx])}});
+    f.addEventListener("keydown",e=>{if(e.key==="ArrowRight"){e.preventDefault();go(idx+1)}else if(e.key==="ArrowLeft"){e.preventDefault();go(idx-1)}else if(e.key==="Enter"){e.preventDefault();setJuke(items[idx].dataset.cf,items[idx]);const x=RECS.find(y=>y.k===items[idx].dataset.cf);if(x)miniPlay(x)}});
     let acc=0,wt=0;f.addEventListener("wheel",e=>{const d=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:(e.shiftKey?e.deltaY:0);if(!d)return;e.preventDefault();acc+=d;if(Math.abs(acc)>40){go(idx+Math.sign(acc));acc=0}},{passive:false});
     let sx=null,si=0,moved=false;f.addEventListener("dragstart",e=>e.preventDefault());
     f.addEventListener("pointerdown",e=>{if(e.target.closest(".fnav"))return;sx=e.clientX;si=idx;moved=false;try{f.setPointerCapture(e.pointerId)}catch(_){}});
     f.addEventListener("pointermove",e=>{if(sx===null)return;const d=e.clientX-sx;if(Math.abs(d)>8)moved=true;const n=si-Math.round(d/60);if(n!==idx)go(n)});
-    const up=e=>{if(sx!==null&&!moved&&e&&e.type==="pointerup"){const el=document.elementsFromPoint(e.clientX,e.clientY).find(n=>n.classList&&n.classList.contains("cf"));if(el){moved=true;if(el.classList.contains("mid"))setJuke(el.dataset.cf,el);else go(+el.dataset.i)}}sx=null};f.addEventListener("pointerup",up);f.addEventListener("pointerleave",up);f.addEventListener("pointercancel",up);
+    const up=e=>{if(sx!==null&&!moved&&e&&e.type==="pointerup"){const el=document.elementsFromPoint(e.clientX,e.clientY).find(n=>n.classList&&n.classList.contains("cf"));if(el){moved=true;go(+el.dataset.i);const x=RECS.find(y=>y.k===el.dataset.cf);setJuke(el.dataset.cf,el);if(x)miniPlay(x)}}sx=null};f.addEventListener("pointerup",up);f.addEventListener("pointerleave",up);f.addEventListener("pointercancel",up);
     f.addEventListener("click",e=>{if(moved){e.stopPropagation();e.preventDefault();moved=false}},true);
   });
 }
@@ -1068,6 +1131,7 @@ document.getElementById("view").addEventListener("click",e=>{
   const jp=e.target.closest("[data-jplay]");if(jp){e.stopPropagation();const x=RECS.find(y=>y.k===jp.dataset.jplay);if(x)miniPlay(x);return}
   const mt=e.target.closest("#mtoggle");if(mt){e.stopPropagation();if(!mini)return;const st=mini.getPlayerState?.();if(st===1){mini.pauseVideo()}else mini.playVideo();return}
   const ms=e.target.closest("#mstop");if(ms){e.stopPropagation();miniStop();return}
+  const mm=e.target.closest("#mmin");if(mm){e.stopPropagation();const b=document.getElementById("mini");const m=b.classList.toggle("min");mm.textContent=m?"▢":"–";mm.setAttribute("aria-label",m?"展開影片":"縮小影片");return}
   const fj=e.target.closest("[data-flowjump]");if(fj){e.preventDefault();document.getElementById("flow-"+fj.dataset.flowjump)?.scrollIntoView({behavior:"smooth",block:"center"});return}
   const bk=e.target.closest(".bk[data-book]");if(bk&&state.sec==="books"){e.stopPropagation();openBookFx(bk);return}
 },true);
