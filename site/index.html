@@ -392,8 +392,9 @@ const LANG_TW=/^(傷心酒店|歡喜就好|查某囡仔|落雨聲|舞女|愛情�
 const LANG_JA=/^(祝福|群青|本能|炎|未来予想図II|世界的秘密|亞麻色頭髮的少女|千本櫻|海市蜃樓|打上花火|少女S|命運的名字|春日影|紅蓮華|殘響散歌|Love so sweet|so sweet|Happiness|A·RA·SHI|Everything|RAIN|LA·LA·LA LOVE SONG|U\.S\.A\.|sister's noise|God knows\.\.\.|Snow halation|SAKURA|YELL|Rainy Blue|倍倍Fight！)$/i;
 const LANG_KO=/^(BUUUU|Oh!)$/;
 const LANG_ZH=/^(Fall in Love|Honey|11)$/;
+const ART_JA=/YOASOBI|LiSA|Aimer|Vaundy|米津玄師|SCANDAL|MyGO|生物股長|いきものがかり|嵐|ARASHI|MISIA|AKB48|早安少女組|モーニング娘|SEKAI NO OWARI|back number|椎名林檎|DREAMS COME TRUE|DA PUMP|fripSide|μ's|ZARD|松任谷由実|秦基博|松田聖子|Goose house|FRUITS ZIPPER|CANDY TUNE|AiScReam|=LOVE|M!LK|MAHO堂|久保田利伸|南方之星|サザン|奧華子|KAN|高橋洋子|石川小百合|GUMI|初音未來|巡音流歌/i;
 function langOf(t,a){const x=t+" "+(a||""),k=Object.entries(D.songLang||{}).find(([n])=>songKey(n)===songKey(t));if(k)return k[1];
-  if(LANG_TW.test(t))return "台語";if(LANG_JA.test(t)||/日文版/.test(x))return "日文";if(LANG_KO.test(t))return "韓文";if(LANG_ZH.test(t))return "中文";
+  if(LANG_TW.test(t))return "台語";if(/中文版/.test(x))return "中文";if(ART_JA.test(a||""))return "日文";if(LANG_JA.test(t)||/日文版/.test(x))return "日文";if(LANG_KO.test(t))return "韓文";if(LANG_ZH.test(t))return "中文";
   if(/[가-힯]/.test(x))return "韓文";if(/[぀-ヿ]/.test(x))return "日文";if(/[一-鿿]/.test(t))return "中文";if(/[a-z]/i.test(t))return "英文";return "其他"}
 
 // 雲端硬碟的封面：檔名底線前面是書名／歌名，底線後面是作者／歌手（可省略）
