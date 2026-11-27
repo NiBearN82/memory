@@ -395,6 +395,13 @@ const LANG_ZH=/^(Fall in Love|Honey|11)$/;
 function langOf(t,a){const x=t+" "+(a||""),k=Object.entries(D.songLang||{}).find(([n])=>songKey(n)===songKey(t));if(k)return k[1];
   if(LANG_TW.test(t))return "台語";if(LANG_JA.test(t)||/日文版/.test(x))return "日文";if(LANG_KO.test(t))return "韓文";if(LANG_ZH.test(t))return "中文";
   if(/[가-힯]/.test(x))return "韓文";if(/[぀-ヿ]/.test(x))return "日文";if(/[一-鿿]/.test(t))return "中文";if(/[a-z]/i.test(t))return "英文";return "其他"}
+
+// 雲端硬碟的封面：檔名底線前面是書名／歌名，底線後面是作者／歌手（可省略）
+function applyDriveCovers(){const cf=D.coverFiles||{},miss=[];
+  const hit=(list,items,key,who)=>(list||[]).forEach(f=>{const [n,...rest]=f.name.split(/[_＿]/),a=norm(rest.join(""));
+    let c=items.filter(x=>key(x)===key({title:n}));if(c.length>1&&a){const c2=c.filter(x=>x[who]&&(norm(x[who]).includes(a)||a.includes(norm(x[who]))));if(c2.length)c=c2}
+    if(c.length)c.forEach(x=>x.cover=f.src);else miss.push(f.name)});
+  hit(cf.books,BOOKS,x=>bookKey(x.title),"author");hit(cf.records,RECS,x=>songKey(x.title),"artist");window.__coverMiss=miss}
 function buildLibrary(){
   const bm=new Map();
   D.books.forEach(([id,title,author])=>{const r=byId[id];if(!r)return;const k=bookKey(title);if(!bm.has(k))bm.set(k,{k,title:title.replace(/（[^）]*）/g,""),author:"",eps:[],cover:(D.covers||{})[k]||""});const b=bm.get(k);if(author&&!b.author)b.author=author;if(!b.eps.includes(r))b.eps.push(r)});
@@ -607,7 +614,7 @@ qi.addEventListener("input",()=>{clr.hidden=!qi.value;clearTimeout(tm);tm=setTim
 clr.addEventListener("click",()=>{qi.value="";clr.hidden=true;state.q="";render();qi.focus()});
 window.addEventListener("hashchange",route);
 
-fetch("data.json",{cache:"no-cache"}).then(r=>r.json()).then(d=>{D=d;prep();buildLibrary();renderStats();route()}).catch(()=>{document.getElementById("view").innerHTML='<p class="empty">資料載入失敗，請重新整理一次</p>'});
+fetch("data.json",{cache:"no-cache"}).then(r=>r.json()).then(d=>{D=d;prep();buildLibrary();applyDriveCovers();renderStats();route()}).catch(()=>{document.getElementById("view").innerHTML='<p class="empty">資料載入失敗，請重新整理一次</p>'});
 }
 </script>
 </body>

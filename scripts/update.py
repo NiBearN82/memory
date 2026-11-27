@@ -14,6 +14,9 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import drive_covers  # noqa: E402
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "site", "data.json")
 EXTRA = os.path.join(ROOT, "data", "extra.json")
@@ -261,6 +264,7 @@ def main():
     data["recCovers"] = extra.get("recordCovers", {})
     data["songLang"] = extra.get("songLang", {})
     update_covers(data, extra)
+    drive_covers.sync(data, extra)
     after = json.dumps({k: v for k, v in data.items() if k != "updated"}, ensure_ascii=False, sort_keys=True)
     if after == before:
         print("沒有新的直播或 Shorts，資料不變。")

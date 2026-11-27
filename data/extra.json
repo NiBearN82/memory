@@ -767,5 +767,6 @@
   "recordCovers": {
     "夜に駆ける": "covers/records/yoru-ni-kakeru.jpg"
   },
-  "songLang": {}
+  "songLang": {},
+  "coverFolder": ""
 }

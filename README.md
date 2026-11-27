@@ -46,3 +46,10 @@ VTuber 尼貝爾 Nibel 的直播紀錄網站：直播縮圖牆、時間軸搜尋
 - `site/data.json`：所有直播資料（自動產生，不用手動改）
 - `scripts/update.py`：抓 YouTube 資料的程式
 - `.github/workflows/update.yml`：每 4 小時自動執行的排程
+
+## 封面（雲端硬碟）
+
+1. 雲端硬碟資料夾裡開「書籍」「專輯」兩個子資料夾，檔名用書名或歌名（可加 `_作者`／`_歌手`）。
+2. 資料夾連結貼到 `data/extra.json` 的 `coverFolder`。
+3. 認證：GitHub Secrets 新增 `GDRIVE_SA_JSON`（服務帳戶 JSON 金鑰），並把資料夾共享給服務帳戶信箱（檢視者）。
+4. 每 4 小時自動更新時會一起抓新封面，白邊會自動裁掉；雲端硬碟刪掉的圖，網站也會拿掉。
