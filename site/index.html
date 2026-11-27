@@ -388,12 +388,18 @@ const PAT=[a=>`radial-gradient(circle at 72% 30%,${a} 0 14%,transparent 14.5% 26
  a=>`conic-gradient(from 210deg at 78% 22%,${a} 0 25%,transparent 25% 100%)`,
  a=>`repeating-radial-gradient(circle at 100% 0,${a} 0 2px,transparent 2px 14px)`];
 const art=(key,o={})=>{const h=hash(key),[bg,fg,ac]=PAL[h%PAL.length],pt=PAT[(h>>>4)%PAT.length](ac+(o.soft?"55":"cc"));return {bg,fg,ac,style:`background:linear-gradient(to top,${bg} 0 16%,${bg}d9 34%,transparent 60%),${pt},${bg};color:${fg}`}};
-const LANG_TW=/^(傷心酒店|歡喜就好|查某囡仔|落雨聲|舞女|愛情恰恰|阿嬤的話|放我去飛|花若離枝|碼頭姑娘|萬千花蕊慈母悲哀|世界恬靜落來的時)$/;
+// 同一首歌不同譯名：合併成一張唱片（key 是 songKey 後的寫法 → [顯示歌名, 原唱]）
+const SONG_ALIAS={"我只在乎你":["時の流れに身をまかせ","鄧麗君"],"sosweet":["Love so sweet","嵐"],"ghostcity":["幽霊東京","Ayase"],"幽靈東京":["幽霊東京","Ayase"],"幽灵东京":["幽霊東京","Ayase"],"藍雨":["Rainy Blue","德永英明 / 張學友《藍雨》"],"いつも何度でも":["命運的名字","千與千尋主題曲"],"亜麻色の髪の乙女":["亞麻色頭髮的少女","島谷瞳"],"世界の秘密":["世界的秘密","Vaundy"],"千本桜":["千本櫻","初音未來"],"ありのままで":["Let It Go","冰雪奇緣"]};
+// 尼貝爾確認過的語種（唱什麼語言就標什麼，可以多個）
+const LANG_FIX={"rainyblue":["中文","日文"],"彼個所在":["中文","台語","粵語"],"碼頭姑娘":["中文"],"我要你愛":["中文"],"四月望雨":["台語"],"人生無謂":["中文"],"七彩的微風":["中文"],"命運的名字":["日文"],"亞麻色頭髮的少女":["日文"],"海市蜃樓":["日文"],"幽霊東京":["日文"],
+ "reflection":["日文"],"partofyourworld":["日文"],"letitgo":["日文"],"doyouwanttobuildasnowman":["日文"],"forthefirsttimeinforever":["日文"],"loveisanopendoor":["日文"],"awholenewworld":["日文"],"underthesea":["日文"]};
+const LANG_TW=/^(傷心酒店|歡喜就好|查某囡仔|落雨聲|舞女|愛情恰恰|阿嬤的話|放我去飛|花若離枝|四月望雨|萬千花蕊慈母悲哀|世界恬靜落來的時)$/;
 const LANG_JA=/^(祝福|群青|本能|炎|未来予想図II|世界的秘密|亞麻色頭髮的少女|千本櫻|海市蜃樓|打上花火|少女S|命運的名字|春日影|紅蓮華|殘響散歌|Love so sweet|so sweet|Happiness|A·RA·SHI|Everything|RAIN|LA·LA·LA LOVE SONG|U\.S\.A\.|sister's noise|God knows\.\.\.|Snow halation|SAKURA|YELL|Rainy Blue|倍倍Fight！)$/i;
 const LANG_KO=/^(BUUUU|Oh!)$/;
 const LANG_ZH=/^(Fall in Love|Honey|11)$/;
 const ART_JA=/YOASOBI|LiSA|Aimer|Vaundy|米津玄師|SCANDAL|MyGO|生物股長|いきものがかり|嵐|ARASHI|MISIA|AKB48|早安少女組|モーニング娘|SEKAI NO OWARI|back number|椎名林檎|DREAMS COME TRUE|DA PUMP|fripSide|μ's|ZARD|松任谷由実|秦基博|松田聖子|Goose house|FRUITS ZIPPER|CANDY TUNE|AiScReam|=LOVE|M!LK|MAHO堂|久保田利伸|南方之星|サザン|奧華子|KAN|高橋洋子|石川小百合|GUMI|初音未來|巡音流歌/i;
-function langOf(t,a){const x=t+" "+(a||""),k=Object.entries(D.songLang||{}).find(([n])=>songKey(n)===songKey(t));if(k)return k[1];
+function langOf(t,a){const f=LANG_FIX[songKey(t)];if(f)return f;const e=Object.entries(D.songLang||{}).find(([n])=>songKey(n)===songKey(t));if(e)return [].concat(e[1]);return [langOne(t,a)]}
+function langOne(t,a){const x=t+" "+(a||"");
   if(LANG_TW.test(t))return "台語";if(/中文版/.test(x))return "中文";if(ART_JA.test(a||""))return "日文";if(LANG_JA.test(t)||/日文版/.test(x))return "日文";if(LANG_KO.test(t))return "韓文";if(LANG_ZH.test(t))return "中文";
   if(/[가-힯]/.test(x))return "韓文";if(/[぀-ヿ]/.test(x))return "日文";if(/[一-鿿]/.test(t))return "中文";if(/[a-z]/i.test(t))return "英文";return "其他"}
 
@@ -408,10 +414,10 @@ function buildLibrary(){
   D.books.forEach(([id,title,author])=>{const r=byId[id];if(!r)return;const k=bookKey(title);if(!bm.has(k))bm.set(k,{k,title:title.replace(/（[^）]*）/g,""),author:"",eps:[],cover:(D.covers||{})[k]||""});const b=bm.get(k);if(author&&!b.author)b.author=author;if(!b.eps.includes(r))b.eps.push(r)});
   BOOKS=[...bm.values()].map(b=>(b.eps.sort((x,y)=>y.date.localeCompare(x.date)),b.last=b.eps[0].date,b.live=b.eps.some(r=>r.live),b.pod=b.eps.some(r=>!r.live),b.hay=norm(b.title+b.author),b)).sort((x,y)=>y.last.localeCompare(x.last));
   const rm=new Map();
-  S.forEach(r=>(r.songs||[]).forEach(s=>{const raw=String(s.s).trim();if(!raw||/^(OP|ED|開場|晚安)$/.test(raw))return;const k=songKey(raw);if(!k)return;
+  S.forEach(r=>(r.songs||[]).forEach(s=>{const raw=String(s.s).trim();if(!raw||/^(OP|ED|開場|晚安)$/.test(raw))return;let k=songKey(raw);if(!k)return;if(SONG_ALIAS[k])k=songKey(SONG_ALIAS[k][0]);
     if(!rm.has(k))rm.set(k,{k,titles:{},artists:{},perf:[]});const x=rm.get(k);const tt=raw.replace(/（(中斷|日文版|結果.*?)）/g,"").trim();x.titles[tt]=(x.titles[tt]||0)+1;if(s.a)x.artists[s.a]=(x.artists[s.a]||0)+1;x.perf.push({r,t:s.t})}));
   const top=o=>Object.entries(o).sort((a,b)=>b[1]-a[1])[0]?.[0]||"";
-  window.__lib=()=>({BOOKS,RECS});RECS=[...rm.values()].map(x=>{x.title=top(x.titles);x.artist=top(x.artists);x.perf.sort((a,b)=>b.r.date.localeCompare(a.r.date));x.n=x.perf.length;x.last=x.perf[0].r.date;x.lang=langOf(x.title,x.artist);const rc=Object.entries(D.recCovers||{}).find(([n])=>songKey(n)===x.k);x.cover=rc?rc[1]:"";x.hay=norm(x.title+x.artist);return x});
+  window.__lib=()=>({BOOKS,RECS});RECS=[...rm.values()].map(x=>{x.title=top(x.titles);x.artist=top(x.artists);const cn=Object.values(SONG_ALIAS).find(v=>songKey(v[0])===x.k);if(cn){x.title=cn[0];if(cn[1])x.artist=cn[1]}x.perf.sort((a,b)=>b.r.date.localeCompare(a.r.date));x.n=x.perf.length;x.last=x.perf[0].r.date;x.langs=langOf(x.title,x.artist);x.lang=x.langs.join("・");const rc=Object.entries(D.recCovers||{}).find(([n])=>songKey(n)===x.k);x.cover=rc?rc[1]:"";x.hay=norm(x.title+x.artist);return x});
 }
 function bookCover(b,big){
   const a=art(b.k);
@@ -429,10 +435,10 @@ function viewShelf(){
    (list.length?`<div class="shelf">${list.map(b=>`<button class="bk" data-book="${esc(b.k)}" aria-label="《${esc(b.title)}》${b.author?esc(b.author):""}，${b.eps.length} 集"><span class="bcov">${bookCover(b)}</span><span class="bt">${hl(b.title,state.q)}</span><span class="bm">${b.eps.length>1?`${b.eps.length} 集・`:""}${b.live&&b.pod?"直播＋Podcast":b.live?"說書直播":"Podcast"}</span></button>`).join("")}</div>`:`<p class="empty">書櫃裡沒有符合的書</p>`)}
 
 function viewRecords(){
-  const q=qn(),base=RECS.filter(x=>!q||x.hay.includes(q)),list=base.filter(x=>!state.rlang||x.lang===state.rlang);
+  const q=qn(),base=RECS.filter(x=>!q||x.hay.includes(q)),list=base.filter(x=>!state.rlang||x.langs.includes(state.rlang));
   const sorters={count:(a,b)=>b.n-a.n||b.last.localeCompare(a.last),recent:(a,b)=>b.last.localeCompare(a.last),title:(a,b)=>a.title.localeCompare(b.title,"zh-Hant")};
   list.sort(sorters[state.rsort]);
-  const langs=["中文","台語","日文","韓文","英文","其他"].map(l=>[l,base.filter(x=>x.lang===l).length]).filter(x=>x[1]);
+  const langs=["中文","台語","粵語","日文","韓文","英文","其他"].map(l=>[l,base.filter(x=>x.langs.includes(l)).length]).filter(x=>x[1]);
   const perfs=list.reduce((a,x)=>a+x.n,0);
   const others=S.filter(r=>r.cats.includes("song")&&!r.songs&&(!q||r.hay.includes(q)));
   return `<h3 class="sect">尼貝爾的唱片架 <span>${list.length} 首・唱過 ${perfs} 次</span></h3><p class="sub">同一首歌整合成一張唱片，點開就能聽每一次的版本</p>
