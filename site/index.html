@@ -651,6 +651,14 @@ body:not([data-sec="home"]){padding-top:var(--ctrl,164px)}
 .vrank button b{color:#EEF0F4}.vrank button small{color:#C8A55A;white-space:nowrap}.vrnone{margin:0;color:#B9BDC8;font-size:13px}
 #toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);opacity:0;z-index:200;background:#1A1B22;color:#FFF3D6;border:1px solid #C8A55A;padding:10px 18px;border-radius:999px;font-weight:700;font-size:14px;transition:opacity .25s,transform .25s;pointer-events:none}
 #toast.on{opacity:1;transform:translate(-50%,0)}
+
+.flyers{align-items:stretch}
+.fdesc{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;min-height:calc(1.6em*5)}
+.fin{flex:1}
+.fmore{margin:0}.fmore summary{cursor:pointer;list-style:none;font-size:12px;font-weight:700;color:#A8262B;padding:4px 6px}.fmore summary::-webkit-details-marker{display:none}
+.fmore[open] summary{display:none}
+.fstub{margin-top:auto}
+.fin .fsongs{flex:0}
 </style>
 </head>
 <body>
@@ -1283,8 +1291,9 @@ function flyersHTML(list){const g=new Map();list.forEach(x=>{const sh=showOf(x);
   return `<section class="stack" id="flow-音樂劇"><h3 class="sect">音樂劇 <span>${shows.length} 部・${list.length} 首</span></h3><p class="flyhint">一部劇一張傳單，點歌名就直接播</p>
    <div class="flywrap"><button class="flynav prev" type="button" data-flyer="-1" aria-label="往左">‹</button><div class="flyers" id="flyers">${shows.map((s,i)=>{const cv=s.a.find(x=>x.cover)?.cover;return `<article class="flyer" style="--i:${i}">
      <div class="fimg">${cv?`<img src="${esc(cv)}" alt="" loading="lazy">`:`<span class="fnone">✦</span>`}</div>
-     <div class="fin"><span class="ftag">MUSICAL ✦ 音樂劇</span><h4 class="ftitle">《${esc(s.sh)}》</h4>${SHOW_INTRO[s.sh]?`<p class="fdesc">${esc(SHOW_INTRO[s.sh])}</p>`:""}
-      <ol class="fsongs">${s.a.map(x=>`<li><button type="button" data-jplay="${esc(x.k)}"><b>♪ ${esc(x.title)}</b><small>${esc(x.last.replaceAll("-","."))}${x.n>1?`・唱過 ${x.n} 次`:""}</small></button></li>`).join("")}</ol>
+     <div class="fin"><span class="ftag">MUSICAL ✦ 音樂劇</span><h4 class="ftitle">《${esc(s.sh)}》</h4><p class="fdesc">${esc(SHOW_INTRO[s.sh]||"")}</p>
+      ${(()=>{const li=x=>`<li><button type="button" data-jplay="${esc(x.k)}"><b>♪ ${esc(x.title)}</b><small>${esc(x.last.replaceAll("-","."))}${x.n>1?`・唱過 ${x.n} 次`:""}</small></button></li>`;
+        return `<ol class="fsongs">${li(s.a[0])}</ol>${s.a.length>1?`<details class="fmore"><summary>還有 ${s.a.length-1} 首 ▾</summary><ol class="fsongs">${s.a.slice(1).map(li).join("")}</ol></details>`:""}`})()}
       <span class="fstub">NIBEL JUKEBOX · NOW SHOWING</span></div></article>`}).join("")}</div><button class="flynav next" type="button" data-flyer="1" aria-label="往右">›</button></div></section>`}
 function jukeInner(){const x=juke;if(!x)return `<div class="jbdeck"><p class="note">沒有符合的歌</p></div>`;
   return `<span class="jbcrown" aria-hidden="true"><b>NIBEL</b><small>✦ SELECT-O-MATIC ✦</small></span><span class="jbarch" aria-hidden="true"></span><span class="jbtube l" aria-hidden="true"><i></i><i></i><i></i></span><span class="jbtube r" aria-hidden="true"><i></i><i></i><i></i></span><img class="jbhani" src="${HANI("round")}" alt="" aria-hidden="true">
@@ -1364,7 +1373,7 @@ addEventListener("resize",()=>{document.querySelectorAll(".flow").forEach(f=>f._
 document.getElementById("view").addEventListener("click",e=>{
   const fn=e.target.closest("[data-fnav]");if(fn){e.stopPropagation();const f=fn.closest(".flow");f._go(f._idx()+ +fn.dataset.fnav);return}
   if(e.target.closest(".cf")||e.target.closest(".flow")&&!e.target.closest(".fnav")){e.stopPropagation();e.preventDefault();return}
-  const jp=e.target.closest("[data-jplay]");if(jp){e.stopPropagation();const x=RECS.find(y=>y.k===jp.dataset.jplay);if(x){miniPlay(x);setJuke(x.k);document.querySelectorAll(".flyer .on").forEach(b=>b.classList.remove("on"));jp.classList.add("on")}return}
+  const jp=e.target.closest("[data-jplay]");if(jp){e.stopPropagation();const x=RECS.find(y=>y.k===jp.dataset.jplay);if(x){miniPlay(x);setJuke(x.k);document.querySelectorAll(".flyer .on").forEach(b=>b.classList.remove("on"));jp.classList.add("on");if(jp.closest(".flyer")){const w=document.querySelector(".jbwrap");if(w)scrollTo({top:w.getBoundingClientRect().top+scrollY-(document.querySelector(".controls")?.offsetHeight||0)-20,behavior:"smooth"});setTimeout(()=>document.querySelector(".jbpc")?.classList.add("on"),900)}}return}
   const jpf=e.target.closest("[data-jperf]");if(jpf){e.stopPropagation();const [k,i]=jpf.dataset.jperf.split("|");const x=RECS.find(y=>y.k===k);if(x){document.querySelectorAll(".jbpc.on").forEach(b=>b.classList.remove("on"));jpf.classList.add("on");miniPlay(x,+i)}return}
   const mx=e.target.closest("#mexp");if(mx){e.stopPropagation();if(miniKey)openRecord(miniKey,false);return}
   const mt=e.target.closest("#mtoggle");if(mt){e.stopPropagation();if(!mini)return;const st=mini.getPlayerState?.();if(st===1){mini.pauseVideo()}else mini.playVideo();return}
