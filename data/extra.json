@@ -765,7 +765,12 @@
     "我想把這個世界讀給你聽": "covers/books/wo-xiang-ba-zhe-ge-shi-jie-du-gei-ni-ting.jpg"
   },
   "recordCovers": {
-    "夜に駆ける": "covers/records/yoru-ni-kakeru.jpg"
+    "夜に駆ける": "covers/records/yoru-ni-kakeru.jpg",
+    "七彩的微風": "covers/records/qicai-de-weifeng.jpg",
+    "世界恬靜落來的時": "covers/records/sekai-tiam-tsing.jpg",
+    "畫你的模樣": "covers/records/hua-ni-de-moyang.jpg",
+    "蜚蜚": "covers/records/feifei.jpg",
+    "黑暗的巴洛克": "covers/records/heian-de-baluoke.jpg"
   },
   "songLang": {},
   "coverFolder": "1bKLSiJeupzKcDVsRCgRgreJo_TVXly2c"
