@@ -92,6 +92,7 @@ p.sub{color:var(--silver);margin:0 0 14px;font-size:14px}
 .badge{position:absolute;font-size:12px;line-height:1;padding:5px 8px;border-radius:999px;background:rgba(26,27,34,.88);color:var(--pearl);white-space:nowrap}
 .badge.dur{right:8px;bottom:8px;font:italic 600 14px var(--orn);padding:4px 8px}
 .badge.cat{left:8px;top:8px}
+.badge.cc{left:8px;bottom:8px;background:#EEF0F4;color:#1A1B22;font-weight:900;font-size:11px;letter-spacing:.04em;padding:4px 6px;border-radius:4px}
 .badge.mem{left:8px;top:8px;background:var(--gilt);color:var(--ink);font-weight:700}
 .badge.hit{right:8px;top:8px;background:var(--glint);color:var(--ink);font-weight:700}
 .card .t{font-weight:500;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -606,6 +607,13 @@ button.cd,.cd{text-shadow:none}button.cd{box-shadow:none;border:1px solid #d6ccb
 /* 頂欄（回入口＋館別＋搜尋）固定在畫面最上方，所有館別都一樣 */
 .controls{position:fixed;top:0;left:0;right:0;z-index:30}
 body:not([data-sec="home"]){padding-top:var(--ctrl,164px)}
+
+.hlinks{display:flex;flex-wrap:wrap;gap:10px 12px;margin-top:34px;max-width:1040px}
+.hlink{display:inline-flex;align-items:center;gap:8px;padding:9px 16px 9px 10px;border-radius:999px;background:rgba(18,20,30,.72);border:1px solid rgba(255,243,214,.35);color:#FFF3D6;text-decoration:none;font-weight:700;font-size:15px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:transform .2s,background .2s}
+.hlink i{font-style:normal;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#FFF3D6;color:#1A1B22;font-size:14px}
+.hlink.yt i{background:#E8463C;color:#fff}.hlink.mm i{background:#F2A7B5}
+.hlink:hover,.hlink:focus-visible{transform:translateY(-2px);background:rgba(40,44,64,.85)}
+@media(max-width:480px){.hlinks{gap:8px;margin-top:26px}.hlink{font-size:13px;padding:7px 12px 7px 8px}.hlink i{width:24px;height:24px;font-size:12px}}
 </style>
 </head>
 <body>
@@ -699,7 +707,7 @@ function prep(){
     const live=isLive(raw)&&(!dur||secs(dur)>=1200);  // 20 分鐘以下的是剪輯或預告，不算直播
     const cats=live?CATS.filter(c=>c[0]!=="talk"&&c[2].test(raw)).map(c=>c[0]):[isPod(raw)?"podcast":COVER.test(raw)?"cover":"work"];
     if(!cats.length)cats.push("talk");
-    const r={i,date,id,dur,raw,live,title:live?clean(raw):raw.replace(/\s*【CC字幕】/,"").replace(/\s*#\S+/g,"").replace(/\s*@尼貝爾Nibel\S*/g,"").trim(),cats,collab:/連動|聯動|with|ft\.|feat\./i.test(raw),ym:date.slice(0,7)};
+    const r={i,date,id,dur,raw,live,title:live?clean(raw):raw.replace(/\s*【CC字幕】/,"").replace(/\s*#\S+/g,"").replace(/\s*@尼貝爾Nibel\S*/g,"").trim(),cats,collab:/連動|聯動|with|ft\.|feat\./i.test(raw),cc:(D.cc||[]).includes(id)||/CC字幕|\[CC\]/i.test(raw),ym:date.slice(0,7)};
     const b=D.books.find(x=>x[0]===id);if(b){r.book=b[1];r.author=b[2]}
     if(D.news[id])r.topic=D.news[id];
     r.chapters=(D.chapters[id]||[]).map(([t,x])=>({t,x,n:norm(x)}));
@@ -860,7 +868,7 @@ function cardBtn(r){
   const hits=chapHits(r).length;
   const tag=r.cats.includes("member")?`<span class="badge mem">會員限定</span>`:`<span class="badge cat">${esc(CN[r.cats[0]])}</span>`;
   const d=new Date(r.date+"T00:00:00");
-  return `<button class="card" data-id="${esc(r.id)}"><span class="pic">${th("v",r.id)}${tag}${hits?`<span class="badge hit">${hits} 段符合</span>`:""}${r.dur?`<span class="badge dur">${esc(r.dur)}</span>`:""}</span><span class="t">${hl(r.title,state.q)}</span><span class="d"><span>${r.date.slice(5).replace("-","/")}（${WD[d.getDay()]}）</span>${r.chapters.length?`<span>時間軸 ${r.chapters.length}</span>`:""}${r.songs?`<span>歌單 ${r.songs.length}</span>`:""}</span></button>`}
+  return `<button class="card" data-id="${esc(r.id)}"><span class="pic">${th("v",r.id)}${tag}${r.cc?`<span class="badge cc" title="有 CC 字幕">CC</span>`:""}${hits?`<span class="badge hit">${hits} 段符合</span>`:""}${r.dur?`<span class="badge dur">${esc(r.dur)}</span>`:""}</span><span class="t">${hl(r.title,state.q)}</span><span class="d"><span>${r.date.slice(5).replace("-","/")}（${WD[d.getDay()]}）</span>${r.chapters.length?`<span>時間軸 ${r.chapters.length}</span>`:""}${r.songs?`<span>歌單 ${r.songs.length}</span>`:""}</span></button>`}
 
 function hitRows(limit){
   const q=qn();if(!q)return"";
@@ -1056,6 +1064,14 @@ const isMus=x=>MUSICAL.test(x.title);
 const LANG_ORDER=["中文","台語","日文","韓文","英文","粵語","其他"];
 
 function goSec(h){if(location.hash==="#"+h)route();else location.hash=h}
+/* 入口的快速連結：要新增或修改連結改這裡（url 留空就不顯示） */
+const LINKS=[
+ ["▶","YouTube 頻道","https://www.youtube.com/@%E5%B0%BC%E8%B2%9D%E7%88%BENibel","yt"],
+ ["𝕏","X（Twitter）","https://x.com/Nibel_TT_MH",""],
+ ["🎙","Podcast","https://player.soundon.fm/p/NibelTalk/",""],
+ ["🛍","周邊商品","https://www.hersendesign.com/pages/%E5%B0%BC%E8%B2%9D%E7%88%BE-nibel",""],
+ ["💌","棉花糖・意見箱","","mm"],
+];
 function viewHome(){
   const nNews=S.filter(r=>/新聞久一點/.test(r.raw||r.title)).length;
   const cnt={live:`${S.filter(r=>r.live).length} 場直播`,news:`${nNews} 期報紙`,books:`${BOOKS.length} 本書`,songs:`${RECS.length} 首歌`};
@@ -1070,6 +1086,7 @@ function viewHome(){
         <span class="drip" aria-hidden="true"></span>
         <img class="dhani" src="${HANI(s.h)}" alt="" loading="eager">
         <span class="dt">${s.t}</span><span class="den">${s.en}</span><span class="dd">${s.d}</span><span class="dn">${cnt[s.k]}</span></a>`).join("")}</div>
+      <nav class="hlinks" aria-label="尼貝爾的頻道與社群">${LINKS.filter(l=>l[2]).map(([i,t,u,c])=>`<a class="hlink ${c}" href="${u}" target="_blank" rel="noopener"><i aria-hidden="true">${i}</i>${t}</a>`).join("")}</nav>
     </div>
     <img class="float f1" src="${HANI("round-soft")}" alt="" aria-hidden="true"><img class="float f2" src="${HANI("swirl")}" alt="" aria-hidden="true"><img class="float f3" src="${HANI("melt")}" alt="" aria-hidden="true">
   </section>`}

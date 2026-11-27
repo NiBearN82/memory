@@ -235,6 +235,7 @@ def main():
     chs = data.get("chapters", {})
     n_new_v = n_new_s = 0
     descs = {}
+    cc = set()
 
     for v in videos:
         vid, sn = v["id"], v["snippet"]
@@ -253,6 +254,8 @@ def main():
             n_new_v += 1
         streams[vid] = [tpe_date(live.get("actualStartTime") or sn["publishedAt"]), vid, dur, sn["title"]]
         descs[vid] = sn.get("description") or ""
+        if v.get("contentDetails", {}).get("caption") == "true" or "CC字幕" in sn["title"]:
+            cc.add(vid)
         c = chapters(sn.get("description"))
         if c and vid not in no_ch:
             chs[vid] = c
@@ -302,6 +305,7 @@ def main():
     # 說明欄沒有介紹的書：用整理自出版社公開資訊的書籍介紹補上
     data["introsAlt"] = {k: v for k, v in extra.get("bookIntros", {}).items() if k in books and k not in data["intros"]}
     data["news"] = news
+    data["cc"] = sorted(v for v in cc if v in streams)
     data["setlists"] = extra.get("setlists", {})
     data["shortSource"] = extra.get("shortSource", {})
     data["recCovers"] = extra.get("recordCovers", {})
