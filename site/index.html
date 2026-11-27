@@ -569,6 +569,11 @@ button.cd,.cd{text-shadow:none}button.cd{box-shadow:none;border:1px solid #d6ccb
 .cf.peek .cfdisc{transform:translateY(-58%) rotate(40deg);box-shadow:0 0 0 2px #C8A55A,0 8px 20px rgba(0,0,0,.7)}
 .cf.peek::after{content:"▶ 再按一次播放";position:absolute;left:0;right:0;width:max-content;margin:0 auto;top:calc(100% + 14px);z-index:5;white-space:nowrap;background:#F2A7B5;color:#3A1520;font-weight:900;font-size:14px;padding:6px 14px;border-radius:999px;box-shadow:0 4px 0 #b06f7d;animation:nudge 1.6s ease-in-out infinite}
 .flow{height:400px}.cf{top:86px}
+.mini .minivid{max-height:420px;transition:max-height .45s cubic-bezier(.3,.8,.3,1)}
+.mini.min .minivid{height:auto;aspect-ratio:16/9;max-height:0;overflow:hidden}
+.mini{transition:width .4s cubic-bezier(.3,.8,.3,1)}
+.mini.float.min{width:min(320px,80vw)}
+.mini.float .minibar{padding:10px 12px}
 </style>
 </head>
 <body>
@@ -1161,7 +1166,7 @@ let mini=null,miniVid=null;
 function miniState(on){document.querySelector(".bigtt")?.classList.toggle("playing",on);const t=document.getElementById("mtoggle");if(t){t.textContent=on?"❚❚":"▶";t.setAttribute("aria-label",on?"暫停":"播放")}}
 async function miniPlay(x,pi=0){const p=x.perf[pi]||x.perf[0],id=p.r.id,t=secs(p.t);stopPlayer();
   const box=document.getElementById("mini");if(!box){openRecord(x.k);play(id,t);return}
-  box.hidden=false;box.classList.remove("min");document.getElementById("mtitle").innerHTML=`♪ ${esc(x.title)}<small>${esc(p.r.date.replaceAll("-","."))}・從 ${esc(p.t)} 開始</small>`;
+  box.hidden=false;box.classList.toggle("min",box.classList.contains("float")||userMin);setMinBtn(box);document.getElementById("mtitle").innerHTML=`♪ ${esc(x.title)}<small>${esc(p.r.date.replaceAll("-","."))}・從 ${esc(p.t)} 開始</small>`;
   const YT=await loadYT();
   if(mini&&miniVid===id&&mini.seekTo){mini.seekTo(t,true);mini.playVideo();return}
   if(mini){try{mini.destroy()}catch(e){}}
@@ -1169,9 +1174,15 @@ async function miniPlay(x,pi=0){const p=x.perf[pi]||x.perf[0],id=p.r.id,t=secs(p
   miniVid=id;mini=new YT.Player("miniyt",{videoId:id,playerVars:{start:t,autoplay:1,playsinline:1,rel:0},events:{onReady:e=>{e.target.seekTo(t,true);e.target.playVideo()},onStateChange:e=>miniState(e.data===1),
     onError:()=>{miniStop();openRecord(x.k)}}})}
 function miniStop(){if(mini){try{mini.destroy()}catch(e){}}mini=null;miniVid=null;const b=document.getElementById("mini");if(b){b.hidden=true;b.querySelector(".minivid").innerHTML='<div id="miniyt"></div>'}miniState(false)}
+let userMin=false;
+function setMinBtn(m){const b=document.getElementById("mmin");if(!b)return;const on=m.classList.contains("min");b.textContent=on?"▢":"–";b.setAttribute("aria-label",on?"展開影片":"縮小影片")}
+function setFloat(m,f){if(m.classList.contains("float")===f)return;
+  const r0=m.getBoundingClientRect();m.classList.toggle("float",f);m.classList.toggle("min",f||userMin);setMinBtn(m);
+  if(m.hidden||!G())return;const r1=m.getBoundingClientRect();
+  gsap.fromTo(m,{x:r0.left-r1.left,y:r0.top-r1.top,opacity:.6},{x:0,y:0,opacity:1,duration:.5,ease:"power3.out",clearProps:"transform,opacity"})}
 let ttObs=null;function watchTT(){ttObs?.disconnect();const w=document.querySelector(".ttwrap"),m=document.getElementById("mini");if(!w||!m||!("IntersectionObserver" in window))return;
   const top=(document.querySelector(".controls")?.offsetHeight||0);
-  ttObs=new IntersectionObserver(([en])=>m.classList.toggle("float",!en.isIntersecting||en.intersectionRatio<.6),{threshold:[0,.6,1],rootMargin:`-${top}px 0px 0px 0px`});ttObs.observe(w)}
+  ttObs=new IntersectionObserver(([en])=>setFloat(m,!en.isIntersecting||en.intersectionRatio<.6),{threshold:[0,.6,1],rootMargin:`-${top}px 0px 0px 0px`});ttObs.observe(w)}
 function pickCf(el,go){
   if(!el.classList.contains("peek")){document.querySelectorAll(".cf.peek").forEach(c=>c.classList.remove("peek"));go(+el.dataset.i);el.classList.add("peek");return}
   el.classList.remove("peek");const x=RECS.find(y=>y.k===el.dataset.cf);if(!x)return;
@@ -1208,7 +1219,7 @@ document.getElementById("view").addEventListener("click",e=>{
   const jpf=e.target.closest("[data-jperf]");if(jpf){e.stopPropagation();const [k,i]=jpf.dataset.jperf.split("|");const x=RECS.find(y=>y.k===k);if(x){document.querySelectorAll(".jbpc.on").forEach(b=>b.classList.remove("on"));jpf.classList.add("on");miniPlay(x,+i)}return}
   const mt=e.target.closest("#mtoggle");if(mt){e.stopPropagation();if(!mini)return;const st=mini.getPlayerState?.();if(st===1){mini.pauseVideo()}else mini.playVideo();return}
   const ms=e.target.closest("#mstop");if(ms){e.stopPropagation();miniStop();return}
-  const mm=e.target.closest("#mmin");if(mm){e.stopPropagation();const b=document.getElementById("mini");const m=b.classList.toggle("min");mm.textContent=m?"▢":"–";mm.setAttribute("aria-label",m?"展開影片":"縮小影片");return}
+  const mm=e.target.closest("#mmin");if(mm){e.stopPropagation();const b=document.getElementById("mini");const m=b.classList.toggle("min");if(!b.classList.contains("float"))userMin=m;setMinBtn(b);return}
   const fj=e.target.closest("[data-flowjump]");if(fj){e.preventDefault();document.getElementById("flow-"+fj.dataset.flowjump)?.scrollIntoView({behavior:"smooth",block:"center"});return}
   const bk=e.target.closest(".bk[data-book]");if(bk&&state.sec==="books"){e.stopPropagation();openBookFx(bk);return}
 },true);
