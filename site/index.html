@@ -420,6 +420,31 @@ body[data-sec="home"] footer.band{margin-top:0}
 .cattabs{margin:-6px 0 18px}
 @media(prefers-reduced-motion:reduce){.ttdisc,.dhani,.float,.jbdisc,.jbarch,.jbhani,.shani,.lhani,.cabtop img{animation:none}}
 
+/* 右側大唱盤（3/4 斜角） */
+.jbwrap{align-items:start}
+.jbside{display:flex;flex-direction:column;padding-top:20px}
+.bigtt{position:relative;margin:46px auto 0;width:min(460px,100%);height:340px;perspective:1100px}
+.btt3d{position:absolute;left:50%;top:10px;width:400px;height:300px;margin-left:-200px;transform-style:preserve-3d;transform:rotateX(52deg) rotateZ(-14deg)}
+.btop{position:absolute;inset:0;border-radius:18px;background:linear-gradient(135deg,#7a4e2a,#4a2c14);box-shadow:inset 0 2px 0 rgba(255,255,255,.18),inset 0 0 0 3px #C8A55A;transform-style:preserve-3d}
+.bfront{position:absolute;left:0;right:0;top:100%;height:46px;transform-origin:top;transform:rotateX(-90deg);background:linear-gradient(#3a2210,#24150a);border-radius:0 0 14px 14px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;box-shadow:inset 0 -2px 0 #C8A55A}
+.bbrand{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:700;color:#C8A55A;letter-spacing:.12em;font-size:15px}
+.bled{width:10px;height:10px;border-radius:50%;background:#F2A7B5;box-shadow:0 0 10px #F2A7B5}
+.bplat{position:absolute;left:24px;top:26px;width:248px;height:248px;border-radius:50%;background:#18181c;box-shadow:inset 0 0 0 5px #2c2c32,0 6px 10px rgba(0,0,0,.5)}
+.bdisc{position:absolute;left:30px;top:32px;width:236px;height:236px;border-radius:50%;background:repeating-radial-gradient(circle,#0f0f13 0 2px,#24252d 2px 4px);display:flex;align-items:center;justify-content:center;animation:spin 3.4s linear infinite;box-shadow:0 0 0 1px #000}
+.bdisc::after{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 30deg,transparent 0 12%,rgba(255,255,255,.16) 16%,transparent 22% 62%,rgba(255,255,255,.1) 66%,transparent 72%)}
+.blabel{position:relative;width:82px;height:82px;border-radius:50%;overflow:hidden;box-shadow:0 0 0 3px #C8A55A}
+.blabel .sleeve{position:absolute;inset:0}.blabel .sleeve *{font-size:0!important}
+.bspindle{position:absolute;left:144px;top:146px;width:8px;height:8px;border-radius:50%;background:#ddd;box-shadow:0 0 0 2px #888}
+.barm{position:absolute;right:34px;top:30px;width:26px;height:26px;border-radius:50%;background:radial-gradient(#e9d39a,#a88533);box-shadow:0 0 0 5px #3a2210;transform-origin:13px 13px;transform-style:preserve-3d}
+.barm i{position:absolute;left:10px;top:13px;width:6px;height:190px;border-radius:3px;background:linear-gradient(90deg,#bbb,#eee,#999);transform:rotate(24deg);transform-origin:top;box-shadow:2px 6px 6px rgba(0,0,0,.45)}
+.barm i::after{content:"";position:absolute;left:-6px;bottom:-14px;width:18px;height:22px;border-radius:3px;background:#2a2a30}
+.bknob{position:absolute;bottom:22px;width:30px;height:30px;border-radius:50%;background:radial-gradient(#e9d39a,#8f6e2a);box-shadow:0 3px 0 #3a2210}
+.bknob.k1{right:30px}.bknob.k2{right:76px;width:22px;height:22px;bottom:26px}
+.bshadow{position:absolute;left:12%;right:12%;bottom:4px;height:40px;border-radius:50%;background:radial-gradient(rgba(0,0,0,.55),transparent 70%);filter:blur(6px)}
+.jbsleeve{width:240px;height:240px}
+@media(max-width:900px){.jbside{padding-top:0}.bigtt{height:260px;margin-top:20px}.btt3d{transform:rotateX(52deg) rotateZ(-14deg) scale(.6);top:-30px}}
+@media(prefers-reduced-motion:reduce){.bdisc{animation:none}}
+
 </style>
 </head>
 <body>
@@ -958,7 +983,8 @@ function viewJukebox(){
   return `<div class="jbwrap">
     <div class="jukebox" id="jukebox" aria-live="polite">${jukeInner()}</div>
     <div class="jbside"><p class="eyebrow">Jukebox · 歌曲</p><h2>尼貝爾點唱機</h2><p class="sub">${base.length} 首歌、唱過 ${base.reduce((a,x)=>a+x.n,0)} 次。下面的唱片按語種分成好幾疊，左右滑動挑一張，點中間那張就會把唱片從封套裡抽出來、放上點唱機</p>
-      <div class="jbjump">${stacks.map(([l,a])=>`<a href="#flow-${esc(l)}" data-flowjump="${esc(l)}">${esc(l)} <small>${a.length}</small></a>`).join("")}</div></div></div>
+      <div class="jbjump">${stacks.map(([l,a])=>`<a href="#flow-${esc(l)}" data-flowjump="${esc(l)}">${esc(l)} <small>${a.length}</small></a>`).join("")}</div>
+      <div class="bigtt" aria-hidden="true"><div class="btt3d"><div class="btop"><span class="bplat"></span><span class="bdisc" id="bdisc">${juke?`<span class="blabel">${sleeve(juke)}</span>`:""}</span><span class="bspindle"></span><span class="barm" id="barm"><i></i></span><span class="bknob k1"></span><span class="bknob k2"></span></div><div class="bfront"><span class="bled"></span><span class="bbrand">NIBEL ✦ HI-FI</span></div></div><div class="bshadow"></div></div></div></div>
     ${stacks.map(([l,a])=>`<section class="stack" id="flow-${esc(l)}"><h3 class="sect">${esc(l)} <span>${a.length} 張</span></h3>
       <div class="flow" data-lang="${esc(l)}" tabindex="0" role="listbox" aria-label="${esc(l)}唱片，左右鍵切換，Enter 放進點唱機">
         <button class="fnav prev" data-fnav="-1" aria-label="上一張">‹</button>
@@ -970,19 +996,15 @@ function jukeInner(){const x=juke;if(!x)return `<div class="jbdeck"><p class="no
   return `<span class="jbarch" aria-hidden="true"></span><img class="jbhani" src="${HANI("round")}" alt="" aria-hidden="true">
    <div class="jbdeck">
      <span class="jbsleeve">${sleeve(x)}</span>
-     <span class="jbtt" aria-hidden="true"><span class="ttplat"></span><span class="ttdisc"><span class="ttlabel">${sleeve(x)}</span></span><span class="ttarm"></span></span>
    </div>
    <div class="jbinfo"><span class="jblang">${esc(x.lang)}・唱過 ${x.n} 次</span><b>${esc(x.title)}</b>${x.artist?`<small>${esc(x.artist)}</small>`:""}</div>
    <div class="jbbtns"><button class="jbplay" data-jplay="${esc(x.k)}">▶ 播放最近一次</button><button class="jbmore" data-rec="${esc(x.k)}">全部 ${x.n} 次演唱</button></div>
    <span class="jbgrill" aria-hidden="true"></span>`}
 function setJuke(k,fromEl){const x=RECS.find(y=>y.k===k);if(!x)return;juke=x;const jb=document.getElementById("jukebox");if(!jb)return;
-  const go=()=>{jb.innerHTML=jukeInner();
-    if(G()){const d=jb.querySelector(".ttdisc"),s=jb.querySelector(".jbsleeve"),arm=jb.querySelector(".ttarm");
-      const dx=s.getBoundingClientRect().left-d.getBoundingClientRect().left;
-      gsap.timeline().from(s,{y:-30,autoAlpha:0,duration:.35,ease:"power2.out"})
-        .fromTo(d,{x:dx,scale:.8,autoAlpha:0},{x:dx*.55,autoAlpha:1,duration:.3},"<.1")
-        .to(d,{x:0,scale:1,duration:.7,ease:"power3.out"})
-        .fromTo(arm,{rotation:-28},{rotation:0,duration:.5,ease:"back.out(1.4)"},"-=.2");}};
+  const go=()=>{jb.innerHTML=jukeInner();const bd=document.getElementById("bdisc"),arm=document.getElementById("barm");if(bd)bd.innerHTML=`<span class="blabel">${sleeve(x)}</span>`;
+    if(G()){const sl=jb.querySelector(".jbsleeve");const tl=gsap.timeline();tl.from(sl,{y:-30,autoAlpha:0,duration:.35,ease:"power2.out"});
+      if(bd)tl.fromTo(bd,{y:-140,x:-120,autoAlpha:0},{y:0,x:0,autoAlpha:1,duration:.8,ease:"power3.out"},"<.15");
+      if(arm)tl.fromTo(arm,{rotation:-30},{rotation:0,duration:.6,ease:"back.out(1.4)"},"-=.25");}};
   if(innerWidth<900||jb.getBoundingClientRect().top<-200)jb.scrollIntoView({behavior:"smooth",block:"center"});
   if(fromEl&&G()){fromEl.classList.add("pull");setTimeout(()=>{fromEl.classList.remove("pull");go()},620)}else go()}
 function initFlows(){
