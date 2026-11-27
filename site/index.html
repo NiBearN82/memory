@@ -562,6 +562,9 @@ button.cd.cur{background:#B3261E;color:#fff;box-shadow:0 0 0 2px #fff}button.cd.
 .jukebox{padding-bottom:28px}
 .jbtube{bottom:40px}
 @media(max-width:900px){.jbside .ttwrap{margin-top:10px}}
+.controls{z-index:30}
+.mini{z-index:4;transition:opacity .2s}
+.mini.float{position:fixed;right:16px;bottom:16px;top:auto;width:min(340px,80vw);z-index:25;box-shadow:0 20px 50px rgba(0,0,0,.7)}
 </style>
 </head>
 <body>
@@ -1162,7 +1165,10 @@ async function miniPlay(x,pi=0){const p=x.perf[pi]||x.perf[0],id=p.r.id,t=secs(p
   miniVid=id;mini=new YT.Player("miniyt",{videoId:id,playerVars:{start:t,autoplay:1,playsinline:1,rel:0},events:{onReady:e=>{e.target.seekTo(t,true);e.target.playVideo()},onStateChange:e=>miniState(e.data===1),
     onError:()=>{miniStop();openRecord(x.k)}}})}
 function miniStop(){if(mini){try{mini.destroy()}catch(e){}}mini=null;miniVid=null;const b=document.getElementById("mini");if(b){b.hidden=true;b.querySelector(".minivid").innerHTML='<div id="miniyt"></div>'}miniState(false)}
-function initFlows(){
+let ttObs=null;function watchTT(){ttObs?.disconnect();const w=document.querySelector(".ttwrap"),m=document.getElementById("mini");if(!w||!m||!("IntersectionObserver" in window))return;
+  const top=(document.querySelector(".controls")?.offsetHeight||0);
+  ttObs=new IntersectionObserver(([en])=>m.classList.toggle("float",!en.isIntersecting||en.intersectionRatio<.6),{threshold:[0,.6,1],rootMargin:`-${top}px 0px 0px 0px`});ttObs.observe(w)}
+function initFlows(){watchTT();
   document.querySelectorAll(".flow").forEach(f=>{
     const lang=f.dataset.lang,items=[...f.querySelectorAll(".cf")],cap=f.parentElement.querySelector(".cfcap");
     const W=()=>items[0]?.offsetWidth||180;
