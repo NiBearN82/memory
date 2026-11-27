@@ -493,6 +493,7 @@ body[data-sec="songs"] main.band{background:linear-gradient(rgba(16,18,28,.4),rg
 .jbtube i:nth-child(2){animation-delay:-1.2s;left:7px;width:8px;height:8px}.jbtube i:nth-child(3){animation-delay:-2.4s}
 @keyframes bubble{from{top:100%}to{top:-12px}}
 .jbdeck{padding:0 34px}
+.jbpc b em{font-style:normal;font-size:10px;margin-left:4px;padding:1px 5px;border-radius:999px;background:#C8A55A;color:#1A1B22;vertical-align:1px}
 .jbkeys{display:grid;grid-template-columns:repeat(8,1fr);gap:5px;width:84%;margin-top:4px}
 .jbkeys i{font-style:normal;font-size:10px;font-weight:900;color:#3B2A12;background:linear-gradient(#FFF3D6,#E3CFA3);border-radius:5px;padding:5px 0;box-shadow:0 3px 0 #8A5A24}
 .jbkeys i.on{background:linear-gradient(#F2A7B5,#d98a99);color:#3A1520;box-shadow:0 1px 0 #8a4a57;transform:translateY(2px)}
@@ -824,9 +825,9 @@ function animSheet(kind){if(!window.gsap)return;gsap.killTweensOf(".mvinyl");if(
 function openBook(k){
   const b=BOOKS.find(x=>x.k===k);if(!b)return;
   openMulti(`<button class="close" id="close" aria-label="關閉">×</button><div class="mhead"><span class="mcov">${bookCover(b,true)}</span><div><p class="eb2">${b.live&&b.pod?"說書直播＋Podcast":b.live?"說書直播":"說書 Podcast"}</p><h2 id="ptitle">《${esc(b.title)}》</h2>${b.author?`<p class="note">${esc(b.author)}</p>`:""}<p class="note">聊過 ${b.eps.length} 集，點下面任一集就在這裡播放</p></div></div>${(()=>{let it=b.eps.map(r=>(D.intros||{})[r.id]).find(Boolean),src="摘自 YouTube 影片說明欄";if(!it){it=b.eps.map(r=>(D.introsAlt||{})[r.id]).find(Boolean);src="整理自出版社與書店公開的書籍介紹"}return it?`<div class="bintro"><span class="bil">✦ ${src[0]==="摘"?"本集介紹":"這本書在說什麼"}</span><div class="bitx">${esc(it).replace(/\n/g,"<br>")}</div><button class="bimore" type="button">展開全文</button><small class="bisrc">${src}</small></div>`:""})()}${PHOLD}<div class="pbody">${b.eps.map(r=>`<div class="ep"><a class="eprow" ${tlink(r.id,"0")}>${th("v",r.id)}<span><small>${esc(r.date.replaceAll("-","."))}・${r.live?"說書直播":"Podcast"}・${esc(r.dur)}</small><b>${esc(r.title)}</b></span></a></div>${r.chapters.length?`<details class="setl epsetl"${b.eps.length===1?" open":""}><summary>⏱ 這集的時間軸 ${r.chapters.length} 段</summary><ol>${r.chapters.map(c=>`<li><a class="sl" ${tlink(r.id,c.t)}><time>${esc(c.t)}</time><span>${esc(c.x)}</span></a></li>`).join("")}</ol></details>`:""}`).join("")}</div>`);animSheet("book")}
-function openRecord(k){
+function openRecord(k,auto){
   const x=RECS.find(y=>y.k===k);if(!x)return;
-  openMulti(`<button class="close" id="close" aria-label="關閉">×</button><div class="mhead"><span class="mcov sq"><span class="mvinyl" aria-hidden="true"></span>${sleeve(x)}</span><div><p class="eb2">${esc(x.lang)}・唱過 ${x.n} 次</p><h2 id="ptitle">${esc(x.title)}</h2>${x.artist?`<p class="note">原唱：${esc(x.artist)}</p>`:""}<p class="note">點下面任一次，就從這首歌開始播</p></div></div>${PHOLD}<div class="pbody">${x.perf.map(p=>`<div class="ep"><a class="eprow" ${tlink(p.r.id,p.t)}>${th("v",p.r.id)}<span><small>${esc(p.r.date.replaceAll("-","."))}・從 ${esc(p.t)} 開始</small><b>${esc(p.r.title)}</b></span></a><button class="epch" data-open="${esc(p.r.id)}">整場歌單 →</button></div>`).join("")}</div>`);animSheet("rec")}
+  openMulti(`<button class="close" id="close" aria-label="關閉">×</button><div class="mhead"><span class="mcov sq"><span class="mvinyl" aria-hidden="true"></span>${sleeve(x)}</span><div><p class="eb2">${esc(x.lang)}・唱過 ${x.n} 次</p><h2 id="ptitle">${esc(x.title)}</h2>${x.artist?`<p class="note">原唱：${esc(x.artist)}</p>`:""}<p class="note">點下面任一次，就從這首歌開始播</p></div></div>${PHOLD}<div class="pbody">${x.perf.map(p=>`<div class="ep"><a class="eprow" ${tlink(p.r.id,p.t)}>${th("v",p.r.id)}<span><small>${esc(p.r.date.replaceAll("-","."))}・從 ${esc(p.t)} 開始</small><b>${esc(p.r.title)}</b></span></a><button class="epch" data-open="${esc(p.r.id)}">整場歌單 →</button></div>`).join("")}</div>`);animSheet("rec");if(auto&&x.perf[0])play(x.perf[0].r.id,secs(x.perf[0].t))}
 
 function card(r){const b=cardBtn(r);if(!r.songs)return b;
   return `<div class="cardw">${b}<details class="setl"${state.openSets?" open":""}><summary>♪ 這場唱了 ${r.songs.length} 首</summary><ol>${r.songs.map(s=>`<li><a class="sl" ${tlink(r.id,s.t)}><time>${esc(s.t)}</time><span>${hl(s.s,state.q)}${s.a?`<small>${hl(s.a,state.q)}</small>`:""}</span></a></li>`).join("")}</ol></details></div>`}
@@ -983,7 +984,7 @@ document.getElementById("view").addEventListener("click",e=>{
   const sa=e.target.closest(".setall");if(sa){state.openSets=!state.openSets;document.querySelectorAll(".setl").forEach(d=>d.open=state.openSets);sa.setAttribute("aria-pressed",state.openSets);sa.textContent=state.openSets?"收起全部歌單":"♪ 一鍵展開全部歌單";return}
   const c=e.target.closest(".chip");if(c){for(const k of ["cat","scat","btype","rsort","rlang"])if(k in c.dataset)state[k]=c.dataset[k];render();return}
   const bk=e.target.closest("[data-book]");if(bk){openBook(bk.dataset.book);return}
-  const rc=e.target.closest("[data-rec]");if(rc){openRecord(rc.dataset.rec);return}
+  const rc=e.target.closest("[data-rec]");if(rc){openRecord(rc.dataset.rec,rc.classList.contains("rec"));return}
   const k=e.target.closest("[data-id]");if(k)openSheet(k.dataset.id)});
 panel.addEventListener("click",e=>{const bm=e.target.closest(".bimore");if(bm){const w=bm.parentElement;w.classList.toggle("open");bm.textContent=w.classList.contains("open")?"收起":"展開全文";return}const o=e.target.closest("[data-open]");if(o){openSheet(o.dataset.open);setTimeout(()=>{const h=[...panel.querySelectorAll("h3")].find(x=>/歌單|時間軸/.test(x.textContent));if(h)h.scrollIntoView({block:"start"})},50)}});
 document.getElementById("feat").addEventListener("click",e=>openSheet(e.currentTarget.dataset.id));
@@ -1158,7 +1159,7 @@ function jukeInner(){const x=juke;if(!x)return `<div class="jbdeck"><p class="no
      <span class="jbsleeve">${sleeve(x)}</span>
    </div>
    <div class="jbinfo"><span class="jblang">${esc(x.lang)}・唱過 ${x.n} 次</span><b>${esc(x.title)}</b>${x.artist?`<small>${esc(x.artist)}</small>`:""}</div>
-   <div class="jbperf"><span class="jbpl">🎧 選一次來聽${x.n>1?`（共 ${x.n} 次）`:""}</span><div class="jbpchips">${x.perf.map((p,i)=>`<button class="jbpc" data-jperf="${esc(x.k)}|${i}"><b>${esc(p.r.date.slice(2).replaceAll("-","."))}</b><small>▶ ${esc(p.t)}</small></button>`).join("")}</div></div>
+   <div class="jbperf"><span class="jbpl">🎧 選一次來聽${x.n>1?`（共 ${x.n} 次）`:""}</span><div class="jbpchips">${x.perf.map((p,i)=>`<button class="jbpc${i===0?" on":""}" data-jperf="${esc(x.k)}|${i}"><b>${esc(p.r.date.slice(2).replaceAll("-","."))}${i===0&&x.n>1?"<em>最新</em>":""}</b><small>▶ ${esc(p.t)}</small></button>`).join("")}</div></div>
    <button class="jbmore big" data-rec="${esc(x.k)}">📖 看這首歌的完整介紹與每次演唱 <span>→</span></button>
 `}
 function setJuke(k,fromEl){const x=RECS.find(y=>y.k===k);if(!x)return;juke=x;const jb=document.getElementById("jukebox");if(!jb)return;
