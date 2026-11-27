@@ -595,6 +595,16 @@ button.cd,.cd{text-shadow:none}button.cd{box-shadow:none;border:1px solid #d6ccb
  .paper{position:relative;top:auto;transform:none;margin-bottom:22px}
  .newsgrid{padding-bottom:110px}
 }
+
+.mini.needtap{border-color:#F2A7B5;box-shadow:0 0 0 3px rgba(242,167,181,.35),0 12px 30px rgba(0,0,0,.5)}
+.mini.needtap .minibar::after{content:"iPhone：點一下影片中間的 ▶ 開始播放（第一次就好）";display:block;width:100%;font-size:11px;color:#F2A7B5;margin-top:4px}
+.mini.needtap .minibar{flex-wrap:wrap}
+.tapnote{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);margin:0;padding:5px 12px;border-radius:999px;background:rgba(26,27,34,.88);color:#F2A7B5;font-size:12px;pointer-events:none;white-space:nowrap}
+.player{position:relative}
+
+/* 頂欄（回入口＋館別＋搜尋）固定在畫面最上方，所有館別都一樣 */
+.controls{position:fixed;top:0;left:0;right:0;z-index:30}
+body:not([data-sec="home"]){padding-top:var(--ctrl,164px)}
 </style>
 </head>
 <body>
@@ -906,8 +916,10 @@ function render(){
   document.getElementById("view").innerHTML=html;
   if(state.sec==="live")renderBars();
   buildRail();if(state.sec==="songs")initFlows();if(state.sec==="news"){calCur="";updNews()}animView();
-  document.documentElement.style.setProperty("--ctrl",(document.querySelector(".controls").offsetHeight||0)+"px");
+  setCtrl();
 }
+function setCtrl(){const c=document.querySelector(".controls");if(c&&c.offsetHeight)document.documentElement.style.setProperty("--ctrl",c.offsetHeight+"px")}
+if("ResizeObserver" in window)new ResizeObserver(setCtrl).observe(document.querySelector(".controls"));addEventListener("resize",setCtrl);
 
 /* 右側年月滑桿 */
 const rail=document.getElementById("rail"),rtrack=document.getElementById("rtrack"),rtip=document.getElementById("rtip");
@@ -961,7 +973,7 @@ async function play(id,t){
   box.innerHTML='<div id="ytp"></div>';
   const YT=await loadYT();if(playerId!==id)return;
   player=new YT.Player("ytp",{videoId:id,playerVars:{start:Math.floor(t),autoplay:1,playsinline:1,rel:0},
-    events:{onReady:e=>{play._retry=0;e.target.seekTo(t,true);e.target.playVideo()},
+    events:{onReady:e=>{play._retry=0;e.target.seekTo(t,true);e.target.playVideo();setTimeout(()=>{let st=-1;try{st=e.target.getPlayerState()}catch(_){}if(st!==1&&st!==3&&box.isConnected&&!box.querySelector('.tapnote'))box.insertAdjacentHTML('beforeend','<p class="tapnote">iPhone 需要先點一下影片中間的 ▶ 才會開始播放</p>')},1800)},onStateChange:e=>{if(e.data===1)box.querySelector('.tapnote')?.remove()},
             onError:ev=>{const c=ev?.data;if(![100,101,150].includes(c)&&!play._retry){play._retry=1;stopPlayer();setTimeout(()=>play(id,t),300);return}play._retry=0;box.classList.remove("on");box.innerHTML=`<p class="perr">這部影片沒辦法在這裡播放（${c===100?"影片已移除或不公開":c===101||c===150?"可能是會員限定":"播放器載入失敗，代碼 "+c}）。<a href="${yt(id,t?String(t):"")}" target="_blank" rel="noopener">到 YouTube 從這裡開始看 ↗</a></p>`;stopPlayer()}}});
 }
 document.addEventListener("click",e=>{
@@ -998,7 +1010,7 @@ document.getElementById("view").addEventListener("click",e=>{
   const sa=e.target.closest(".setall");if(sa){state.openSets=!state.openSets;document.querySelectorAll(".setl").forEach(d=>d.open=state.openSets);sa.setAttribute("aria-pressed",state.openSets);sa.textContent=state.openSets?"收起全部歌單":"♪ 一鍵展開全部歌單";return}
   const c=e.target.closest(".chip");if(c){for(const k of ["cat","scat","btype","rsort","rlang"])if(k in c.dataset)state[k]=c.dataset[k];render();return}
   const bk=e.target.closest("[data-book]");if(bk){openBook(bk.dataset.book);return}
-  const rc=e.target.closest("[data-rec]");if(rc){openRecord(rc.dataset.rec,true);return}
+  const rc=e.target.closest("[data-rec]");if(rc){const on=miniKey===rc.dataset.rec&&!document.getElementById("mini")?.hidden;openRecord(rc.dataset.rec,!on);return}
   const k=e.target.closest("[data-id]");if(k)openSheet(k.dataset.id)});
 panel.addEventListener("click",e=>{const bm=e.target.closest(".bimore");if(bm){const w=bm.parentElement;w.classList.toggle("open");bm.textContent=w.classList.contains("open")?"收起":"展開全文";return}const o=e.target.closest("[data-open]");if(o){openSheet(o.dataset.open);setTimeout(()=>{const h=[...panel.querySelectorAll("h3")].find(x=>/歌單|時間軸/.test(x.textContent));if(h)h.scrollIntoView({block:"start"})},50)}});
 document.getElementById("feat").addEventListener("click",e=>openSheet(e.currentTarget.dataset.id));
@@ -1190,7 +1202,7 @@ let mini=null,miniVid=null;
 function miniState(on){document.querySelector(".bigtt")?.classList.toggle("playing",on);const t=document.getElementById("mtoggle");if(t){t.textContent=on?"❚❚":"▶";t.setAttribute("aria-label",on?"暫停":"播放")}}
 let miniKey="",miniReady=false;
 function miniMake(YT,id,t,auto){document.getElementById("miniyt")?.remove();const box=document.getElementById("mini");if(!box)return;const d=document.createElement("div");d.id="miniyt";box.querySelector(".minivid").appendChild(d);
-  miniVid=id;miniReady=false;mini=new YT.Player("miniyt",{videoId:id,playerVars:{start:t,autoplay:auto?1:0,playsinline:1,rel:0},events:{onReady:e=>{miniReady=true;if(auto){e.target.seekTo(t,true);e.target.playVideo()}},onStateChange:e=>miniState(e.data===1),
+  miniVid=id;miniReady=false;mini=new YT.Player("miniyt",{videoId:id,playerVars:{start:t,autoplay:auto?1:0,playsinline:1,rel:0},events:{onReady:e=>{miniReady=true;if(auto){e.target.seekTo(t,true);e.target.playVideo()}},onStateChange:e=>{miniState(e.data===1);if(e.data===1)document.getElementById("mini")?.classList.remove("needtap")},
     onError:()=>{const k=miniKey;miniStop();if(k)openRecord(k)}}})}
 /* 先把播放器準備好：手機（iOS）只有在點擊的當下呼叫播放才會真的開始播 */
 const miniAlive=()=>!!mini&&document.getElementById("miniyt")?.tagName==="IFRAME";
@@ -1198,10 +1210,13 @@ function miniPrep(){if(mini&&!miniAlive()){try{mini.destroy()}catch(e){}mini=nul
 function miniPlay(x,pi=0){miniKey=x.k;const p=x.perf[pi]||x.perf[0],id=p.r.id,t=secs(p.t);stopPlayer();
   const box=document.getElementById("mini");if(!box){openRecord(x.k);play(id,t);return}
   box.hidden=false;box.classList.toggle("min",box.classList.contains("flt")||userMin);setMinBtn(box);document.getElementById("mtitle").innerHTML=`♪ ${esc(x.title)}<small>${esc(p.r.date.replaceAll("-","."))}・從 ${esc(p.t)} 開始</small>`;
-  if(miniAlive()&&miniReady){if(miniVid===id){mini.seekTo(t,true);mini.playVideo()}else{miniVid=id;mini.loadVideoById({videoId:id,startSeconds:t})}return}
+  if(miniAlive()&&miniReady){if(miniVid===id){mini.seekTo(t,true);mini.playVideo()}else{miniVid=id;mini.loadVideoById({videoId:id,startSeconds:t})}miniCheck();return}
   if(mini){try{mini.destroy()}catch(e){}mini=null}
-  loadYT().then(YT=>miniMake(YT,id,t,true))}
-function miniStop(){if(mini){try{mini.destroy()}catch(e){}}mini=null;miniVid=null;miniReady=false;const b=document.getElementById("mini");if(b){b.hidden=true;b.querySelector(".minivid").innerHTML='<div id="miniyt"></div>'}miniState(false)}
+  loadYT().then(YT=>{miniMake(YT,id,t,true);miniCheck()})}
+function miniStop(){if(miniAlive()){try{mini.pauseVideo()}catch(e){}}else{if(mini){try{mini.destroy()}catch(e){}}mini=null;miniVid=null;miniReady=false}clearTimeout(miniTap);const b=document.getElementById("mini");if(b){b.hidden=true;b.classList.remove("needtap")}miniState(false)}
+let miniTap=0;
+/* iPhone 不允許網頁替 YouTube 開聲音自動播放：沒播起來就把影片打開，請使用者點一下影片（之後同一個播放器就能自動播） */
+function miniCheck(){clearTimeout(miniTap);miniTap=setTimeout(()=>{const b=document.getElementById("mini");if(!b||b.hidden||!miniAlive())return;let st=-1;try{st=mini.getPlayerState()}catch(e){}if(st===1||st===3)return;b.classList.add("needtap");b.classList.remove("min");setMinBtn(b)},1800)}
 let userMin=false;
 function setMinBtn(m){const b=document.getElementById("mmin");if(!b)return;const on=m.classList.contains("min");b.textContent=on?"▢":"–";b.setAttribute("aria-label",on?"展開影片":"縮小影片")}
 function setFloat(m,f){if(m.classList.contains("flt")===f)return;
@@ -1245,7 +1260,7 @@ document.getElementById("view").addEventListener("click",e=>{
   if(e.target.closest(".cf")||e.target.closest(".flow")&&!e.target.closest(".fnav")){e.stopPropagation();e.preventDefault();return}
   const jp=e.target.closest("[data-jplay]");if(jp){e.stopPropagation();const x=RECS.find(y=>y.k===jp.dataset.jplay);if(x)miniPlay(x);return}
   const jpf=e.target.closest("[data-jperf]");if(jpf){e.stopPropagation();const [k,i]=jpf.dataset.jperf.split("|");const x=RECS.find(y=>y.k===k);if(x){document.querySelectorAll(".jbpc.on").forEach(b=>b.classList.remove("on"));jpf.classList.add("on");miniPlay(x,+i)}return}
-  const mx=e.target.closest("#mexp");if(mx){e.stopPropagation();if(!miniKey)return;const k=miniKey,vid=miniVid;let cur=0;try{cur=mini?.getCurrentTime?.()||0}catch(_){}openRecord(k,false);if(vid)play(vid,cur);return}
+  const mx=e.target.closest("#mexp");if(mx){e.stopPropagation();if(miniKey)openRecord(miniKey,false);return}
   const mt=e.target.closest("#mtoggle");if(mt){e.stopPropagation();if(!mini)return;const st=mini.getPlayerState?.();if(st===1){mini.pauseVideo()}else mini.playVideo();return}
   const ms=e.target.closest("#mstop");if(ms){e.stopPropagation();miniStop();miniPrep();return}
   const mm=e.target.closest("#mmin");if(mm){e.stopPropagation();const b=document.getElementById("mini");const m=b.classList.toggle("min");if(!b.classList.contains("flt"))userMin=m;setMinBtn(b);return}
