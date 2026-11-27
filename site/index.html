@@ -259,8 +259,8 @@ body[data-sec="home"] footer.band{margin-top:0}
 /* ===== 入口 ===== */
 .home{position:relative;min-height:100vh;overflow:hidden;display:flex;align-items:center;isolation:isolate}
 .hbg{position:absolute;inset:0;z-index:-2}
-.hbg img{width:100%;height:100%;object-fit:cover;object-position:62% 35%}
-.home::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(18,20,30,.94) 0,rgba(18,20,30,.78) 42%,rgba(18,20,30,.25) 75%,rgba(18,20,30,.1)),linear-gradient(0deg,rgba(18,20,30,.9),transparent 40%)}
+.hbg img{width:100%;height:100%;object-fit:cover;object-position:center;transform:scale(1.04)}
+.home::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(18,20,30,.7) 0,rgba(18,20,30,.45) 55%,rgba(18,20,30,.25)),linear-gradient(0deg,rgba(18,20,30,.85),transparent 35%)}
 .hin{width:min(1180px,100%);margin:0 auto;padding:72px 28px 60px}
 .home h1{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(38px,6vw,72px);line-height:1.12;margin:6px 0 10px;color:#EEF0F4;text-shadow:0 4px 30px rgba(0,0,0,.5)}
 .hlede{font-size:clamp(17px,2vw,21px);color:#F6E3B4;margin:0 0 26px;font-weight:500}
@@ -867,7 +867,7 @@ function viewHome(){
   const nNews=S.filter(r=>/新聞久一點/.test(r.raw||r.title)).length;
   const cnt={live:`${S.filter(r=>r.live).length} 場直播`,news:`${nNews} 期報紙`,books:`${BOOKS.length} 本書`,songs:`${RECS.length} 首歌`};
   return `<section class="home">
-    <div class="hbg" aria-hidden="true"><img src="assets/banner.jpg" alt=""></div>
+    <div class="hbg" aria-hidden="true"><img src="assets/home-bg.jpg" alt=""></div>
     <div class="hin">
       <p class="eyebrow">Trauma Troupe · Stream Archive</p>
       <h1>尼貝爾直播紀錄館</h1>
