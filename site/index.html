@@ -564,7 +564,7 @@ button.cd.cur{background:#B3261E;color:#fff;box-shadow:0 0 0 2px #fff}button.cd.
 @media(max-width:900px){.jbside .ttwrap{margin-top:10px}}
 .controls{z-index:30}
 .mini{z-index:4;transition:opacity .2s}
-.mini.float{position:fixed;right:16px;bottom:16px;top:auto;width:min(340px,80vw);z-index:25;box-shadow:0 20px 50px rgba(0,0,0,.7)}
+.mini.flt{position:fixed;right:16px;bottom:16px;top:auto;width:min(340px,80vw);z-index:25;box-shadow:0 20px 50px rgba(0,0,0,.7)}
 button.cd,.cd{text-shadow:none}button.cd{box-shadow:none;border:1px solid #d6ccb4}
 .cf.peek .cfdisc{transform:translateY(-58%) rotate(40deg);box-shadow:0 0 0 2px #C8A55A,0 8px 20px rgba(0,0,0,.7)}
 .cf.peek::after{content:"▶ 再按一次播放";position:absolute;left:0;right:0;width:max-content;margin:0 auto;top:calc(100% + 14px);z-index:5;white-space:nowrap;background:#F2A7B5;color:#3A1520;font-weight:900;font-size:14px;padding:6px 14px;border-radius:999px;box-shadow:0 4px 0 #b06f7d;animation:nudge 1.6s ease-in-out infinite}
@@ -572,14 +572,15 @@ button.cd,.cd{text-shadow:none}button.cd{box-shadow:none;border:1px solid #d6ccb
 .mini .minivid{max-height:420px;transition:max-height .45s cubic-bezier(.3,.8,.3,1)}
 .mini.min .minivid{height:auto;aspect-ratio:16/9;max-height:0;overflow:hidden}
 .mini{transition:width .4s cubic-bezier(.3,.8,.3,1)}
-.mini.float.min{width:min(320px,80vw)}
-.mini.float .minibar{padding:10px 12px}
+.mini.flt.min{width:min(320px,80vw)}
+.mini.flt .minibar{padding:10px 12px}
 .bintro{margin:4px clamp(16px,3vw,28px) 18px;padding:16px 18px;border-radius:14px;background:rgba(255,243,214,.06);border:1px solid rgba(200,165,90,.35)}
 .bil{display:block;font-weight:900;color:#C8A55A;font-size:13px;margin-bottom:6px;letter-spacing:.1em}
 .bitx{font-size:15px;line-height:1.85;color:#E6E2D6;max-height:7.4em;overflow:hidden;-webkit-mask:linear-gradient(#000 60%,transparent);mask:linear-gradient(#000 60%,transparent)}
 .bintro.open .bitx{max-height:none;-webkit-mask:none;mask:none}
 .bimore{margin-top:8px;border:0;border-radius:999px;background:#E9B872;color:#3B2A12;font-weight:900;padding:5px 14px;cursor:pointer;font:inherit;font-size:13px}
 .bisrc{display:block;margin-top:6px;color:#8b8f9c;font-size:11px}
+.mexp{background:#E9B872!important;font-size:16px!important}
 </style>
 </head>
 <body>
@@ -1142,7 +1143,7 @@ function viewJukebox(){
     <div class="jukebox" id="jukebox" aria-live="polite">${jukeInner()}</div>
     <div class="jbside"><p class="eyebrow">Jukebox · 歌曲</p><h2>尼貝爾點唱機</h2><p class="sub">${base.length} 首歌、唱過 ${base.reduce((a,x)=>a+x.n,0)} 次。下面的唱片按語種分成好幾疊，左右滑動挑一張，點一張唱片會從封套裡抽出來，再按一次就放上唱盤播放</p>
       <div class="jbjump">${stacks.map(([l,a])=>`<a href="#flow-${esc(l)}" data-flowjump="${esc(l)}">${esc(l)} <small>${a.length}</small></a>`).join("")}</div>
-      <div class="ttwrap"><div class="bigtt" aria-hidden="true"><div class="btt3d"><div class="btop"><span class="bplat"></span><span class="bdisc" id="bdisc">${juke?`<span class="blabel">${sleeve(juke)}</span>`:""}</span><span class="bspindle"></span><span class="barm" id="barm"><i></i></span><span class="bknob k1"></span><span class="bknob k2"></span></div><div class="bfront"><span class="bled"></span><span class="bbrand">NIBEL ✦ HI-FI</span></div></div><div class="bshadow"></div></div><div class="mini" id="mini" hidden><div class="minibar"><span class="mtitle" id="mtitle"></span><button class="mbtn" id="mmin" aria-label="縮小影片">–</button><button class="mbtn" id="mtoggle" aria-label="暫停">❚❚</button><button class="mbtn" id="mstop" aria-label="關閉">✕</button></div><div class="minivid"><div id="miniyt"></div></div></div></div></div></div>
+      <div class="ttwrap"><div class="bigtt" aria-hidden="true"><div class="btt3d"><div class="btop"><span class="bplat"></span><span class="bdisc" id="bdisc">${juke?`<span class="blabel">${sleeve(juke)}</span>`:""}</span><span class="bspindle"></span><span class="barm" id="barm"><i></i></span><span class="bknob k1"></span><span class="bknob k2"></span></div><div class="bfront"><span class="bled"></span><span class="bbrand">NIBEL ✦ HI-FI</span></div></div><div class="bshadow"></div></div><div class="mini" id="mini" hidden><div class="minibar"><span class="mtitle" id="mtitle"></span><button class="mbtn mexp" id="mexp" aria-label="打開這首歌的介紹頁" title="打開這首歌的介紹頁">↗</button><button class="mbtn" id="mmin" aria-label="縮小影片">–</button><button class="mbtn" id="mtoggle" aria-label="暫停">❚❚</button><button class="mbtn" id="mstop" aria-label="關閉">✕</button></div><div class="minivid"><div id="miniyt"></div></div></div></div></div></div>
     ${stacks.map(([l,a])=>`<section class="stack" id="flow-${esc(l)}"><h3 class="sect">${esc(l)} <span>${a.length} 張</span></h3>
       <div class="flow" data-lang="${esc(l)}" tabindex="0" role="listbox" aria-label="${esc(l)}唱片，左右鍵切換，Enter 放進點唱機">
         <button class="fnav prev" data-fnav="-1" aria-label="上一張">‹</button>
@@ -1170,9 +1171,9 @@ function setJuke(k,fromEl){const x=RECS.find(y=>y.k===k);if(!x)return;juke=x;con
 /* 唱盤下的小播放器：留在這頁背景播放 */
 let mini=null,miniVid=null;
 function miniState(on){document.querySelector(".bigtt")?.classList.toggle("playing",on);const t=document.getElementById("mtoggle");if(t){t.textContent=on?"❚❚":"▶";t.setAttribute("aria-label",on?"暫停":"播放")}}
-async function miniPlay(x,pi=0){const p=x.perf[pi]||x.perf[0],id=p.r.id,t=secs(p.t);stopPlayer();
+let miniKey="";async function miniPlay(x,pi=0){miniKey=x.k;const p=x.perf[pi]||x.perf[0],id=p.r.id,t=secs(p.t);stopPlayer();
   const box=document.getElementById("mini");if(!box){openRecord(x.k);play(id,t);return}
-  box.hidden=false;box.classList.toggle("min",box.classList.contains("float")||userMin);setMinBtn(box);document.getElementById("mtitle").innerHTML=`♪ ${esc(x.title)}<small>${esc(p.r.date.replaceAll("-","."))}・從 ${esc(p.t)} 開始</small>`;
+  box.hidden=false;box.classList.toggle("min",box.classList.contains("flt")||userMin);setMinBtn(box);document.getElementById("mtitle").innerHTML=`♪ ${esc(x.title)}<small>${esc(p.r.date.replaceAll("-","."))}・從 ${esc(p.t)} 開始</small>`;
   const YT=await loadYT();
   if(mini&&miniVid===id&&mini.seekTo){mini.seekTo(t,true);mini.playVideo();return}
   if(mini){try{mini.destroy()}catch(e){}}
@@ -1182,8 +1183,8 @@ async function miniPlay(x,pi=0){const p=x.perf[pi]||x.perf[0],id=p.r.id,t=secs(p
 function miniStop(){if(mini){try{mini.destroy()}catch(e){}}mini=null;miniVid=null;const b=document.getElementById("mini");if(b){b.hidden=true;b.querySelector(".minivid").innerHTML='<div id="miniyt"></div>'}miniState(false)}
 let userMin=false;
 function setMinBtn(m){const b=document.getElementById("mmin");if(!b)return;const on=m.classList.contains("min");b.textContent=on?"▢":"–";b.setAttribute("aria-label",on?"展開影片":"縮小影片")}
-function setFloat(m,f){if(m.classList.contains("float")===f)return;
-  const r0=m.getBoundingClientRect();m.classList.toggle("float",f);m.classList.toggle("min",f||userMin);setMinBtn(m);
+function setFloat(m,f){if(m.classList.contains("flt")===f)return;
+  const r0=m.getBoundingClientRect();m.classList.toggle("flt",f);m.classList.toggle("min",f||userMin);setMinBtn(m);
   if(m.hidden||!G())return;const r1=m.getBoundingClientRect();
   gsap.fromTo(m,{x:r0.left-r1.left,y:r0.top-r1.top,opacity:.6},{x:0,y:0,opacity:1,duration:.5,ease:"power3.out",clearProps:"transform,opacity"})}
 let ttObs=null;function watchTT(){ttObs?.disconnect();const w=document.querySelector(".ttwrap"),m=document.getElementById("mini");if(!w||!m||!("IntersectionObserver" in window))return;
@@ -1223,9 +1224,10 @@ document.getElementById("view").addEventListener("click",e=>{
   if(e.target.closest(".cf")||e.target.closest(".flow")&&!e.target.closest(".fnav")){e.stopPropagation();e.preventDefault();return}
   const jp=e.target.closest("[data-jplay]");if(jp){e.stopPropagation();const x=RECS.find(y=>y.k===jp.dataset.jplay);if(x)miniPlay(x);return}
   const jpf=e.target.closest("[data-jperf]");if(jpf){e.stopPropagation();const [k,i]=jpf.dataset.jperf.split("|");const x=RECS.find(y=>y.k===k);if(x){document.querySelectorAll(".jbpc.on").forEach(b=>b.classList.remove("on"));jpf.classList.add("on");miniPlay(x,+i)}return}
+  const mx=e.target.closest("#mexp");if(mx){e.stopPropagation();if(miniKey)openRecord(miniKey);return}
   const mt=e.target.closest("#mtoggle");if(mt){e.stopPropagation();if(!mini)return;const st=mini.getPlayerState?.();if(st===1){mini.pauseVideo()}else mini.playVideo();return}
   const ms=e.target.closest("#mstop");if(ms){e.stopPropagation();miniStop();return}
-  const mm=e.target.closest("#mmin");if(mm){e.stopPropagation();const b=document.getElementById("mini");const m=b.classList.toggle("min");if(!b.classList.contains("float"))userMin=m;setMinBtn(b);return}
+  const mm=e.target.closest("#mmin");if(mm){e.stopPropagation();const b=document.getElementById("mini");const m=b.classList.toggle("min");if(!b.classList.contains("flt"))userMin=m;setMinBtn(b);return}
   const fj=e.target.closest("[data-flowjump]");if(fj){e.preventDefault();document.getElementById("flow-"+fj.dataset.flowjump)?.scrollIntoView({behavior:"smooth",block:"center"});return}
   const bk=e.target.closest(".bk[data-book]");if(bk&&state.sec==="books"){e.stopPropagation();openBookFx(bk);return}
 },true);
