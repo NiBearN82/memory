@@ -417,7 +417,7 @@ function langOne(t,a){const x=t+" "+(a||"");
 function applyDriveCovers(){const cf=D.coverFiles||{},miss=[];
   const hit=(list,items,key,who)=>(list||[]).forEach(f=>{const [n,...rest]=f.name.split(/[_＿]/),a=norm(rest.join(""));
     let c=items.filter(x=>key(x)===key({title:n}));if(c.length>1&&a){const c2=c.filter(x=>x[who]&&(norm(x[who]).includes(a)||a.includes(norm(x[who]))));if(c2.length)c=c2}
-    if(c.length)c.forEach(x=>x.cover=f.src);else miss.push(f.name)});
+    if(c.length)c.forEach(x=>{if(!x.pinned)x.cover=f.src});else miss.push(f.name)});
   hit(cf.books,BOOKS,x=>bookKey(x.title),"author");hit(cf.records,RECS,x=>songKey(x.title),"artist");window.__coverMiss=miss}
 function buildLibrary(){
   const bm=new Map();
@@ -427,7 +427,7 @@ function buildLibrary(){
   S.forEach(r=>(r.songs||[]).forEach(s=>{const raw=String(s.s).trim();if(!raw||/^(OP|ED|開場|晚安)$/.test(raw))return;let k=songKey(raw);if(!k)return;if(SONG_ALIAS[k])k=songKey(SONG_ALIAS[k][0]);
     if(!rm.has(k))rm.set(k,{k,titles:{},artists:{},perf:[]});const x=rm.get(k);const tt=raw.replace(/（(中斷|日文版|結果.*?)）/g,"").trim();x.titles[tt]=(x.titles[tt]||0)+1;if(s.a)x.artists[s.a]=(x.artists[s.a]||0)+1;x.perf.push({r,t:s.t})}));
   const top=o=>Object.entries(o).sort((a,b)=>b[1]-a[1])[0]?.[0]||"";
-  window.__lib=()=>({BOOKS,RECS});RECS=[...rm.values()].map(x=>{x.title=top(x.titles);x.artist=top(x.artists);const cn=Object.values(SONG_ALIAS).find(v=>songKey(v[0])===x.k);if(cn){x.title=cn[0];if(cn[1])x.artist=cn[1]}x.perf.sort((a,b)=>b.r.date.localeCompare(a.r.date));x.n=x.perf.length;x.last=x.perf[0].r.date;x.langs=langOf(x.title,x.artist);x.lang=x.langs.join("・");const rc=Object.entries(D.recCovers||{}).find(([n])=>songKey(n)===x.k);x.cover=rc?rc[1]:"";x.hay=norm(x.title+x.artist);return x});
+  window.__lib=()=>({BOOKS,RECS});RECS=[...rm.values()].map(x=>{x.title=top(x.titles);x.artist=top(x.artists);const cn=Object.values(SONG_ALIAS).find(v=>songKey(v[0])===x.k);if(cn){x.title=cn[0];if(cn[1])x.artist=cn[1]}x.perf.sort((a,b)=>b.r.date.localeCompare(a.r.date));x.n=x.perf.length;x.last=x.perf[0].r.date;x.langs=langOf(x.title,x.artist);x.lang=x.langs.join("・");const rc=Object.entries(D.recCovers||{}).find(([n])=>songKey(n)===x.k);x.cover=rc?rc[1]:"";x.pinned=!!rc;x.hay=norm(x.title+x.artist);return x});
 }
 function bookCover(b,big){
   const a=art(b.k);
