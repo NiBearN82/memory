@@ -634,6 +634,23 @@ body:not([data-sec="home"]){padding-top:var(--ctrl,164px)}
 .fsongs b{font-size:15px;font-weight:700}.fsongs small{font-size:11px;color:#7A6A58;font-family:var(--orn);font-style:italic}
 .fstub{margin-top:8px;padding-top:8px;border-top:1px dashed #8a7458;font-size:9px;letter-spacing:.2em;color:#8a7458;text-align:center}
 @media(max-width:560px){.flyers .flyer{flex:0 0 66%}.flynav{display:none}.ftitle{font-size:16px}.fsongs b{font-size:13px}.fin{padding:0 10px 10px}.flyhint::after{content:"（左右滑看更多）"}}
+
+/* 安可／復仇 */
+.votes{display:inline-flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.vb{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:700;transition:transform .15s}
+.vb b{font-family:var(--orn);font-style:italic;font-size:15px}
+.vb.enc{background:#C8A55A;color:#1A1B22}.vb.rev{background:#A8262B;color:#FFF3D6}
+.vb:hover{transform:translateY(-1px)}.vb.pop{animation:vpop .45s}
+@keyframes vpop{40%{transform:scale(1.18)}}
+.vb i{font-style:normal}.votes.sm{display:flex;flex-wrap:nowrap;justify-content:flex-end;margin:-2px 4px 6px 0;gap:6px}.votes.sm .vb{padding:2px 9px;font-size:11px}.votes.sm .vb b{font-size:12px}.votes.sm .vb i{display:none}
+.setl li{flex-wrap:wrap}
+.vrank{margin:14px 0 10px;padding:12px 14px;border-radius:14px;background:rgba(18,20,30,.6);border:1px solid rgba(200,165,90,.4);max-width:420px}
+.vrank .vrt{margin:0 0 6px;font-weight:900;color:#FFF3D6}.vrank .vrt small{font-weight:400;color:#B9BDC8;font-size:12px;margin-left:6px}
+.vrank ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:2px}
+.vrank button{all:unset;cursor:pointer;display:flex;justify-content:space-between;gap:10px;width:100%;padding:3px 0}
+.vrank button b{color:#EEF0F4}.vrank button small{color:#C8A55A;white-space:nowrap}.vrnone{margin:0;color:#B9BDC8;font-size:13px}
+#toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);opacity:0;z-index:200;background:#1A1B22;color:#FFF3D6;border:1px solid #C8A55A;padding:10px 18px;border-radius:999px;font-weight:700;font-size:14px;transition:opacity .25s,transform .25s;pointer-events:none}
+#toast.on{opacity:1;transform:translate(-50%,0)}
 </style>
 </head>
 <body>
@@ -880,10 +897,10 @@ function openBook(k){
   openMulti(`<button class="close" id="close" aria-label="關閉">×</button><div class="mhead"><span class="mcov">${bookCover(b,true)}</span><div><p class="eb2">${b.live&&b.pod?"說書直播＋Podcast":b.live?"說書直播":"說書 Podcast"}</p><h2 id="ptitle">《${esc(b.title)}》</h2>${b.author?`<p class="note">${esc(b.author)}</p>`:""}<p class="note">聊過 ${b.eps.length} 集，點下面任一集就在這裡播放</p></div></div>${(()=>{let it=b.eps.map(r=>(D.intros||{})[r.id]).find(Boolean),src="摘自 YouTube 影片說明欄";if(!it){it=b.eps.map(r=>(D.introsAlt||{})[r.id]).find(Boolean);src="整理自出版社與書店公開的書籍介紹"}return it?`<div class="bintro"><span class="bil">✦ ${src[0]==="摘"?"本集介紹":"這本書在說什麼"}</span><div class="bitx">${esc(it).replace(/\n/g,"<br>")}</div><button class="bimore" type="button">展開全文</button><small class="bisrc">${src}</small></div>`:""})()}${PHOLD}<div class="pbody">${b.eps.map(r=>`<div class="ep"><a class="eprow" ${tlink(r.id,"0")}>${th("v",r.id)}<span><small>${esc(r.date.replaceAll("-","."))}・${r.live?"說書直播":"Podcast"}・${esc(r.dur)}</small><b>${esc(r.title)}</b></span></a></div>${r.chapters.length?`<details class="setl epsetl"${b.eps.length===1?" open":""}><summary>⏱ 這集的時間軸 ${r.chapters.length} 段</summary><ol>${r.chapters.map(c=>`<li><a class="sl" ${tlink(r.id,c.t)}><time>${esc(c.t)}</time><span>${esc(c.x)}</span></a></li>`).join("")}</ol></details>`:""}`).join("")}</div>`);animSheet("book")}
 function openRecord(k,auto){
   const x=RECS.find(y=>y.k===k);if(!x)return;
-  openMulti(`<button class="close" id="close" aria-label="關閉">×</button><div class="mhead"><span class="mcov sq"><span class="mvinyl" aria-hidden="true"></span>${sleeve(x)}</span><div><p class="eb2">${esc(x.lang)}・唱過 ${x.n} 次</p><h2 id="ptitle">${esc(x.title)}</h2>${x.artist?`<p class="note">原唱：${esc(x.artist)}</p>`:""}<p class="note">點下面任一次，就從這首歌開始播</p></div></div>${PHOLD}<div class="pbody">${x.perf.map(p=>`<div class="ep"><a class="eprow" ${tlink(p.r.id,p.t)}>${th("v",p.r.id)}<span><small>${esc(p.r.date.replaceAll("-","."))}・從 ${esc(p.t)} 開始</small><b>${esc(p.r.title)}</b></span></a><button class="epch" data-open="${esc(p.r.id)}">整場歌單 →</button></div>`).join("")}</div>`);animSheet("rec");if(auto&&x.perf[0])play(x.perf[0].r.id,secs(x.perf[0].t))}
+  openMulti(`<button class="close" id="close" aria-label="關閉">×</button><div class="mhead"><span class="mcov sq"><span class="mvinyl" aria-hidden="true"></span>${sleeve(x)}</span><div><p class="eb2">${esc(x.lang)}・唱過 ${x.n} 次</p><h2 id="ptitle">${esc(x.title)}</h2>${x.artist?`<p class="note">原唱：${esc(x.artist)}</p>`:""}<p class="note">點下面任一次，就從這首歌開始播</p>${voteBtns(x.k)}</div></div>${PHOLD}<div class="pbody">${x.perf.map(p=>`<div class="ep"><a class="eprow" ${tlink(p.r.id,p.t)}>${th("v",p.r.id)}<span><small>${esc(p.r.date.replaceAll("-","."))}・從 ${esc(p.t)} 開始</small><b>${esc(p.r.title)}</b></span></a><button class="epch" data-open="${esc(p.r.id)}">整場歌單 →</button></div>`).join("")}</div>`);animSheet("rec");if(auto&&x.perf[0])play(x.perf[0].r.id,secs(x.perf[0].t))}
 
 function card(r){const b=cardBtn(r);if(!r.songs)return b;
-  return `<div class="cardw">${b}<details class="setl"${state.openSets?" open":""}><summary>♪ 這場唱了 ${r.songs.length} 首</summary><ol>${r.songs.map(s=>`<li><a class="sl" ${tlink(r.id,s.t)}><time>${esc(s.t)}</time><span>${hl(s.s,state.q)}${s.a?`<small>${hl(s.a,state.q)}</small>`:""}</span></a></li>`).join("")}</ol></details></div>`}
+  return `<div class="cardw">${b}<details class="setl"${state.openSets?" open":""}><summary>♪ 這場唱了 ${r.songs.length} 首</summary><ol>${r.songs.map(s=>`<li><a class="sl" ${tlink(r.id,s.t)}><time>${esc(s.t)}</time><span>${hl(s.s,state.q)}${s.a?`<small>${hl(s.a,state.q)}</small>`:""}</span></a>${voteBtns(recKey(s.s),1)}</li>`).join("")}</ol></details></div>`}
 function cardBtn(r){
   const hits=chapHits(r).length;
   const tag=r.cats.includes("member")?`<span class="badge mem">會員限定</span>`:`<span class="badge cat">${esc(CN[r.cats[0]])}</span>`;
@@ -1212,7 +1229,7 @@ function viewJukebox(){
   return `<div class="jbwrap">
     <div class="jukebox" id="jukebox" aria-live="polite">${jukeInner()}</div>
     <div class="jbside"><p class="eyebrow">Jukebox · 歌曲</p><h2>尼貝爾點唱機</h2><p class="sub">${base.length} 首歌、唱過 ${base.reduce((a,x)=>a+x.n,0)} 次。下面的唱片按語種分成好幾疊，左右滑動挑一張，點一張唱片會從封套裡抽出來，再按一次就放上唱盤播放</p>
-      <div class="jbjump">${stacks.map(([l,a])=>`<a href="#flow-${esc(l)}" data-flowjump="${esc(l)}">${esc(l)} <small>${a.length}</small></a>`).join("")}</div>
+      ${VOTE_URL?`<div class="vrank"><p class="vrt">🔥 觀眾點播榜 <small>即時更新</small></p><div id="voterank">${voteRank()}</div></div>`:""}<div class="jbjump">${stacks.map(([l,a])=>`<a href="#flow-${esc(l)}" data-flowjump="${esc(l)}">${esc(l)} <small>${a.length}</small></a>`).join("")}</div>
       <div class="ttwrap"><div class="bigtt" aria-hidden="true"><div class="btt3d"><div class="btop"><span class="bplat"></span><span class="bdisc" id="bdisc">${juke?`<span class="blabel">${sleeve(juke)}</span>`:""}</span><span class="bspindle"></span><span class="barm" id="barm"><i></i></span><span class="bknob k1"></span><span class="bknob k2"></span></div><div class="bfront"><span class="bled"></span><span class="bbrand">NIBEL ✦ HI-FI</span></div></div><div class="bshadow"></div></div><div class="mini" id="mini" hidden><div class="minibar"><span class="mtitle" id="mtitle"></span><button class="mbtn mexp" id="mexp" aria-label="打開這首歌的介紹頁" title="打開這首歌的介紹頁">↗</button><button class="mbtn" id="mmin" aria-label="縮小影片">–</button><button class="mbtn" id="mtoggle" aria-label="暫停">❚❚</button><button class="mbtn" id="mstop" aria-label="關閉">✕</button></div><div class="minivid"><div id="miniyt"></div></div></div></div></div></div>
     ${stacks.map(([l,a])=>l==="音樂劇"?flyersHTML(a):`<section class="stack" id="flow-${esc(l)}"><h3 class="sect">${esc(l)} <span>${a.length} 張</span></h3>
       <div class="flow" data-lang="${esc(l)}" tabindex="0" role="listbox" aria-label="${esc(l)}唱片，左右鍵切換，Enter 放進點唱機">
@@ -1221,6 +1238,29 @@ function viewJukebox(){
         <button class="fnav next" data-fnav="1" aria-label="下一張">›</button></div>
       <p class="cfcap" aria-live="polite"></p></section>`).join("")}
     ${base.length?"":`<p class="empty">唱片架上還沒有這首歌</p>`}`}
+/* ---------- 觀眾點播：安可／復仇（存在 Google 試算表，見 scripts/votes.gs） ---------- */
+const VOTE_URL="";   // 部署 Apps Script 後，把網址貼在這裡
+const VOTE_GAP=12*3600*1000;  // 同一首歌、同一個按鍵，12 小時內只算一次
+let VOTES={};
+const recKey=raw=>{let k=songKey(String(raw).trim());if(SONG_ALIAS[k])k=songKey(SONG_ALIAS[k][0]);return k};
+function voteBtns(k,small){if(!VOTE_URL||!k)return"";const v=VOTES[k]||[0,0];
+  return `<span class="votes${small?" sm":""}" data-vk="${esc(k)}"><button type="button" class="vb enc" data-vote="e" title="想再聽一次（安可）">👏 <i>安可</i> <b>${v[0]}</b></button><button type="button" class="vb rev" data-vote="r" title="上次沒唱好，想看再挑戰（復仇）">⚔️ <i>復仇</i> <b>${v[1]}</b></button></span>`}
+function paintVotes(){document.querySelectorAll(".votes[data-vk]").forEach(el=>{const v=VOTES[el.dataset.vk]||[0,0];const b=el.querySelectorAll("b");if(b[0])b[0].textContent=v[0];if(b[1])b[1].textContent=v[1]});
+  const r=document.getElementById("voterank");if(r)r.innerHTML=voteRank()}
+function voteRank(){const top=Object.entries(VOTES).map(([k,v])=>[k,v[0]+v[1],v]).filter(e=>e[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  if(!top.length)return `<p class="vrnone">還沒有人點播，搶頭香吧！</p>`;
+  return `<ol>${top.map(([k,n,v])=>{const x=RECS.find(y=>y.k===k);return `<li><button type="button" data-rec="${esc(k)}"><b>${esc(x?x.title:k)}</b><small>👏 ${v[0]}　⚔️ ${v[1]}</small></button></li>`}).join("")}</ol>`}
+async function loadVotes(){if(!VOTE_URL)return;try{const r=await fetch(VOTE_URL);VOTES=await r.json()||{};paintVotes()}catch(e){}}
+function sendVote(k,t,btn){let last=0;try{last=+localStorage.getItem(`vote:${k}:${t}`)||0}catch(e){}
+  if(Date.now()-last<VOTE_GAP){toast(t==="e"?"已經幫這首喊過安可囉，12 小時後可以再投":"已經幫這首喊過復仇囉，12 小時後可以再投");return}
+  try{localStorage.setItem(`vote:${k}:${t}`,String(Date.now()))}catch(e){}
+  const v=VOTES[k]=VOTES[k]||[0,0];v[t==="e"?0:1]++;paintVotes();btn.classList.add("pop");setTimeout(()=>btn.classList.remove("pop"),500);
+  toast(t==="e"?"👏 收到你的安可！":"⚔️ 收到你的復仇挑戰！");
+  fetch(VOTE_URL,{method:"POST",body:JSON.stringify({k,t})}).then(r=>r.json()).then(o=>{if(o&&typeof o==="object"&&!o.error){VOTES=o;paintVotes()}}).catch(()=>{})}
+function toast(m){let t=document.getElementById("toast");if(!t){t=document.createElement("div");t.id="toast";document.body.appendChild(t)}t.textContent=m;t.classList.add("on");clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove("on"),2200)}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-vote]");if(!b)return;e.preventDefault();e.stopPropagation();const w=b.closest("[data-vk]");if(w)sendVote(w.dataset.vk,b.dataset.vote,b)},true);
+if(VOTE_URL){loadVotes();setInterval(()=>{if(!document.hidden&&(state.sec==="songs"||state.sec==="live"))loadVotes()},30000)}
+
 /* 音樂劇：一部劇一張傳單 */
 const SHOW_INTRO={
  "向左走向右走":"改編自幾米繪本，人力飛行劇團製作、2008 年首演。比鄰而居的兩個人，一個出門總往左、一個總往右，在寂寞城市裡一再錯過的愛情童話。",
@@ -1251,7 +1291,7 @@ function jukeInner(){const x=juke;if(!x)return `<div class="jbdeck"><p class="no
    <div class="jbdeck">
      <span class="jbsleeve">${sleeve(x)}</span>
    </div>
-   <div class="jbinfo"><span class="jblang">${esc(x.lang)}・唱過 ${x.n} 次</span><b>${esc(x.title)}</b>${x.artist?`<small>${esc(x.artist)}</small>`:""}</div>
+   <div class="jbinfo"><span class="jblang">${esc(x.lang)}・唱過 ${x.n} 次</span><b>${esc(x.title)}</b>${x.artist?`<small>${esc(x.artist)}</small>`:""}</div>${voteBtns(x.k)}
    <div class="jbperf"><span class="jbpl">🎧 選一次來聽${x.n>1?`（共 ${x.n} 次）`:""}</span><div class="jbpchips">${x.perf.map((p,i)=>`<button class="jbpc${i===0?" on":""}" data-jperf="${esc(x.k)}|${i}"><b>${esc(p.r.date.slice(2).replaceAll("-","."))}${i===0&&x.n>1?"<em>最新</em>":""}</b><small>▶ ${esc(p.t)}</small></button>`).join("")}</div></div>
    <button class="jbmore big" data-rec="${esc(x.k)}">📖 看這首歌的完整介紹與每次演唱 <span>→</span></button>
 `}
