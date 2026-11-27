@@ -566,6 +566,9 @@ button.cd.cur{background:#B3261E;color:#fff;box-shadow:0 0 0 2px #fff}button.cd.
 .mini{z-index:4;transition:opacity .2s}
 .mini.float{position:fixed;right:16px;bottom:16px;top:auto;width:min(340px,80vw);z-index:25;box-shadow:0 20px 50px rgba(0,0,0,.7)}
 button.cd,.cd{text-shadow:none}button.cd{box-shadow:none;border:1px solid #d6ccb4}
+.cf.peek .cfdisc{transform:translateY(-58%) rotate(40deg);box-shadow:0 0 0 2px #C8A55A,0 8px 20px rgba(0,0,0,.7)}
+.cf.peek::after{content:"▶ 再按一次播放";position:absolute;left:0;right:0;width:max-content;margin:0 auto;top:calc(100% + 14px);z-index:5;white-space:nowrap;background:#F2A7B5;color:#3A1520;font-weight:900;font-size:14px;padding:6px 14px;border-radius:999px;box-shadow:0 4px 0 #b06f7d;animation:nudge 1.6s ease-in-out infinite}
+.flow{height:400px}.cf{top:86px}
 </style>
 </head>
 <body>
@@ -1126,7 +1129,7 @@ function viewJukebox(){
   const srt=(a,b)=>b.n-a.n||b.last.localeCompare(a.last);const stacks=["日文","音樂劇","中文","台語","英文","粵語","韓文","其他"].map(l=>[l,(l==="音樂劇"?base.filter(isMus):base.filter(x=>!isMus(x)&&x.langs.includes(l))).sort(srt)]).filter(s=>s[1].length);
   return `<div class="jbwrap">
     <div class="jukebox" id="jukebox" aria-live="polite">${jukeInner()}</div>
-    <div class="jbside"><p class="eyebrow">Jukebox · 歌曲</p><h2>尼貝爾點唱機</h2><p class="sub">${base.length} 首歌、唱過 ${base.reduce((a,x)=>a+x.n,0)} 次。下面的唱片按語種分成好幾疊，左右滑動挑一張，點一張唱片，就會把它從封套抽出來、放上唱盤直接播放</p>
+    <div class="jbside"><p class="eyebrow">Jukebox · 歌曲</p><h2>尼貝爾點唱機</h2><p class="sub">${base.length} 首歌、唱過 ${base.reduce((a,x)=>a+x.n,0)} 次。下面的唱片按語種分成好幾疊，左右滑動挑一張，點一張唱片會從封套裡抽出來，再按一次就放上唱盤播放</p>
       <div class="jbjump">${stacks.map(([l,a])=>`<a href="#flow-${esc(l)}" data-flowjump="${esc(l)}">${esc(l)} <small>${a.length}</small></a>`).join("")}</div>
       <div class="ttwrap"><div class="bigtt" aria-hidden="true"><div class="btt3d"><div class="btop"><span class="bplat"></span><span class="bdisc" id="bdisc">${juke?`<span class="blabel">${sleeve(juke)}</span>`:""}</span><span class="bspindle"></span><span class="barm" id="barm"><i></i></span><span class="bknob k1"></span><span class="bknob k2"></span></div><div class="bfront"><span class="bled"></span><span class="bbrand">NIBEL ✦ HI-FI</span></div></div><div class="bshadow"></div></div><div class="mini" id="mini" hidden><div class="minibar"><span class="mtitle" id="mtitle"></span><button class="mbtn" id="mmin" aria-label="縮小影片">–</button><button class="mbtn" id="mtoggle" aria-label="暫停">❚❚</button><button class="mbtn" id="mstop" aria-label="關閉">✕</button></div><div class="minivid"><div id="miniyt"></div></div></div></div></div></div>
     ${stacks.map(([l,a])=>`<section class="stack" id="flow-${esc(l)}"><h3 class="sect">${esc(l)} <span>${a.length} 張</span></h3>
@@ -1150,7 +1153,7 @@ function setJuke(k,fromEl){const x=RECS.find(y=>y.k===k);if(!x)return;juke=x;con
     if(G()){const sl=jb.querySelector(".jbsleeve");const tl=gsap.timeline();tl.from(sl,{y:-30,autoAlpha:0,duration:.35,ease:"power2.out"});
       if(bd)tl.fromTo(bd,{y:-140,x:-120,autoAlpha:0},{y:0,x:0,autoAlpha:1,duration:.8,ease:"power3.out"},"<.15");
       if(arm)tl.fromTo(arm,{rotation:-30},{rotation:0,duration:.6,ease:"back.out(1.4)"},"-=.25");}};
-  if(innerWidth<900||jb.getBoundingClientRect().top<-200)jb.scrollIntoView({behavior:"smooth",block:"center"});
+  
   if(fromEl&&G()){fromEl.classList.add("pull");setTimeout(()=>{fromEl.classList.remove("pull");go()},620)}else go()}
 
 /* 唱盤下的小播放器：留在這頁背景播放 */
@@ -1169,6 +1172,12 @@ function miniStop(){if(mini){try{mini.destroy()}catch(e){}}mini=null;miniVid=nul
 let ttObs=null;function watchTT(){ttObs?.disconnect();const w=document.querySelector(".ttwrap"),m=document.getElementById("mini");if(!w||!m||!("IntersectionObserver" in window))return;
   const top=(document.querySelector(".controls")?.offsetHeight||0);
   ttObs=new IntersectionObserver(([en])=>m.classList.toggle("float",!en.isIntersecting||en.intersectionRatio<.6),{threshold:[0,.6,1],rootMargin:`-${top}px 0px 0px 0px`});ttObs.observe(w)}
+function pickCf(el,go){
+  if(!el.classList.contains("peek")){document.querySelectorAll(".cf.peek").forEach(c=>c.classList.remove("peek"));go(+el.dataset.i);el.classList.add("peek");return}
+  el.classList.remove("peek");const x=RECS.find(y=>y.k===el.dataset.cf);if(!x)return;
+  miniPlay(x);setJuke(x.k,el);
+  const w=document.querySelector(".jbwrap");if(w)scrollTo({top:w.getBoundingClientRect().top+scrollY-(document.querySelector(".controls")?.offsetHeight||0)-20,behavior:"smooth"});
+  setTimeout(()=>document.querySelector(".jbpc")?.classList.add("on"),900)}
 function initFlows(){watchTT();
   document.querySelectorAll(".flow").forEach(f=>{
     const lang=f.dataset.lang,items=[...f.querySelectorAll(".cf")],cap=f.parentElement.querySelector(".cfcap");
@@ -1178,16 +1187,16 @@ function initFlows(){watchTT();
         const x=o===0?0:s*(w*.72+(a-1)*w*.26);
         el.style.transform=`translateX(calc(-50% + ${x}px)) translateZ(${o===0?60:-120}px) rotateY(${o===0?0:-s*68}deg)`;
         el.style.zIndex=String(200-a);el.style.opacity=a>9?"0":"1";el.style.pointerEvents=a>9?"none":"";
-        el.classList.toggle("mid",o===0);el.setAttribute("aria-selected",String(o===0))});
+        el.classList.toggle("mid",o===0);if(o!==0)el.classList.remove("peek");el.setAttribute("aria-selected",String(o===0))});
       const x=RECS.find(y=>y.k===items[idx]?.dataset.cf);if(cap&&x)cap.innerHTML=`<b>${esc(x.title)}</b><small>${idx+1} / ${items.length}</small>`;flowIdx[lang]=idx};
     const go=n=>{idx=Math.max(0,Math.min(items.length-1,n));lay()};
     f._go=go;f._idx=()=>idx;lay();
-    f.addEventListener("keydown",e=>{if(e.key==="ArrowRight"){e.preventDefault();go(idx+1)}else if(e.key==="ArrowLeft"){e.preventDefault();go(idx-1)}else if(e.key==="Enter"){e.preventDefault();setJuke(items[idx].dataset.cf,items[idx]);const x=RECS.find(y=>y.k===items[idx].dataset.cf);if(x)miniPlay(x)}});
+    f.addEventListener("keydown",e=>{if(e.key==="ArrowRight"){e.preventDefault();go(idx+1)}else if(e.key==="ArrowLeft"){e.preventDefault();go(idx-1)}else if(e.key==="Enter"){e.preventDefault();pickCf(items[idx],go)}});
     let acc=0,wt=0;f.addEventListener("wheel",e=>{const d=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:(e.shiftKey?e.deltaY:0);if(!d)return;e.preventDefault();acc+=d;if(Math.abs(acc)>40){go(idx+Math.sign(acc));acc=0}},{passive:false});
     let sx=null,si=0,moved=false;f.addEventListener("dragstart",e=>e.preventDefault());
     f.addEventListener("pointerdown",e=>{if(e.target.closest(".fnav"))return;sx=e.clientX;si=idx;moved=false;try{f.setPointerCapture(e.pointerId)}catch(_){}});
     f.addEventListener("pointermove",e=>{if(sx===null)return;const d=e.clientX-sx;if(Math.abs(d)>8)moved=true;const n=si-Math.round(d/60);if(n!==idx)go(n)});
-    const up=e=>{if(sx!==null&&!moved&&e&&e.type==="pointerup"){const el=document.elementsFromPoint(e.clientX,e.clientY).find(n=>n.classList&&n.classList.contains("cf"));if(el){moved=true;go(+el.dataset.i);const x=RECS.find(y=>y.k===el.dataset.cf);setJuke(el.dataset.cf,el);if(x)miniPlay(x)}}sx=null};f.addEventListener("pointerup",up);f.addEventListener("pointerleave",up);f.addEventListener("pointercancel",up);
+    const up=e=>{if(sx!==null&&!moved&&e&&e.type==="pointerup"){const el=document.elementsFromPoint(e.clientX,e.clientY).find(n=>n.classList&&n.classList.contains("cf"));if(el){moved=true;pickCf(el,go)}}sx=null};f.addEventListener("pointerup",up);f.addEventListener("pointerleave",up);f.addEventListener("pointercancel",up);
     f.addEventListener("click",e=>{if(moved){e.stopPropagation();e.preventDefault();moved=false}},true);
   });
 }
