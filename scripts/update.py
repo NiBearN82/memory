@@ -5,6 +5,7 @@
 沒有金鑰時不會改動任何資料，網站維持原樣。
 """
 import datetime as dt
+import time
 import json
 import os
 import re
@@ -110,7 +111,11 @@ def google_cover(title, author):
     want = key[: min(len(key), 6)]
     queries = [f"intitle:{title}" + (f" inauthor:{author}" if author else ""), f"intitle:{title}", title]
     for q in queries:
-        url = "https://www.googleapis.com/books/v1/volumes?" + urllib.parse.urlencode({"q": q, "maxResults": 10, "printType": "books"})
+        params = {"q": q, "maxResults": 10, "printType": "books"}
+        if KEY:
+            params["key"] = KEY  # 同一把金鑰，需在 Google Cloud 另外啟用 Books API
+        url = "https://www.googleapis.com/books/v1/volumes?" + urllib.parse.urlencode(params)
+        time.sleep(0.4)
         try:
             with urllib.request.urlopen(url, timeout=20) as r:
                 res = json.loads(r.read().decode("utf-8"))
