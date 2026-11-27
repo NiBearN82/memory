@@ -273,7 +273,7 @@ body[data-sec="home"] footer.band{margin-top:0}
 .door::after{content:"";position:absolute;left:18px;right:18px;top:12px;height:6px;border-radius:9px;background:var(--c);opacity:.85}
 .door:hover,.door:focus-visible{transform:translateY(-8px) rotate(-1.5deg);box-shadow:0 14px 0 #B8763A,0 26px 50px -12px rgba(0,0,0,.6);outline:none}
 .door:nth-child(even):hover{transform:translateY(-8px) rotate(1.5deg)}
-.dhani{position:absolute;z-index:2;top:-38px;left:50%;width:118px;height:118px;object-fit:contain;transform:translateX(-50%);filter:drop-shadow(0 8px 10px rgba(0,0,0,.35));animation:bob 3.2s ease-in-out infinite;animation-delay:calc(var(--i)*-.8s)}
+.dhani{position:absolute;top:-38px;left:50%;width:118px;height:118px;object-fit:contain;transform:translateX(-50%);filter:drop-shadow(0 8px 10px rgba(0,0,0,.35));animation:bob 3.2s ease-in-out infinite;animation-delay:calc(var(--i)*-.8s)}
 .door:hover .dhani{animation-duration:.9s}
 @keyframes bob{0%,100%{transform:translate(-50%,0) rotate(-3deg)}50%{transform:translate(-50%,-10px) rotate(3deg)}}
 .drip{position:absolute;left:0;right:0;top:-3px;height:26px;pointer-events:none;background:radial-gradient(14px 18px at 14% 0,#E9B872 98%,transparent) ,radial-gradient(10px 22px at 38% 0,#E9B872 98%,transparent),radial-gradient(12px 14px at 66% 0,#E9B872 98%,transparent),radial-gradient(9px 20px at 86% 0,#E9B872 98%,transparent);opacity:.9;border-radius:30px 30px 0 0}
@@ -294,26 +294,35 @@ body[data-sec="home"] footer.band{margin-top:0}
 .standhead{display:flex;gap:20px;align-items:center;padding:30px 26px 22px}
 .standhead h2,.libhead h2,.jbside h2{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(26px,3.4vw,38px);margin:2px 0 6px}
 .shani,.lhani{width:96px;height:96px;object-fit:contain;flex:none;animation:drift 6s ease-in-out infinite}
-.papers{position:relative;padding:10px 0 40vh;max-width:920px;margin:0 auto}
-.paper{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:12px;position:sticky;top:calc(var(--ctrl,72px) + 14px + var(--i)*5px);margin:0 auto 34px;width:100%;min-height:330px;padding:22px 26px 18px;background:#F4EEDF;color:#1F1B16;border-radius:4px;box-shadow:0 1px 0 #d8ceb8,0 24px 50px -18px rgba(0,0,0,.75),0 2px 0 rgba(0,0,0,.08) inset;transform:rotate(var(--r));transition:transform .25s,box-shadow .25s;background-image:linear-gradient(90deg,transparent 49.6%,rgba(0,0,0,.05) 50%,transparent 50.4%),repeating-linear-gradient(0deg,rgba(0,0,0,.015) 0 2px,transparent 2px 4px)}
-.paper:hover,.paper:focus-visible{transform:rotate(0) translateY(-6px);box-shadow:0 30px 60px -18px rgba(0,0,0,.85),0 0 0 3px #E9B872;outline:none}
-.mast{display:flex;flex-direction:column;align-items:center;border-bottom:3px double #1F1B16;padding-bottom:8px}
-.mast b{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(28px,4vw,44px);letter-spacing:.12em;line-height:1.1}
-.mast small{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:600;font-size:15px;color:#5a5245;margin-top:2px}
-.pbody2{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:20px;align-items:start}
-.pmain{display:flex;flex-direction:column;gap:8px;min-width:0}
-.kick{align-self:flex-start;background:#B3261E;color:#fff;font-weight:900;font-size:13px;padding:2px 10px}
-.headl{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(22px,3vw,32px);line-height:1.3}
-.headl mark{background:#F2D46B;color:inherit}
-.subs{display:flex;flex-direction:column;border-top:1px solid #1F1B16;margin-top:4px}
-.subs i{font-style:normal;font-size:15px;line-height:1.45;padding:6px 0;border-bottom:1px dotted #8f8574;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.subs i::before{content:"■ ";font-size:10px;color:#B3261E}
-.pphoto{display:block;aspect-ratio:16/9;overflow:hidden;border:1px solid #1F1B16;background:#ccc}
-.pphoto .th{width:100%;height:100%;object-fit:cover;filter:grayscale(.85) contrast(1.1) sepia(.25)}
+.papers{position:relative;padding:10px 0 30vh;max-width:980px;margin:0 auto}
+.paper{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;position:sticky;top:calc(var(--ctrl,72px) + 12px + var(--s)*6px);margin:0 auto 46px;width:100%;padding:14px 26px 14px;background:#F2ECDC;color:#1F1B16;border-radius:2px;transform:rotate(var(--r));transition:transform .25s,box-shadow .25s;
+  box-shadow:0 26px 50px -18px rgba(0,0,0,.8);
+  background-image:linear-gradient(180deg,rgba(0,0,0,0) 48%,rgba(0,0,0,.07) 50%,rgba(255,255,255,.25) 50.6%,rgba(0,0,0,0) 54%),repeating-linear-gradient(0deg,rgba(0,0,0,.018) 0 2px,transparent 2px 4px)}
+.pedge{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.pedge::before,.pedge::after{content:"";position:absolute;inset:0;background:#E7E0CD;border-radius:2px;box-shadow:0 6px 14px rgba(0,0,0,.35)}
+.pedge::before{transform:translate(7px,7px) rotate(.8deg)}.pedge::after{transform:translate(-6px,12px) rotate(-1.1deg);background:#DED6C1}
+.paper:hover,.paper:focus-visible{transform:rotate(0) translateY(-6px);box-shadow:0 34px 60px -18px rgba(0,0,0,.9),0 0 0 3px #E9B872;outline:none}
+.ptop{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:#5a5245;border-bottom:1px solid #1F1B16;padding-bottom:5px;flex-wrap:wrap}
+.mast{display:flex;align-items:center;justify-content:center;gap:12px;border-bottom:4px double #1F1B16;padding:6px 0 8px}
+.mast img{width:44px;height:44px;object-fit:contain}
+.mast b{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(30px,4.4vw,52px);letter-spacing:.14em;line-height:1.05}
+.mast small{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:600;font-size:16px;color:#5a5245;align-self:flex-end;padding-bottom:6px}
+.kick{align-self:flex-start;background:#B3261E;color:#fff;font-weight:900;font-size:13px;padding:2px 10px;margin-top:10px}
+.headl{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(24px,3.4vw,38px);line-height:1.25;margin:6px 0 4px;border-bottom:1px solid #1F1B16;padding-bottom:8px}
+.headl mark,.pi mark{background:#F2D46B;color:inherit}
+.ptags{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 8px}
+.ptags i{font-style:normal;font-size:13px;font-weight:700;border:1px solid #1F1B16;padding:1px 8px}
+.pcols{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,2fr);gap:18px;align-items:start;margin-top:6px}
+.pphoto{display:flex;flex-direction:column;gap:4px}
+.pphoto .th{width:100%;aspect-ratio:16/9;object-fit:cover;border:1px solid #1F1B16;filter:grayscale(.85) contrast(1.1) sepia(.25)}
+.pphoto small{font-size:12px;color:#5a5245;font-style:italic}
 .paper:hover .pphoto .th{filter:none}
-.pfoot{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:#5a5245;border-top:1px solid #1F1B16;padding-top:8px;margin-top:auto}
+.pidx{columns:2;column-gap:18px;column-rule:1px solid #b9b09b;font-size:13px;line-height:1.45;max-height:310px;overflow:hidden;-webkit-mask:linear-gradient(#000 85%,transparent);mask:linear-gradient(#000 85%,transparent)}
+.pi{display:block;break-inside:avoid;padding:3px 0;border-bottom:1px dotted #b9b09b;text-align:justify}
+.pi time{font-family:"Cormorant Garamond",serif;font-weight:700;font-style:italic;color:#B3261E;margin-right:5px}
+.pfoot{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:#5a5245;border-top:1px solid #1F1B16;padding-top:7px;margin-top:10px}
 .pcta{font-weight:900;color:#1F1B16}
-@media(max-width:700px){.pbody2{grid-template-columns:1fr}.pphoto{order:-1}.paper{padding:16px 16px 14px;min-height:0}.standhead{padding:24px 16px 18px}.shani,.lhani{width:70px;height:70px}}
+@media(max-width:700px){.pcols{grid-template-columns:1fr}.pidx{columns:1;max-height:220px}.paper{padding:12px 14px}.standhead{padding:24px 16px 18px}.shani,.lhani{width:70px;height:70px}.mast img{width:32px;height:32px}.ptop span:last-child{display:none}}
 
 /* ===== 書櫃間 ===== */
 .libhead{display:flex;gap:20px;align-items:center;margin:6px 0 26px}
@@ -328,7 +337,7 @@ body[data-sec="home"] footer.band{margin-top:0}
 .spine{flex:1;max-width:58px;height:var(--h);border-radius:2px;overflow:hidden;box-shadow:2px 0 4px rgba(0,0,0,.6)}
 .spine .bimg,.spine .gcover{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
 .spine .gband,.spine .gstar{display:none}
-.cablabel{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;background:#FFF3D6;margin:14px -14px 0;padding:14px 18px;border-radius:0 0 12px 12px;border-top:3px solid #5E3A1C}
+.cabbody{flex:1}.cablabel{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;background:#FFF3D6;margin:14px -14px 0;padding:14px 18px;border-radius:0 0 12px 12px;border-top:3px solid #5E3A1C}
 .cablabel b{font-family:"Noto Serif TC",serif;font-weight:900;font-size:21px}
 .cablabel small{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:15px;color:#8A5A24}
 .cablabel em{margin-left:auto;font-style:normal;font-weight:900;font-size:13px;background:#3B2A12;color:#FFF3D6;padding:3px 10px;border-radius:999px}
@@ -338,18 +347,27 @@ body[data-sec="home"] footer.band{margin-top:0}
 .bcov .bimg,.mcov .bimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center}
 
 /* ===== 點唱機 ===== */
-.jbwrap{display:grid;grid-template-columns:minmax(280px,380px) minmax(0,1fr);gap:40px;align-items:center;margin:10px 0 40px}
-.jukebox{position:relative;border-radius:190px 190px 26px 26px;padding:120px 26px 30px;background:radial-gradient(120% 80% at 50% 0,#3A2C5A,#1E2A4F 60%,#151a2e);border:6px solid #C8A55A;box-shadow:0 0 0 6px #6B4B1F,0 0 50px rgba(242,167,181,.35),0 30px 60px -20px rgba(0,0,0,.9);display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
-.jbarch{position:absolute;inset:14px 14px auto;height:150px;border-radius:170px 170px 0 0;border:5px solid transparent;background:linear-gradient(#0000,#0000) padding-box,conic-gradient(from 180deg,#F2A7B5,#E9B872,#51A8DD,#B9A3F2,#F2A7B5) border-box;animation:glow 4s linear infinite;-webkit-mask:linear-gradient(#000 0 0) padding-box exclude,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) padding-box exclude,linear-gradient(#000 0 0)}
-.jbhani{position:absolute;top:-64px;left:50%;width:96px;transform:translateX(-50%);animation:bob 2.6s ease-in-out infinite;-webkit-mask:none;mask:none}
+.jbwrap{display:grid;grid-template-columns:minmax(320px,520px) minmax(0,1fr);gap:40px;align-items:center;margin:60px 0 40px}
+.jukebox{position:relative;border-radius:260px 260px 26px 26px;padding:90px 26px 28px;background:radial-gradient(120% 80% at 50% 0,#3A2C5A,#1E2A4F 60%,#151a2e);border:6px solid #C8A55A;box-shadow:0 0 0 6px #6B4B1F,0 0 50px rgba(242,167,181,.35),0 30px 60px -20px rgba(0,0,0,.9);display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.jbarch{position:absolute;inset:14px 14px auto;height:200px;border-radius:240px 240px 0 0;border:5px solid transparent;border-bottom:0;background:conic-gradient(from 180deg,#F2A7B5,#E9B872,#51A8DD,#B9A3F2,#F2A7B5) border-box;animation:glow 4s linear infinite;-webkit-mask:linear-gradient(#000 0 0) padding-box exclude,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) padding-box exclude,linear-gradient(#000 0 0);pointer-events:none}
+.jbhani{position:absolute;top:-62px;left:50%;width:100px;transform:translateX(-50%);animation:bob 2.6s ease-in-out infinite;z-index:3}
 @keyframes glow{to{filter:hue-rotate(360deg)}}
-.jbscreen{position:relative;width:210px;height:210px;margin-top:-30px}
-.jbdisc{position:absolute;top:10px;left:60px;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,#C8A55A 0 10%,#111 11% 13%,transparent 14%),repeating-radial-gradient(circle,#0f0f13 0 2px,#22232b 2px 4px);box-shadow:0 10px 24px rgba(0,0,0,.6);animation:spin 4s linear infinite}
+.jbdeck{position:relative;display:flex;align-items:center;justify-content:center;gap:18px;width:100%;min-height:210px}
+.jbsleeve{position:relative;z-index:2;flex:none;width:180px;height:180px;border-radius:4px;overflow:hidden;box-shadow:0 14px 30px rgba(0,0,0,.7)}
+.jbsleeve .sleeve{position:absolute;inset:0}
+.jbtt{position:relative;flex:none;width:220px;height:200px;border-radius:14px;background:linear-gradient(145deg,#5a3a20,#3a2412);box-shadow:inset 0 2px 0 rgba(255,255,255,.15),0 10px 24px rgba(0,0,0,.6)}
+.ttplat{position:absolute;left:14px;top:14px;width:172px;height:172px;border-radius:50%;background:#1a1a1e;box-shadow:inset 0 0 0 4px #2b2b30}
+.ttdisc{position:absolute;left:18px;top:18px;width:164px;height:164px;border-radius:50%;background:radial-gradient(circle,transparent 0 31%,rgba(0,0,0,.0) 31%),repeating-radial-gradient(circle,#0f0f13 0 2px,#22232b 2px 4px);box-shadow:0 4px 12px rgba(0,0,0,.6);animation:spin 3.2s linear infinite;display:flex;align-items:center;justify-content:center}
+.ttdisc::after{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 30deg,transparent 0 12%,rgba(255,255,255,.14) 16%,transparent 22% 62%,rgba(255,255,255,.1) 66%,transparent 72%)}
+.ttlabel{position:relative;width:56px;height:56px;border-radius:50%;overflow:hidden;box-shadow:0 0 0 2px #C8A55A}
+.ttlabel .sleeve{position:absolute;inset:0}.ttlabel .sleeve *{font-size:0!important}
+.ttlabel::after{content:"";position:absolute;left:50%;top:50%;width:7px;height:7px;margin:-3.5px;border-radius:50%;background:#ddd}
+.ttarm{position:absolute;right:12px;top:10px;width:14px;height:100px;transform-origin:7px 7px}
+.ttarm::before{content:"";position:absolute;left:0;top:0;width:14px;height:14px;border-radius:50%;background:#C8A55A;box-shadow:0 0 0 3px #6B4B1F}
+.ttarm::after{content:"";position:absolute;left:5px;top:8px;width:4px;height:96px;background:linear-gradient(#ddd,#999);transform:rotate(22deg);transform-origin:top;border-radius:3px}
 @keyframes spin{to{transform:rotate(360deg)}}
-.jbcover{position:absolute;inset:0;border-radius:6px;overflow:hidden;box-shadow:0 14px 30px rgba(0,0,0,.7)}
-.jbcover .sleeve{position:absolute;inset:0}
-.jbinfo{display:flex;flex-direction:column;gap:2px;color:#EEF0F4;margin-top:6px}
-.jbinfo b{font-family:"Noto Serif TC",serif;font-size:24px;line-height:1.3}
+.jbinfo{display:flex;flex-direction:column;gap:2px;color:#EEF0F4;margin-top:2px}
+.jbinfo b{font-family:"Noto Serif TC",serif;font-size:26px;line-height:1.3}
 .jbinfo small{color:#B9BDC8;font-size:15px}
 .jblang{font-size:13px;color:#F2A7B5;font-weight:700}
 .jbbtns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
@@ -357,23 +375,50 @@ body[data-sec="home"] footer.band{margin-top:0}
 .jbplay{background:#F2A7B5;color:#3A1520;box-shadow:0 4px 0 #b06f7d}
 .jbplay:active{transform:translateY(3px);box-shadow:0 1px 0 #b06f7d}
 .jbmore{background:rgba(255,255,255,.1);color:#EEF0F4;border:1px solid rgba(255,255,255,.25)}
-.jbgrill{display:block;width:80%;height:46px;margin-top:6px;border-radius:12px;background:repeating-linear-gradient(90deg,#C8A55A 0 3px,transparent 3px 12px),#2a2140;opacity:.75}
+.jbgrill{display:block;width:80%;height:40px;margin-top:4px;border-radius:12px;background:repeating-linear-gradient(90deg,#C8A55A 0 3px,transparent 3px 12px),#2a2140;opacity:.75}
 .jbjump{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .jbjump a{padding:7px 14px;border-radius:999px;background:#FFF3D6;color:#3B2A12;text-decoration:none;font-weight:900}
 .jbjump a small{color:#8A5A24}
-.stack{margin:10px 0 30px}
-.flow{overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;perspective:900px;padding:30px 0 50px;scrollbar-width:thin;outline:none}
-.flow:focus-visible{box-shadow:0 0 0 2px #51A8DD;border-radius:12px}
-.flowin{display:flex;align-items:center;padding:0 calc(50% - 85px);transform-style:preserve-3d}
-.cf{all:unset;flex:none;position:relative;width:170px;height:170px;margin:0 -34px;scroll-snap-align:center;cursor:pointer;transform-style:preserve-3d;transition:transform .25s ease-out;-webkit-box-reflect:below 6px linear-gradient(transparent 62%,rgba(255,255,255,.22))}
+.stack{margin:10px 0 40px}
+.flow{position:relative;height:330px;perspective:1100px;overflow:hidden;outline:none;touch-action:pan-y;user-select:none;background:radial-gradient(60% 70% at 50% 40%,rgba(81,168,221,.08),transparent);border-radius:16px}
+.flow:focus-visible{box-shadow:0 0 0 2px #51A8DD}
+.flowin{position:absolute;inset:0;transform-style:preserve-3d}
+.cf{all:unset;position:absolute;left:50%;top:34px;width:190px;height:190px;cursor:pointer;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .3s;-webkit-box-reflect:below 4px linear-gradient(transparent 66%,rgba(255,255,255,.25))}
 .cf .sleeve{position:absolute;inset:0;border-radius:3px;box-shadow:0 12px 26px rgba(0,0,0,.6)}
+.cf:not(.mid) .sleeve{filter:brightness(.72)}
 .cf.mid .sleeve{box-shadow:0 0 0 3px #F2A7B5,0 18px 36px rgba(0,0,0,.7)}
-.cf .rcount{position:absolute;top:-8px;right:-8px}
-.cfcap{text-align:center;min-height:1.6em;margin:-18px 0 0;color:#EEF0F4}
-.cfcap b{font-family:"Noto Serif TC",serif}
-@media(max-width:900px){.jbwrap{grid-template-columns:1fr;justify-items:center}.jbside{text-align:center}.jbjump{justify-content:center}.jukebox{width:min(360px,100%)}}
-@media(max-width:480px){.cf{width:130px;height:130px;margin:0 -26px}.flowin{padding:0 calc(50% - 65px)}}
-@media(prefers-reduced-motion:reduce){.dhani,.float,.jbdisc,.jbarch,.jbhani,.shani,.lhani,.cabtop img{animation:none}}
+.cf .rcount{position:absolute;top:-8px;right:-8px;z-index:3}
+.cfdisc{position:absolute;left:6%;top:6%;width:88%;height:88%;border-radius:50%;background:radial-gradient(circle,#C8A55A 0 9%,#111 10% 12%,transparent 13%),repeating-radial-gradient(circle,#0f0f13 0 2px,#23242c 2px 4px);transition:transform .55s cubic-bezier(.3,1.3,.5,1);box-shadow:0 6px 16px rgba(0,0,0,.6)}
+.cf.mid:hover .cfdisc{transform:translateY(-22%)}
+.cf.pull .cfdisc{transform:translateY(-95%) rotate(220deg)}
+.cf .sleeve{z-index:1}
+.fnav{position:absolute;top:50%;z-index:300;transform:translateY(-70%);width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,243,214,.92);color:#3B2A12;font-size:28px;line-height:1;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.5)}
+.fnav.prev{left:10px}.fnav.next{right:10px}
+.fnav:hover{background:#E9B872}
+.cfcap{text-align:center;margin:12px 0 0;color:#EEF0F4;display:flex;flex-direction:column;gap:2px;align-items:center}
+.cfcap b{font-family:"Noto Serif TC",serif;font-size:21px}
+.cfcap small{color:#B9BDC8;font-size:12px}
+@media(max-width:900px){.jbwrap{grid-template-columns:1fr;justify-items:center}.jbside{text-align:center}.jbjump{justify-content:center}.jukebox{width:min(520px,100%)}}
+@media(max-width:560px){.jbsleeve{width:130px;height:130px}.jbtt{width:150px;height:140px}.ttplat{width:118px;height:118px;left:10px;top:10px}.ttdisc{width:112px;height:112px;left:13px;top:13px}.ttlabel{width:40px;height:40px}.ttarm{height:92px}.ttarm::after{height:84px}.jbdeck{gap:10px;min-height:150px}.cf{width:140px;height:140px}.flow{height:260px}}
+
+/* ===== 開書特效 ===== */
+.bookfx{position:fixed;inset:0;z-index:90;pointer-events:none;background:rgba(10,12,20,0)}
+.bfx-book{position:fixed;perspective:1600px}
+.bfx-page{position:absolute;inset:0;background:#FBF6EA;border-radius:2px 6px 6px 2px;box-shadow:0 20px 50px rgba(0,0,0,.6),inset 8px 0 12px -6px rgba(0,0,0,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:18px;text-align:center;color:#3B2A12;background-image:repeating-linear-gradient(0deg,transparent 0 22px,rgba(139,90,36,.12) 22px 23px)}
+.bfx-page b{font-family:"Noto Serif TC",serif;font-size:20px;line-height:1.4}
+.bfx-page small{color:#8A5A24}.bfx-page em{font-style:normal;font-size:12px;background:#3B2A12;color:#FFF3D6;padding:2px 10px;border-radius:999px}
+.bfx-orn{color:#C8A55A;font-size:22px}
+.bfx-cover{position:absolute;inset:0;transform-origin:left center;transform-style:preserve-3d}
+.bfx-front,.bfx-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:2px 6px 6px 2px;overflow:hidden}
+.bfx-front .bimg,.bfx-front .gcover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.bfx-back{transform:rotateY(180deg);background:#E9DDC4}
+
+/* ===== 回入口按鈕 ===== */
+.homebtn{display:inline-flex;align-items:center;gap:6px;padding:5px 14px 5px 6px;border-radius:999px;background:#E9B872;color:#3B2A12;text-decoration:none;font-weight:900;font-size:15px;box-shadow:0 3px 0 #B8763A;transition:transform .2s}
+.homebtn img{width:30px;height:30px;object-fit:contain}
+.homebtn:hover{transform:translateY(-2px) rotate(-2deg)}
+.cattabs{margin:-6px 0 18px}
+@media(prefers-reduced-motion:reduce){.ttdisc,.dhani,.float,.jbdisc,.jbarch,.jbhani,.shani,.lhani,.cabtop img{animation:none}}
 
 </style>
 </head>
@@ -399,7 +444,7 @@ body[data-sec="home"] footer.band{margin-top:0}
 <div class="controls">
   <div class="wrap">
     <nav class="gnav" aria-label="館別">
-      <a class="brand" href="#" aria-label="回到入口"><img src="assets/hani/round.png" alt="">尼貝爾直播紀錄館</a>
+      <a class="homebtn" href="#" aria-label="回到入口"><img src="assets/hani/round.png" alt="">← 回入口</a><span class="brand">尼貝爾直播紀錄館</span>
       <span class="gsecs"><a class="gsec" href="#live" data-sec="live">直播</a><a class="gsec" href="#news" data-sec="news">新聞</a><a class="gsec" href="#books" data-sec="books">說書</a><a class="gsec" href="#songs" data-sec="songs">歌曲</a></span>
     </nav>
     <div class="search"><input id="q" type="text" enterkeyhint="search" placeholder="搜尋標題、時間軸、書名、歌名…" aria-label="搜尋直播紀錄" autocomplete="off"><button id="clr" type="button" aria-label="清除搜尋" hidden>×</button></div>
@@ -537,6 +582,8 @@ const PAT=[a=>`radial-gradient(circle at 72% 30%,${a} 0 14%,transparent 14.5% 26
  a=>`repeating-radial-gradient(circle at 100% 0,${a} 0 2px,transparent 2px 14px)`];
 const art=(key,o={})=>{const h=hash(key),[bg,fg,ac]=PAL[h%PAL.length],pt=PAT[(h>>>4)%PAT.length](ac+(o.soft?"55":"cc"));return {bg,fg,ac,style:`background:linear-gradient(to top,${bg} 0 16%,${bg}d9 34%,transparent 60%),${pt},${bg};color:${fg}`}};
 // 同一首歌不同譯名：合併成一張唱片（key 是 songKey 後的寫法 → [顯示歌名, 原唱]）
+const DESC=/版|現場|名場面|大考驗|混入|片段|清唱|翻車|敷衍|天線|反差|打架|灑狗血|愛自己|大笑|解凍|迪斯可|大亂唱|挑戰|荔枝|商業情|安可|合唱|潛水|雙語|洗腦|吃|輸血|演繹|特別|秀/;
+const cleanDesc=t=>String(t||"").replace(/（([^（）]*)）/g,(m,x)=>DESC.test(x)?"":m).replace(/\s+$/,"").trim();
 const SONG_ALIAS={"我只在乎你":["時の流れに身をまかせ","鄧麗君"],"sosweet":["Love so sweet","嵐"],"ghostcity":["幽霊東京","Ayase"],"幽靈東京":["幽霊東京","Ayase"],"幽灵东京":["幽霊東京","Ayase"],"藍雨":["Rainy Blue","德永英明 / 張學友《藍雨》"],"いつも何度でも":["命運的名字","千與千尋主題曲"],"亜麻色の髪の乙女":["亞麻色頭髮的少女","島谷瞳"],"世界の秘密":["世界的秘密","Vaundy"],"千本桜":["千本櫻","初音未來"],"ありのままで":["Let It Go","冰雪奇緣"]};
 // 尼貝爾確認過的語種（唱什麼語言就標什麼，可以多個）
 const LANG_FIX={"rainyblue":["中文","日文"],"彼個所在":["中文","台語","粵語"],"碼頭姑娘":["中文"],"我要你愛":["中文"],"四月望雨":["台語"],"人生無謂":["中文"],"七彩的微風":["中文"],"命運的名字":["日文"],"亞麻色頭髮的少女":["日文"],"海市蜃樓":["日文"],"幽霊東京":["日文"],
@@ -565,7 +612,7 @@ function buildLibrary(){
   S.forEach(r=>(r.songs||[]).forEach(s=>{const raw=String(s.s).trim();if(!raw||/^(OP|ED|開場|晚安)$/.test(raw))return;let k=songKey(raw);if(!k)return;if(SONG_ALIAS[k])k=songKey(SONG_ALIAS[k][0]);
     if(!rm.has(k))rm.set(k,{k,titles:{},artists:{},perf:[]});const x=rm.get(k);const tt=raw.replace(/（(中斷|日文版|結果.*?)）/g,"").trim();x.titles[tt]=(x.titles[tt]||0)+1;if(s.a)x.artists[s.a]=(x.artists[s.a]||0)+1;x.perf.push({r,t:s.t})}));
   const top=o=>Object.entries(o).sort((a,b)=>b[1]-a[1])[0]?.[0]||"";
-  window.__lib=()=>({BOOKS,RECS});RECS=[...rm.values()].map(x=>{x.title=top(x.titles);x.artist=top(x.artists);const cn=Object.values(SONG_ALIAS).find(v=>songKey(v[0])===x.k);if(cn){x.title=cn[0];if(cn[1])x.artist=cn[1]}x.perf.sort((a,b)=>b.r.date.localeCompare(a.r.date));x.n=x.perf.length;x.last=x.perf[0].r.date;x.langs=langOf(x.title,x.artist);x.lang=x.langs.join("・");const rc=Object.entries(D.recCovers||{}).find(([n])=>songKey(n)===x.k);x.cover=rc?rc[1]:"";x.pinned=!!rc;x.hay=norm(x.title+x.artist);return x});
+  window.__lib=()=>({BOOKS,RECS});RECS=[...rm.values()].map(x=>{x.title=top(x.titles);x.artist=top(x.artists);const cn=Object.values(SONG_ALIAS).find(v=>songKey(v[0])===x.k);if(cn){x.title=cn[0];if(cn[1])x.artist=cn[1]}x.title=cleanDesc(x.title);x.artist=cleanDesc(x.artist);x.perf.sort((a,b)=>b.r.date.localeCompare(a.r.date));x.n=x.perf.length;x.last=x.perf[0].r.date;x.langs=langOf(x.title,x.artist);x.lang=x.langs.join("・");const rc=Object.entries(D.recCovers||{}).find(([n])=>songKey(n)===x.k);x.cover=rc?rc[1]:"";x.pinned=!!rc;x.hay=norm(x.title+x.artist);return x});
 }
 function bookCover(b,big){
   const a=art(b.k);
@@ -791,18 +838,26 @@ window.addEventListener("hashchange",route);
 
 /* ===== 入口與四個館：直播、新聞、說書、歌曲 ===== */
 const HANI=n=>`assets/hani/${n}.png`;
+const HANIS=["round","cube","lollipop","icecream","round-soft","swirl","dango","drip","square-soft","melt"];
 const SECS=[
   {k:"live",t:"直播",en:"Live Archive",d:"所有直播、Podcast、Shorts 與時間軸",h:"round",c:"#51A8DD"},
   {k:"news",t:"新聞",en:"News Stand",d:"《新聞久一點》每週專題報紙攤",h:"cube",c:"#E9B872"},
   {k:"books",t:"說書",en:"Book Cabinet",d:"讀過的書，按類型放進書櫃",h:"lollipop",c:"#C8A55A"},
   {k:"songs",t:"歌曲",en:"Jukebox",d:"點唱機＋依語種分類的唱片",h:"icecream",c:"#F2A7B5"}];
+/* 書櫃分類：參考博客來、誠品、金石堂的大類 */
 const BOOK_CATS=[
-  ["mind","心理・療癒","Mind & Healing","round-soft",["我的痛苦有名字嗎","戀愛腦依戀障礙","你愛自己的方式","失控的焦慮世代","高功能倖存者","我想了解身心科","醫生說我可以去死沒關係","今天，我想休息一下","長女病","不是妳想太多","母親像月亮一樣","家鎖","為了這個家","每一個告別都珍貴","再玩個一關就好了"]],
-  ["grow","自我成長・溝通","Growth & Talk","swirl",["隨他們去","人生只有兩件事","你的人生，他們六個說了算","擁抱人生10大無解","別再騙自己","世界盡頭的咖啡館","說話太","頭腦好的人說話前思考的事","雑談力","雜談力","謝罪的藝術","我想把這個世界讀給你聽","你該管理的是能量","高效偷懶","費曼學習法","如何閱讀一本書"]],
-  ["think","商業・思考","Business & Logic","cube",["底層邏輯","反脆弱","邏輯思考題","經濟學關鍵字","小狗錢錢","為什麼我們這樣生活"]],
-  ["phil","哲學・社會","Philosophy & Society","square-soft",["移動的批判","正是時候讀康德","共識的終結","旁觀他人的痛苦","死亡否認","好人怎麼會幹壞事","謠言心理學","Vtuber"]],
-  ["japan","日本・生活文化","Japan & Everyday","dango",["日本美學","昭和感性","日本在地零食手帖","東京，謝謝款待","台北早餐大王","日本中學道德教科書","東京防災","BLPT","悠木碧","獨斷與偏見"]],
-  ["sci","醫學・科學","Medicine & Science","drip",["控糖","Rewire","法醫"]]];
+  ["psy","心理學","Psychology","round-soft",["我的痛苦有名字嗎","戀愛腦依戀障礙","你愛自己的方式","高功能倖存者","長女病","不是妳想太多","母親像月亮一樣","家鎖","謠言心理學","為了這個家"]],
+  ["self","心靈勵志","Self-help","swirl",["隨他們去","人生只有兩件事","你的人生，他們六個說了算","擁抱人生10大無解","別再騙自己","世界盡頭的咖啡館","今天，我想休息一下","我想把這個世界讀給你聽"]],
+  ["talk","溝通人際","Communication","dango",["說話太","頭腦好的人說話前思考的事","雑談力","雜談力","謝罪的藝術"]],
+  ["biz","商業理財","Business & Money","cube",["底層邏輯","反脆弱","小狗錢錢","經濟學關鍵字","為什麼我們這樣生活","高效偷懶","你該管理的是能量"]],
+  ["learn","學習方法","Learning","square-soft",["費曼學習法","如何閱讀一本書","邏輯思考題"]],
+  ["phil","哲學思想","Philosophy","round",["移動的批判","正是時候讀康德","死亡否認","日本美學"]],
+  ["soc","社會時事","Society","melt",["共識的終結","旁觀他人的痛苦","好人怎麼會幹壞事","失控的焦慮世代","東京防災","日本中學道德教科書"]],
+  ["med","醫療保健","Health","drip",["控糖","我想了解身心科","醫生說我可以去死沒關係","每一個告別都珍貴"]],
+  ["sci","科普・鑑識","Science","lollipop",["Rewire","法醫"]],
+  ["jp","旅遊生活・日本","Travel & Life","icecream",["日本在地零食手帖","東京，謝謝款待","台北早餐大王","昭和感性"]],
+  ["acg","娛樂・ACG","Entertainment","round-soft",["悠木碧","Vtuber","獨斷與偏見","再玩個一關就好了"]],
+  ["bl","BL・耽美","Boys' Love","swirl",["BLPT"]]];
 const bookCat=b=>(BOOK_CATS.find(c=>c[4].some(w=>b.title.includes(w)))||["other"])[0];
 const BCN=Object.fromEntries(BOOK_CATS.map(c=>[c[0],c]));
 const LANG_ORDER=["中文","台語","日文","韓文","英文","粵語","其他"];
@@ -827,89 +882,138 @@ function viewHome(){
   </section>`}
 
 /* ---------- 新聞：報紙攤 ---------- */
+const CH_SKIP=/^(開場|開台|結尾|晚安|下播|片尾|片頭|雜談|閒聊|OP|ED|待機|預告|下週|下周|本週直播表|感謝|打招呼|聊天室)/;
 function newsInfo(r){
   const t=(r.raw||r.title).replace(/^(【[^】]*】\s*)+/,"").replace(/當尼專屬.*$|國內國際大小事.*$/,"").trim();
   const dm=t.match(/(\d{2})\.?(\d{2})\s*[-–~]\s*(\d{2})\.?(\d{2})/);
   let head=t.replace(/(\d{2})\.?(\d{2})\s*[-–~]\s*(\d{2})\.?(\d{2})/,"").replace(/[！!\s]+$/,"").trim();
-  let subs=[];
-  if(head.includes("/")){const p=head.split("/").map(x=>x.trim()).filter(Boolean);const i=Math.max(0,p.findIndex(x=>/專題/.test(x)));head=p[i];subs=p.filter((_,j)=>j!==i)}
+  let tags=[];
+  if(head.includes("/")){const p=head.split("/").map(x=>x.trim()).filter(Boolean);const i=Math.max(0,p.findIndex(x=>/專題/.test(x)));head=p[i];tags=p.filter((_,j)=>j!==i)}
   if(/^早安尼好/.test(head))head="";
-  const ch=(r.chapters||[]).map(c=>c.x.replace(/^[\d:\s]+/,"").trim()).filter(x=>x&&!NOISE.test(x)&&!/^(開場|結尾|晚安|下播|片尾|片頭|雜談|閒聊)/.test(x));
-  if(!head)head=ch[0]||"本週國內國際大小事";
-  return {head:head.replace(/專題$/,"專題"),subs:[...subs,...ch.filter(x=>x!==head)].slice(0,6),range:dm?`${dm[1]}.${dm[2]} – ${dm[3]}.${dm[4]}`:r.date.slice(5).replace("-","."),hasTopic:/專題/.test(t)}}
+  const ch=(r.chapters||[]).map(c=>({t:c.t,x:c.x.replace(/^[\d:\s]+/,"").replace(/^[🎵🎶♪♫]\s*/u,"").trim()})).filter(c=>c.x&&!NOISE.test(c.x)&&!CH_SKIP.test(c.x));
+  if(!head)head=ch[0]?.x||"本週國內國際大小事";
+  const [, m1, d1, m2, d2]=dm||[];
+  return {head,tags,ch:ch.filter(c=>c.x!==head),range:dm?`${+m1}月${+d1}日 – ${+m2}月${+d2}日`:r.date.slice(5).replace("-","月")+"日",hasTopic:/專題/.test(t)}}
 function viewNews(){
-  const q=qn();const list=S.filter(r=>/新聞久一點/.test(r.raw||r.title)).filter(r=>!q||r.hay.includes(q));
-  const total=list.length;
+  const q=qn();const all=S.filter(r=>/新聞久一點/.test(r.raw||r.title));const list=all.filter(r=>!q||r.hay.includes(q));
   return `<div class="stand"><div class="awning" aria-hidden="true"></div>
-    <div class="standhead"><img class="shani" src="${HANI("cube")}" alt=""><div><p class="eyebrow">News Stand · 新聞久一點</p><h2>尼貝爾報紙攤</h2><p class="sub">每週一 20:00 的新聞直播，一期一份報紙。往下滑翻報紙，點一份就能看整場時間軸</p></div></div></div>
-    ${total?`<div class="papers">${list.map((r,i)=>{const n=newsInfo(r);return `<button class="paper" data-id="${esc(r.id)}" style="--i:${i%7};--r:${((hash(r.id)%7)-3)*.45}deg" aria-label="${esc(n.range)} ${esc(n.head)}">
-      <span class="mast"><b>新聞久一點</b><small>Weekly News Digest ・ 第 ${total-i} 期 ・ ${esc(n.range)}</small></span>
-      <span class="pbody2"><span class="pmain"><span class="kick">${n.hasTopic?"本週專題":"頭條"}</span><span class="headl">${hl(n.head,state.q)}</span>
-      ${n.subs.length?`<span class="subs">${n.subs.map(s=>`<i>${esc(s)}</i>`).join("")}</span>`:""}</span>
-      <span class="pphoto">${th("v",r.id)}</span></span>
-      <span class="pfoot"><span>${esc(r.date.replaceAll("-","."))}（${WD[new Date(r.date+"T12:00:00").getDay()]}）・${esc(r.dur)}</span><span class="pcta">翻開時間軸 →</span></span></button>`}).join("")}</div>`:`<p class="empty">報紙攤沒有符合的報紙</p>`}`}
+    <div class="standhead"><img class="shani" src="${HANI("cube")}" alt=""><div><p class="eyebrow">News Stand · 新聞久一點</p><h2>尼貝爾報紙攤</h2><p class="sub">每週一 20:00 的新聞直播，一期一份報紙，共 ${all.length} 期。往下滑翻報紙，點一份就能看整場時間軸</p></div></div></div>
+    ${list.length?`<div class="papers">${list.map(r=>{const n=newsInfo(r),no=all.length-all.indexOf(r),dt=new Date(r.date+"T12:00:00");
+      return `<button class="paper" data-id="${esc(r.id)}" style="--r:${((hash(r.id)%7)-3)*.4}deg;--s:${(hash(r.id)>>3)%3}" aria-label="第 ${no} 期 ${esc(n.range)} ${esc(n.head)}">
+      <span class="pedge" aria-hidden="true"></span>
+      <span class="ptop"><span>第 ${no} 期</span><span>${dt.getFullYear()} 年 ${esc(n.range)}</span><span>每週一出刊・尼貝爾新聞社</span></span>
+      <span class="mast"><img src="${HANI("cube")}" alt=""><b>新聞久一點</b><small>Weekly News Digest</small></span>
+      <span class="kick">${n.hasTopic?"本週專題":"本週頭條"}</span>
+      <span class="headl">${hl(n.head,state.q)}</span>
+      ${n.tags.length?`<span class="ptags">${n.tags.map(x=>`<i>${esc(x)}</i>`).join("")}</span>`:""}
+      <span class="pcols"><span class="pphoto">${th("v",r.id)}<small>${esc(r.date.replaceAll("-","."))}（${WD[dt.getDay()]}）直播・全長 ${esc(r.dur)}</small></span>
+        <span class="pidx">${n.ch.length?n.ch.slice(0,28).map(c=>`<span class="pi"><time>${esc(c.t)}</time>${hl(c.x,state.q)}</span>`).join(""):`<span class="pi">這期還沒有時間軸，點進來看整場直播</span>`}</span></span>
+      <span class="pfoot"><span>本期共 ${n.ch.length} 則</span><span class="pcta">翻開這期報紙 →</span></span></button>`}).join("")}</div>`:`<p class="empty">報紙攤沒有符合的報紙</p>`}`}
 
 /* ---------- 說書：書櫃 ---------- */
 function viewCabinets(){
   const q=qn();const base=BOOKS.filter(b=>!q||b.hay.includes(q));
   const groups=BOOK_CATS.map(c=>[c,base.filter(b=>bookCat(b)===c[0])]).filter(g=>g[1].length);
   const other=base.filter(b=>bookCat(b)==="other");
-  return `<div class="libhead"><img class="lhani" src="${HANI("lollipop")}" alt=""><div><p class="eyebrow">Book Cabinet · 說書</p><h2>尼貝爾的書櫃間</h2><p class="sub">說書直播和 Podcast 讀過的 ${base.length} 本書，按類型收進不同的櫃子。先挑一個櫃子吧</p></div></div>
+  return `<div class="libhead"><img class="lhani" src="${HANI("lollipop")}" alt=""><div><p class="eyebrow">Book Cabinet · 說書</p><h2>尼貝爾的書櫃間</h2><p class="sub">說書直播和 Podcast 讀過的 ${base.length} 本書，照書店的分類收進 ${groups.length} 個櫃子。先挑一個櫃子吧</p></div></div>
    <div class="cabinets">${groups.map(([c,l],i)=>`<a class="cab" href="#books/${c[0]}" style="--i:${i}">
      <span class="cabtop"><img src="${HANI(c[3])}" alt=""></span>
      <span class="cabbody"><span class="cabrow">${l.slice(0,5).map(b=>`<span class="spine" style="--h:${86+hash(b.k)%14}%">${bookCover(b)}</span>`).join("")}</span><span class="cabrow low">${l.slice(5,10).map(b=>`<span class="spine" style="--h:${86+hash(b.k)%14}%">${bookCover(b)}</span>`).join("")}</span></span>
      <span class="cablabel"><b>${c[1]}</b><small>${c[2]}</small><em>${l.length} 本</em></span></a>`).join("")}</div>
-   ${other.length?viewShelfList(other,"其他"):""}`}
-function viewShelfList(list,title){
+   ${other.length?`<h3 class="sect">其他</h3><div class="woodshelf">${viewShelfList(other)}</div>`:""}`}
+function viewShelfList(list){
   return `<div class="shelf">${list.map(b=>`<button class="bk" data-book="${esc(b.k)}" aria-label="《${esc(b.title)}》${b.author?esc(b.author):""}，${b.eps.length} 集"><span class="bcov">${bookCover(b)}</span><span class="bt">${hl(b.title,state.q)}</span><span class="bm">${b.eps.length>1?`${b.eps.length} 集・`:""}${b.live&&b.pod?"直播＋Podcast":b.live?"說書直播":"Podcast"}</span></button>`).join("")}</div>`}
 function viewBookCat(cat){
   const c=BCN[cat];if(!c)return viewCabinets();
   const q=qn();const list=BOOKS.filter(b=>bookCat(b)===cat&&(!q||b.hay.includes(q)));
-  return `<a class="back" href="#books">← 回到書櫃間</a><div class="libhead"><img class="lhani" src="${HANI(c[3])}" alt=""><div><p class="eyebrow">${esc(c[2])}</p><h2>${esc(c[1])}</h2><p class="sub">${list.length} 本書，抽一本出來看看</p></div></div>
+  const tabs=BOOK_CATS.filter(x=>BOOKS.some(b=>bookCat(b)===x[0])).map(x=>`<a class="chip" href="#books/${x[0]}" aria-pressed="${x[0]===cat}">${x[1]}</a>`).join("");
+  return `<a class="back" href="#books">← 回到書櫃間</a><div class="libhead"><img class="lhani" src="${HANI(c[3])}" alt=""><div><p class="eyebrow">${esc(c[2])}</p><h2>${esc(c[1])}</h2><p class="sub">${list.length} 本書，抽一本出來翻翻看</p></div></div>
+   <div class="chips cattabs">${tabs}</div>
    <div class="woodshelf">${list.length?viewShelfList(list):`<p class="empty">這個櫃子裡沒有符合的書</p>`}</div>`}
+/* 開書特效：封面從書架飛到畫面中間，往左翻開，再進到書的詳細頁 */
+function openBookFx(btn){
+  const k=btn.dataset.book,b=BOOKS.find(x=>x.k===k);
+  if(!G()||!b){openBook(k);return}
+  const cov=btn.querySelector(".bcov"),r=cov.getBoundingClientRect();
+  const fx=document.createElement("div");fx.className="bookfx";
+  fx.innerHTML=`<div class="bfx-book"><div class="bfx-page"><span class="bfx-orn">✦</span><b>《${esc(b.title)}》</b>${b.author?`<small>${esc(b.author)}</small>`:""}<em>${b.eps.length} 集・${b.live&&b.pod?"直播＋Podcast":b.live?"說書直播":"Podcast"}</em></div><div class="bfx-cover"><div class="bfx-front">${bookCover(b,true)}</div><div class="bfx-back"></div></div></div>`;
+  document.body.appendChild(fx);
+  const book=fx.querySelector(".bfx-book"),cover=fx.querySelector(".bfx-cover");
+  const W=Math.min(300,innerWidth*.42),H=W*1.5;
+  gsap.set(book,{left:r.left,top:r.top,width:r.width,height:r.height});
+  const tl=gsap.timeline({onComplete:()=>{openBook(k);gsap.to(fx,{autoAlpha:0,duration:.25,onComplete:()=>fx.remove()})}});
+  tl.to(fx,{backgroundColor:"rgba(10,12,20,.7)",duration:.35},0)
+    .to(book,{left:innerWidth/2-W/2+W*.25,top:innerHeight/2-H/2,width:W,height:H,duration:.5,ease:"power3.inOut"},0)
+    .to(cover,{rotationY:-165,duration:.75,ease:"power2.inOut"},.45)
+    .to(book,{left:innerWidth/2-W/2+W*.5,duration:.75,ease:"power2.inOut"},.45)
+    .to({}, {duration:.25});
+}
 
 /* ---------- 歌曲：點唱機＋Cover Flow ---------- */
-let juke=null;
+let juke=null;const flowIdx={};
 function viewJukebox(){
   const q=qn();const base=RECS.filter(x=>!q||x.hay.includes(q));
   if(!juke||!base.includes(juke))juke=[...base].sort((a,b)=>b.n-a.n||b.last.localeCompare(a.last))[0]||null;
   const stacks=LANG_ORDER.map(l=>[l,base.filter(x=>x.langs.includes(l)).sort((a,b)=>b.n-a.n||b.last.localeCompare(a.last))]).filter(s=>s[1].length);
   return `<div class="jbwrap">
     <div class="jukebox" id="jukebox" aria-live="polite">${jukeInner()}</div>
-    <div class="jbside"><p class="eyebrow">Jukebox · 歌曲</p><h2>尼貝爾點唱機</h2><p class="sub">${base.length} 首歌、唱過 ${base.reduce((a,x)=>a+x.n,0)} 次。往下滑動唱片架，點中間那張就會放進點唱機</p>
+    <div class="jbside"><p class="eyebrow">Jukebox · 歌曲</p><h2>尼貝爾點唱機</h2><p class="sub">${base.length} 首歌、唱過 ${base.reduce((a,x)=>a+x.n,0)} 次。下面的唱片按語種分成好幾疊，左右滑動挑一張，點中間那張就會把唱片從封套裡抽出來、放上點唱機</p>
       <div class="jbjump">${stacks.map(([l,a])=>`<a href="#flow-${esc(l)}" data-flowjump="${esc(l)}">${esc(l)} <small>${a.length}</small></a>`).join("")}</div></div></div>
     ${stacks.map(([l,a])=>`<section class="stack" id="flow-${esc(l)}"><h3 class="sect">${esc(l)} <span>${a.length} 張</span></h3>
-      <div class="flow" tabindex="0" aria-label="${esc(l)}唱片，左右鍵切換"><div class="flowin">${a.map(x=>`<button class="cf" data-cf="${esc(x.k)}" aria-label="${esc(x.title)}${x.artist?"／"+esc(x.artist):""}">${sleeve(x)}${x.n>1?`<span class="rcount">×${x.n}</span>`:""}</button>`).join("")}</div></div>
-      <p class="cfcap" aria-hidden="true"></p></section>`).join("")}
+      <div class="flow" data-lang="${esc(l)}" tabindex="0" role="listbox" aria-label="${esc(l)}唱片，左右鍵切換，Enter 放進點唱機">
+        <button class="fnav prev" data-fnav="-1" aria-label="上一張">‹</button>
+        <div class="flowin">${a.map((x,i)=>`<button class="cf" data-cf="${esc(x.k)}" data-i="${i}" tabindex="-1" aria-label="${esc(x.title)}"><span class="cfdisc" aria-hidden="true"></span>${sleeve(x)}${x.n>1?`<span class="rcount">×${x.n}</span>`:""}</button>`).join("")}</div>
+        <button class="fnav next" data-fnav="1" aria-label="下一張">›</button></div>
+      <p class="cfcap" aria-live="polite"></p></section>`).join("")}
     ${base.length?"":`<p class="empty">唱片架上還沒有這首歌</p>`}`}
-function jukeInner(){const x=juke;if(!x)return `<div class="jbscreen"><p class="note">沒有符合的歌</p></div>`;
-  return `<span class="jbarch" aria-hidden="true"><img class="jbhani" src="${HANI("round")}" alt=""></span>
-   <div class="jbscreen"><span class="jbdisc" aria-hidden="true"></span><span class="jbcover">${sleeve(x)}</span></div>
+function jukeInner(){const x=juke;if(!x)return `<div class="jbdeck"><p class="note">沒有符合的歌</p></div>`;
+  return `<span class="jbarch" aria-hidden="true"></span><img class="jbhani" src="${HANI("round")}" alt="" aria-hidden="true">
+   <div class="jbdeck">
+     <span class="jbsleeve">${sleeve(x)}</span>
+     <span class="jbtt" aria-hidden="true"><span class="ttplat"></span><span class="ttdisc"><span class="ttlabel">${sleeve(x)}</span></span><span class="ttarm"></span></span>
+   </div>
    <div class="jbinfo"><span class="jblang">${esc(x.lang)}・唱過 ${x.n} 次</span><b>${esc(x.title)}</b>${x.artist?`<small>${esc(x.artist)}</small>`:""}</div>
    <div class="jbbtns"><button class="jbplay" data-jplay="${esc(x.k)}">▶ 播放最近一次</button><button class="jbmore" data-rec="${esc(x.k)}">全部 ${x.n} 次演唱</button></div>
    <span class="jbgrill" aria-hidden="true"></span>`}
-function setJuke(k){const x=RECS.find(y=>y.k===k);if(!x)return;juke=x;const jb=document.getElementById("jukebox");if(!jb)return;jb.innerHTML=jukeInner();
-  if(G())gsap.fromTo(jb.querySelector(".jbcover"),{y:-40,autoAlpha:0,rotation:-6},{y:0,autoAlpha:1,rotation:0,duration:.6,ease:"back.out(1.6)"});
-  if(innerWidth<900)jb.scrollIntoView({behavior:"smooth",block:"center"})}
+function setJuke(k,fromEl){const x=RECS.find(y=>y.k===k);if(!x)return;juke=x;const jb=document.getElementById("jukebox");if(!jb)return;
+  const go=()=>{jb.innerHTML=jukeInner();
+    if(G()){const d=jb.querySelector(".ttdisc"),s=jb.querySelector(".jbsleeve"),arm=jb.querySelector(".ttarm");
+      const dx=s.getBoundingClientRect().left-d.getBoundingClientRect().left;
+      gsap.timeline().from(s,{y:-30,autoAlpha:0,duration:.35,ease:"power2.out"})
+        .fromTo(d,{x:dx,scale:.8,autoAlpha:0},{x:dx*.55,autoAlpha:1,duration:.3},"<.1")
+        .to(d,{x:0,scale:1,duration:.7,ease:"power3.out"})
+        .fromTo(arm,{rotation:-28},{rotation:0,duration:.5,ease:"back.out(1.4)"},"-=.2");}};
+  if(innerWidth<900||jb.getBoundingClientRect().top<-200)jb.scrollIntoView({behavior:"smooth",block:"center"});
+  if(fromEl&&G()){fromEl.classList.add("pull");setTimeout(()=>{fromEl.classList.remove("pull");go()},620)}else go()}
 function initFlows(){
   document.querySelectorAll(".flow").forEach(f=>{
-    const upd=()=>{const r=f.getBoundingClientRect(),cx=r.left+r.width/2;let best=null,bd=1e9;
-      f.querySelectorAll(".cf").forEach(el=>{const b=el.getBoundingClientRect(),d=(b.left+b.width/2-cx)/b.width;const ad=Math.abs(d);
-        if(ad<bd){bd=ad;best=el}
-        const c=Math.max(-1,Math.min(1,d));
-        el.style.transform=ad<.5?`perspective(700px) translateZ(${(1-ad*2)*110}px) rotateY(${-d*110}deg)`:`perspective(700px) translateX(${c<0?30:-30}px) rotateY(${c<0?58:-58}deg) scale(.92)`;
-        el.style.zIndex=String(1000-Math.round(ad*10));el.classList.toggle("mid",false)});
-      if(best){best.classList.add("mid");const x=RECS.find(y=>y.k===best.dataset.cf);const cap=f.parentElement.querySelector(".cfcap");if(cap&&x)cap.innerHTML=`<b>${esc(x.title)}</b>${x.artist?`　${esc(x.artist)}`:""}`}};
-    let raf=0;f.addEventListener("scroll",()=>{if(!raf)raf=requestAnimationFrame(()=>{raf=0;upd()})},{passive:true});
-    f.addEventListener("keydown",e=>{if(e.key!=="ArrowRight"&&e.key!=="ArrowLeft"&&e.key!=="Enter")return;e.preventDefault();const m=f.querySelector(".cf.mid");if(!m)return;
-      if(e.key==="Enter"){setJuke(m.dataset.cf);return}
-      const n=e.key==="ArrowRight"?m.nextElementSibling:m.previousElementSibling;if(n)n.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"})});
-    upd();});
+    const lang=f.dataset.lang,items=[...f.querySelectorAll(".cf")],cap=f.parentElement.querySelector(".cfcap");
+    const W=()=>items[0]?.offsetWidth||180;
+    let idx=Math.min(flowIdx[lang]||0,items.length-1);
+    const lay=()=>{const w=W();items.forEach((el,i)=>{const o=i-idx,a=Math.abs(o),s=Math.sign(o);
+        const x=o===0?0:s*(w*.72+(a-1)*w*.26);
+        el.style.transform=`translateX(calc(-50% + ${x}px)) translateZ(${o===0?60:-120}px) rotateY(${o===0?0:-s*68}deg)`;
+        el.style.zIndex=String(200-a);el.style.opacity=a>9?"0":"1";el.style.pointerEvents=a>9?"none":"";
+        el.classList.toggle("mid",o===0);el.setAttribute("aria-selected",String(o===0))});
+      const x=RECS.find(y=>y.k===items[idx]?.dataset.cf);if(cap&&x)cap.innerHTML=`<b>${esc(x.title)}</b><small>${idx+1} / ${items.length}</small>`;flowIdx[lang]=idx};
+    const go=n=>{idx=Math.max(0,Math.min(items.length-1,n));lay()};
+    f._go=go;f._idx=()=>idx;lay();
+    f.addEventListener("keydown",e=>{if(e.key==="ArrowRight"){e.preventDefault();go(idx+1)}else if(e.key==="ArrowLeft"){e.preventDefault();go(idx-1)}else if(e.key==="Enter"){e.preventDefault();setJuke(items[idx].dataset.cf,items[idx])}});
+    let acc=0,wt=0;f.addEventListener("wheel",e=>{const d=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:(e.shiftKey?e.deltaY:0);if(!d)return;e.preventDefault();acc+=d;if(Math.abs(acc)>40){go(idx+Math.sign(acc));acc=0}},{passive:false});
+    let sx=null,si=0,moved=false;
+    f.addEventListener("pointerdown",e=>{if(e.target.closest(".fnav"))return;sx=e.clientX;si=idx;moved=false});
+    f.addEventListener("pointermove",e=>{if(sx===null)return;const d=e.clientX-sx;if(Math.abs(d)>8)moved=true;const n=si-Math.round(d/70);if(n!==idx)go(n)});
+    const up=()=>{sx=null};f.addEventListener("pointerup",up);f.addEventListener("pointerleave",up);f.addEventListener("pointercancel",up);
+    f.addEventListener("click",e=>{if(moved){e.stopPropagation();e.preventDefault();moved=false}},true);
+  });
 }
+addEventListener("resize",()=>{document.querySelectorAll(".flow").forEach(f=>f._go&&f._go(f._idx()))});
 document.getElementById("view").addEventListener("click",e=>{
-  const cf=e.target.closest(".cf");if(cf){e.stopPropagation();if(cf.classList.contains("mid"))setJuke(cf.dataset.cf);else cf.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"});return}
+  const fn=e.target.closest("[data-fnav]");if(fn){e.stopPropagation();const f=fn.closest(".flow");f._go(f._idx()+ +fn.dataset.fnav);return}
+  const cf=e.target.closest(".cf");if(cf){e.stopPropagation();const f=cf.closest(".flow");if(cf.classList.contains("mid"))setJuke(cf.dataset.cf,cf);else f._go(+cf.dataset.i);return}
   const jp=e.target.closest("[data-jplay]");if(jp){e.stopPropagation();const x=RECS.find(y=>y.k===jp.dataset.jplay);if(x){openRecord(x.k);play(x.perf[0].r.id,secs(x.perf[0].t))}return}
-  const fj=e.target.closest("[data-flowjump]");if(fj){e.preventDefault();document.getElementById("flow-"+fj.dataset.flowjump)?.scrollIntoView({behavior:"smooth",block:"start"});return}
+  const fj=e.target.closest("[data-flowjump]");if(fj){e.preventDefault();document.getElementById("flow-"+fj.dataset.flowjump)?.scrollIntoView({behavior:"smooth",block:"center"});return}
+  const bk=e.target.closest(".bk[data-book]");if(bk&&state.sec==="books"){e.stopPropagation();openBookFx(bk);return}
 },true);
 document.getElementById("view").addEventListener("submit",e=>{if(e.target.id!=="hsf")return;e.preventDefault();const v=document.getElementById("hq").value.trim();qi.value=v;clr.hidden=!v;state.q=v;window.__keepQ=true;goSec("live")});
 
