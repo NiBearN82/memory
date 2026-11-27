@@ -182,9 +182,11 @@ def intro_text(desc):
         t = line.strip()
         if re.match(r"^[🎵🎶♪]?\s*(\d{1,2}:)?\d{1,2}:\d{2}", t):
             break
-        if out and re.search(r"時間軸|章節|TIMESTAMP|━━|───|＝＝|==", t, re.I):
-            break
-        if re.search(r"https?://|^#|^@|訂閱|斗內|抖內|贊助|會員|綠界|商業合作|聯絡|優惠碼|折扣碼", t):
+        if re.search(r"時間軸|章節|TIMESTAMP|━━|───|＝＝|==|-{4,}|【我們是由|尼好，我是創傷劇團|^🎭|謝幕|尼在這裡|參考資料|參考文獻|References", t, re.I):
+            if out:
+                break
+            continue
+        if re.search(r"https?://|^#|^@|訂閱|斗內|抖內|贊助|會員|綠界|商業合作|聯絡|優惠碼|折扣碼|優惠券|使用期限|結帳|全館|^※", t):
             continue
         out.append(t)
     text = re.sub(r"\n{3,}", "\n\n", "\n".join(out)).strip()
