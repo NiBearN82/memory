@@ -617,7 +617,7 @@ body:not([data-sec="home"]){padding-top:var(--ctrl,164px)}
 
 /* 音樂劇傳單 */
 .flyhint{margin:-4px 0 14px;color:#B9BDC8;font-size:14px}
-.flyers{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:26px 22px;padding:6px 2px 10px}
+.flyers{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:26px 22px;padding:6px 2px 10px;align-items:start}
 .flyer{position:relative;background:#F4EBD6;color:#2A1C12;border-radius:4px;overflow:hidden;box-shadow:0 14px 30px rgba(0,0,0,.55),0 0 0 1px rgba(0,0,0,.2);transform:rotate(calc((var(--i) % 3 - 1) * 1.2deg));transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column}
 .flyer:hover{transform:rotate(0) translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.6),0 0 0 2px #C8A55A}
 .fimg{position:relative;aspect-ratio:1/1;overflow:hidden;background:#1E2A4F}
@@ -633,7 +633,7 @@ body:not([data-sec="home"]){padding-top:var(--ctrl,164px)}
 .fsongs button.on b{color:#A8262B}
 .fsongs b{font-size:15px;font-weight:700}.fsongs small{font-size:11px;color:#7A6A58;font-family:var(--orn);font-style:italic}
 .fstub{margin-top:8px;padding-top:8px;border-top:1px dashed #8a7458;font-size:9px;letter-spacing:.2em;color:#8a7458;text-align:center}
-@media(max-width:560px){.flyers{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}.ftitle{font-size:16px}.fsongs b{font-size:13px}.fin{padding:0 10px 10px}}
+@media(max-width:560px){.flyers{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;padding:8px 4px 16px;align-items:flex-start}.flyer{flex:0 0 62%;scroll-snap-align:center}.flyhint::after{content:"（左右滑看更多）"}.ftitle{font-size:16px}.fsongs b{font-size:13px}.fin{padding:0 10px 10px}}
 </style>
 </head>
 <body>
