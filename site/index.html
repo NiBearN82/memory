@@ -611,7 +611,7 @@ body:not([data-sec="home"]){padding-top:var(--ctrl,164px)}
 .hlinks{display:flex;flex-wrap:wrap;gap:10px 12px;margin-top:34px;max-width:1040px}
 .hlink{display:inline-flex;align-items:center;gap:8px;padding:9px 16px 9px 10px;border-radius:999px;background:rgba(18,20,30,.72);border:1px solid rgba(255,243,214,.35);color:#FFF3D6;text-decoration:none;font-weight:700;font-size:15px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:transform .2s,background .2s}
 .hlink i{font-style:normal;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#FFF3D6;color:#1A1B22;font-size:14px}
-.hlink.yt i{background:#E8463C;color:#fff}.hlink.mm i{background:#F2A7B5}
+.hlink.yt i{background:#E8463C;color:#fff}.hlink.mm i{background:#F2A7B5}.hlink.sch i{background:#51A8DD}.hlink.don i{background:#C8A55A}
 .hlink:hover,.hlink:focus-visible{transform:translateY(-2px);background:rgba(40,44,64,.85)}
 @media(max-width:480px){.hlinks{gap:8px;margin-top:26px}.hlink{font-size:13px;padding:7px 12px 7px 8px}.hlink i{width:24px;height:24px;font-size:12px}}
 </style>
@@ -1068,9 +1068,11 @@ function goSec(h){if(location.hash==="#"+h)route();else location.hash=h}
 const LINKS=[
  ["▶","YouTube 頻道","https://www.youtube.com/@%E5%B0%BC%E8%B2%9D%E7%88%BENibel","yt"],
  ["𝕏","X（Twitter）","https://x.com/Nibel_TT_MH",""],
- ["🎙","Podcast","https://player.soundon.fm/p/NibelTalk/",""],
+ ["📅","本週直播表","https://www.figma.com/proto/tFKXXUZ2l53jKve1vjAtsT/Nibel-Schedule?page-id=0%3A1&node-id=2-3&viewport=380%2C740%2C0.35&t=KAHoaL6MIYwztqdp-1&scaling=contain&content-scaling=fixed","sch"],
+ ["💌","棉花糖・意見箱","https://marshmallow-qa.com/92vi22lo9et41cc","mm"],
+ // 抖內：目前用山羌，預計 12 月換成新的抖內連結，到時只要改這一行的網址
+ ["💙","抖內支持","https://deerdonate.herokuapp.com/donation/%E5%B0%BC%E8%B2%9D%E7%88%BE","don"],
  ["🛍","周邊商品","https://www.hersendesign.com/pages/%E5%B0%BC%E8%B2%9D%E7%88%BE-nibel",""],
- ["💌","棉花糖・意見箱","","mm"],
 ];
 function viewHome(){
   const nNews=S.filter(r=>/新聞久一點/.test(r.raw||r.title)).length;
