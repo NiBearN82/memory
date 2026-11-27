@@ -384,7 +384,7 @@ body[data-sec="home"] footer.band{margin-top:0}
 .flow{position:relative;height:330px;perspective:1100px;overflow:hidden;outline:none;touch-action:pan-y;user-select:none;background:radial-gradient(60% 70% at 50% 40%,rgba(81,168,221,.08),transparent);border-radius:16px}
 .flow:focus-visible{box-shadow:0 0 0 2px #51A8DD}
 .flowin{position:absolute;inset:0;transform-style:preserve-3d}
-.cf{all:unset;position:absolute;left:50%;top:34px;width:190px;height:190px;cursor:pointer;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .3s;-webkit-box-reflect:below 4px linear-gradient(transparent 66%,rgba(255,255,255,.25))}
+.cf{all:unset;position:absolute;left:50%;top:34px;width:190px;height:190px;cursor:pointer;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .3s;-webkit-box-reflect:below 3px linear-gradient(transparent 82%,rgba(255,255,255,.16))}
 .cf .sleeve{position:absolute;inset:0;border-radius:3px;box-shadow:0 12px 26px rgba(0,0,0,.6)}
 .cf:not(.mid) .sleeve{filter:brightness(.72)}
 .cf.mid .sleeve{box-shadow:0 0 0 3px #F2A7B5,0 18px 36px rgba(0,0,0,.7)}
@@ -569,9 +569,9 @@ button.cd.cur{background:#B3261E;color:#fff;box-shadow:0 0 0 2px #fff}button.cd.
 .mini.flt{position:fixed;right:16px;bottom:16px;top:auto;width:min(340px,80vw);z-index:25;box-shadow:0 20px 50px rgba(0,0,0,.7)}
 button.cd,.cd{text-shadow:none}button.cd{box-shadow:none;border:1px solid #d6ccb4}
 .cf.peek .cfdisc{transform:translateY(-58%) rotate(40deg);box-shadow:0 0 0 2px #C8A55A,0 8px 20px rgba(0,0,0,.7)}
-.cf.peek::after{content:"▶ 再按一次播放";position:absolute;left:0;right:0;width:max-content;margin:0 auto;top:calc(100% + 14px);z-index:5;white-space:nowrap;background:#F2A7B5;color:#3A1520;font-weight:900;font-size:14px;padding:6px 14px;border-radius:999px;box-shadow:0 4px 0 #b06f7d;animation:nudge 1.6s ease-in-out infinite}
-.flow{height:400px}.cf{top:86px}
-@media(max-width:560px){.flow{height:280px}.cf{top:70px}.cfcap{margin-top:4px}}
+.cf.peek::after{content:"▶ 再按一次播放";position:absolute;left:0;right:0;width:max-content;margin:0 auto;bottom:12px;z-index:5;white-space:nowrap;background:#F2A7B5;color:#3A1520;font-weight:900;font-size:14px;padding:6px 14px;border-radius:999px;box-shadow:0 4px 0 #b06f7d;animation:nudge 1.6s ease-in-out infinite}
+.flow{height:330px}.cf{top:80px}.cfcap{margin-top:-14px;position:relative;z-index:2}
+@media(max-width:560px){.flow{height:250px}.cf{top:64px}.cfcap{margin-top:-10px}}
 .mini .minivid{max-height:420px;transition:max-height .45s cubic-bezier(.3,.8,.3,1)}
 .mini.min .minivid{height:auto;aspect-ratio:16/9;max-height:0;overflow:hidden}
 .mini{transition:width .4s cubic-bezier(.3,.8,.3,1)}
@@ -779,7 +779,7 @@ const art=(key,o={})=>{const h=hash(key),[bg,fg,ac]=PAL[h%PAL.length],pt=PAT[(h>
 // 同一首歌不同譯名：合併成一張唱片（key 是 songKey 後的寫法 → [顯示歌名, 原唱]）
 const DESC=/版|現場|名場面|大考驗|混入|片段|清唱|翻車|敷衍|天線|反差|打架|灑狗血|愛自己|大笑|解凍|迪斯可|大亂唱|挑戰|荔枝|商業情|安可|合唱|潛水|雙語|洗腦|吃|輸血|演繹|特別|秀/;
 const cleanDesc=t=>String(t||"").replace(/（([^（）]*)）/g,(m,x)=>DESC.test(x)?"":m).replace(/\s+$/,"").trim();
-const SONG_ALIAS={"我只在乎你":["時の流れに身をまかせ","鄧麗君"],"sosweet":["Love so sweet","嵐"],"ghostcity":["幽霊東京","Ayase"],"幽靈東京":["幽霊東京","Ayase"],"幽灵东京":["幽霊東京","Ayase"],"藍雨":["Rainy Blue","德永英明 / 張學友《藍雨》"],"いつも何度でも":["命運的名字","千與千尋主題曲"],"亜麻色の髪の乙女":["亞麻色頭髮的少女","島谷瞳"],"世界の秘密":["世界的秘密","Vaundy"],"千本桜":["千本櫻","初音未來"],"ありのままで":["Let It Go","冰雪奇緣"]};
+const SONG_ALIAS={"人生無畏":["人生無謂","（音樂劇《飲食男女》）"],"我們會以尼為榮":["我們會以尼為榮","（花木蘭）"],"我只在乎你":["時の流れに身をまかせ","鄧麗君"],"sosweet":["Love so sweet","嵐"],"ghostcity":["幽霊東京","Ayase"],"幽靈東京":["幽霊東京","Ayase"],"幽灵东京":["幽霊東京","Ayase"],"藍雨":["Rainy Blue","德永英明 / 張學友《藍雨》"],"いつも何度でも":["命運的名字","千與千尋主題曲"],"亜麻色の髪の乙女":["亞麻色頭髮的少女","島谷瞳"],"世界の秘密":["世界的秘密","Vaundy"],"千本桜":["千本櫻","初音未來"],"ありのままで":["Let It Go","冰雪奇緣"]};
 // 尼貝爾確認過的語種（唱什麼語言就標什麼，可以多個）
 const LANG_FIX={"rainyblue":["中文","日文"],"彼個所在":["中文","台語","粵語"],"蜚蜚":["粵語"],"碼頭姑娘":["中文"],"我要你愛":["中文"],"四月望雨":["台語"],"人生無謂":["中文"],"七彩的微風":["中文"],"命運的名字":["日文"],"亞麻色頭髮的少女":["日文"],"海市蜃樓":["日文"],"幽霊東京":["日文"],
  "reflection":["英文"],"partofyourworld":["英文"],"letitgo":["英文"],"doyouwanttobuildasnowman":["英文"],"forthefirsttimeinforever":["英文"],"loveisanopendoor":["英文"],"awholenewworld":["英文"],"underthesea":["英文"],"屋頂":["中文"]};
