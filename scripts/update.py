@@ -99,6 +99,55 @@ def auto_topic(title):
     return m.group(1) if m else None
 
 
+# ---------- 書封（Google Books 公開資料） ----------
+def book_key(t):
+    t = re.sub(r"（[^）]*）|\([^)]*\)", "", t or "").lower()
+    return re.sub(r"[\s・·．.、，,！!？?：:「」『』《》〈〉—\-／/]", "", t)
+
+
+def google_cover(title, author):
+    key = book_key(title)
+    want = key[: min(len(key), 6)]
+    queries = [f"intitle:{title}" + (f" inauthor:{author}" if author else ""), f"intitle:{title}", title]
+    for q in queries:
+        url = "https://www.googleapis.com/books/v1/volumes?" + urllib.parse.urlencode({"q": q, "maxResults": 10, "printType": "books"})
+        try:
+            with urllib.request.urlopen(url, timeout=20) as r:
+                res = json.loads(r.read().decode("utf-8"))
+        except Exception as e:  # 書封抓不到不影響其他更新
+            print("書封查詢失敗：", title, e)
+            continue
+        for it in res.get("items", []):
+            vi = it.get("volumeInfo", {})
+            img = vi.get("imageLinks", {})
+            link = img.get("thumbnail") or img.get("smallThumbnail")
+            if not link or want not in book_key(vi.get("title", "") + vi.get("subtitle", "")):
+                continue
+            return link.replace("http://", "https://").replace("&edge=curl", "")
+    return ""
+
+
+def update_covers(data, extra, limit=40):
+    covers = data.get("covers", {})
+    over = {book_key(k): v for k, v in extra.get("bookCovers", {}).items()}
+    seen, n, found = set(), 0, 0
+    for _, title, author in data.get("books", []):
+        k = book_key(title)
+        if k in seen:
+            continue
+        seen.add(k)
+        if k in over:
+            covers[k] = over[k]
+            continue
+        if covers.get(k) or n >= limit:
+            continue
+        n += 1
+        covers[k] = google_cover(re.sub(r"（[^）]*）", "", title), author)
+        found += bool(covers[k])
+    data["covers"] = covers
+    print(f"書封：這次查了 {n} 本，找到 {found} 本；目前共有 {sum(1 for v in covers.values() if v)} 本有封面")
+
+
 # ---------- 抓 YouTube ----------
 def playlist_ids(pid):
     ids, token = [], None
@@ -204,6 +253,7 @@ def main():
     data["news"] = news
     data["setlists"] = extra.get("setlists", {})
     data["shortSource"] = extra.get("shortSource", {})
+    update_covers(data, extra)
     after = json.dumps({k: v for k, v in data.items() if k != "updated"}, ensure_ascii=False, sort_keys=True)
     if after == before:
         print("沒有新的直播或 Shorts，資料不變。")

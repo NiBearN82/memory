@@ -137,6 +137,58 @@ mark{background:rgba(81,168,221,.3);color:var(--pearl);border-radius:3px;padding
 .perr{margin:0;padding:22px;color:var(--silver);background:var(--panel)}
 .perr a{color:var(--glint)}
 .month{scroll-margin-top:84px}
+.csep{width:1px;height:26px;background:var(--rule);margin:0 4px;align-self:center}
+/* 書櫃 */
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:46px 26px;padding:6px 6px 0;perspective:1200px}
+.bk{all:unset;cursor:pointer;position:relative;display:flex;flex-direction:column;gap:8px;padding-bottom:14px}
+.bk::after{content:"";position:absolute;left:-14px;right:-14px;bottom:-12px;height:14px;background:linear-gradient(#3a2f26,#241c16);border-top:2px solid #5a4636;box-shadow:0 14px 20px -8px #000;z-index:-1}
+.bcov{position:relative;display:block;aspect-ratio:2/3;border-radius:3px 6px 6px 3px;overflow:hidden;box-shadow:6px 8px 18px -6px rgba(0,0,0,.85),inset 0 0 0 1px rgba(255,255,255,.06);transform-origin:left center;transition:transform .35s,box-shadow .35s;background:var(--panel)}
+.bcov::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.45) 0,rgba(255,255,255,.18) 3%,rgba(0,0,0,.12) 6%,transparent 12%)}
+.bk:hover .bcov,.bk:focus-visible .bcov{transform:translateY(-10px) rotateY(-16deg);box-shadow:16px 18px 30px -8px rgba(0,0,0,.9),0 0 30px rgba(81,168,221,.25)}
+.bk:focus-visible{outline:2px solid var(--glint);outline-offset:6px;border-radius:6px}
+.bimg{display:block;width:100%;height:100%;object-fit:cover}
+.gcover{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:12% 12% 14%;gap:6px}
+.gtitle{font:900 clamp(15px,1.6vw,19px)/1.3 var(--serif);text-wrap:balance;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+.gauth{font-size:11.5px;opacity:.85}
+.gstar{position:absolute;top:9%;left:12%;font-size:13px;opacity:.8}
+.bt{font:700 14px/1.4 var(--serif);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.bm{font:italic 600 13px var(--orn);color:var(--gilt);margin-top:-4px}
+/* 唱片架 */
+.crate{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:30px 30px;padding:4px 40px 0 0}
+.rec{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:6px;position:relative}
+.rwrap{position:relative;display:block;aspect-ratio:1}
+.sleeve{position:absolute;inset:0;z-index:2;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:11%;box-shadow:0 14px 26px -12px rgba(0,0,0,.9),inset 0 0 0 1px rgba(255,255,255,.08);transition:transform .35s}
+.sleeve::after{content:"";position:absolute;inset:0;background:linear-gradient(125deg,rgba(255,255,255,.14),transparent 40%);pointer-events:none}
+.smark{position:absolute;top:9%;left:11%;font:italic 600 12px var(--orn);opacity:.8}
+.stitle{font:900 clamp(15px,1.5vw,19px)/1.25 var(--serif);text-wrap:balance;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;position:relative}
+.sart{font-size:12px;opacity:.85;margin-top:4px;position:relative;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vinyl{position:absolute;inset:3%;z-index:1;border-radius:50%;background:repeating-radial-gradient(circle,#111 0 2px,#1c1c1c 2px 4px);box-shadow:0 6px 16px -6px #000;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.vinyl i{position:absolute;inset:33%;border-radius:50%;box-shadow:inset 0 0 0 3px rgba(0,0,0,.25)}
+.vinyl i::after{content:"";position:absolute;inset:44%;border-radius:50%;background:#111}
+.rec:hover .vinyl,.rec:focus-visible .vinyl{transform:translateX(34%) rotate(200deg)}
+.rec:hover .sleeve,.rec:focus-visible .sleeve{transform:translateX(-4%)}
+.rec:focus-visible{outline:2px solid var(--glint);outline-offset:6px;border-radius:6px}
+.rcount{position:absolute;z-index:3;top:-9px;right:-9px;background:var(--glint);color:var(--ink);font:italic 600 16px var(--orn);border-radius:999px;padding:2px 9px;box-shadow:0 4px 10px -4px #000}
+.rt{font:700 15px/1.35 var(--serif);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ra{font-size:13px;color:var(--silver);margin-top:-3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* 書與唱片的詳細頁 */
+.mhead{display:grid;grid-template-columns:170px minmax(0,1fr);gap:24px;align-items:end;padding:28px clamp(16px,3vw,28px) 18px;background:linear-gradient(180deg,rgba(81,168,221,.12),transparent)}
+.mcov{position:relative;display:block;aspect-ratio:2/3;border-radius:4px;overflow:hidden;box-shadow:10px 14px 30px -10px #000}
+.mcov.sq{aspect-ratio:1}.mcov .sleeve{position:absolute}
+.mhead h2{font:900 clamp(22px,3vw,30px)/1.3 var(--serif);margin:4px 0 6px;text-wrap:balance}
+.eb2{font:italic 600 16px var(--orn);color:var(--gilt)}
+.player:empty{display:none}
+.ep{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;border-top:1px solid var(--rule);padding:10px 0}
+.eprow{display:grid;grid-template-columns:132px minmax(0,1fr);gap:14px;align-items:center;text-decoration:none;border-radius:10px;padding:4px}
+.eprow:hover{background:var(--panel)}
+.eprow.now{background:rgba(81,168,221,.14);box-shadow:inset 3px 0 0 var(--glint)}
+.eprow .th{aspect-ratio:16/9;border-radius:8px}
+.eprow small{display:block;font:italic 600 14px var(--orn);color:var(--gilt)}
+.eprow b{font-weight:500;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.epch{border:1px solid var(--slate);background:transparent;border-radius:999px;padding:6px 12px;font-size:13px;color:var(--silver);cursor:pointer;white-space:nowrap;min-height:36px}
+.epch:hover{border-color:var(--glint);color:var(--pearl)}
+@media(max-width:600px){.shelf{grid-template-columns:repeat(3,minmax(0,1fr));gap:38px 14px}.crate{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 24px;padding-right:26px}.mhead{grid-template-columns:110px minmax(0,1fr);gap:16px}.eprow{grid-template-columns:96px minmax(0,1fr)}.ep{grid-template-columns:minmax(0,1fr)}.epch{justify-self:start}}
+@media(prefers-reduced-motion:reduce){.bcov,.vinyl,.sleeve{transition:none}}
 .rail{position:fixed;right:max(6px,env(safe-area-inset-right));top:86px;bottom:24px;z-index:6;width:64px;display:none;touch-action:none;user-select:none;-webkit-user-select:none}
 .rail.show{display:block}
 .rtrack{position:absolute;inset:0;display:flex;flex-direction:column;cursor:grab;outline:none}
@@ -197,9 +249,9 @@ footer b{font:italic 600 16px var(--orn);color:var(--gilt)}
     <nav class="tabs" aria-label="檢視">
       <a class="tab" href="#all" data-v="all">全部</a>
       <a class="tab" href="#shorts" data-v="shorts">Shorts</a>
-      <a class="tab" href="#books" data-v="books">書單</a>
+      <a class="tab" href="#shelf" data-v="shelf">書櫃</a>
       <a class="tab" href="#topics" data-v="topics">議題</a>
-      <a class="tab" href="#songs" data-v="songs">歌單</a>
+      <a class="tab" href="#records" data-v="records">唱片架</a>
     </nav>
   </div>
 </div>
@@ -240,7 +292,7 @@ const tlink=(id,t)=>`href="${yt(id,t)}" target="_blank" rel="noopener" data-play
 const norm=s=>String(s??"").toLowerCase().replace(/[\s・·．.、，,！!？?「」『』《》〈〉（）()【】#＃：:／/\-]/g,"");
 const WD="日一二三四五六";
 const NOISE=/^(OP|ED|開場|晚安|今日曲目回顧|待機|開台待機)/;
-let D,S=[],byId={},SH=[],state={v:"all",cat:"",scat:"",q:""};
+let D,S=[],byId={},SH=[],BOOKS=[],RECS=[],state={v:"all",cat:"",scat:"",q:"",btype:"",rsort:"count",rlang:""};
 
 function hl(text,q){const t=esc(text);if(!q)return t;const k=esc(q).replace(/[.*+?^${}()|[\]\\]/g,"\\$&");try{return t.replace(new RegExp(k,"gi"),m=>"<mark>"+m+"</mark>")}catch(e){return t}}
 const SIZES={v:["maxresdefault","hq720","sddefault","hqdefault"],s:["oardefault","oar2","hqdefault"]};
@@ -283,7 +335,7 @@ function renderStats(){
   const n=k=>S.filter(r=>r.cats.includes(k)).length;
   const hours=Math.round(S.reduce((a,r)=>a+secs(r.dur),0)/3600);
   const chs=S.reduce((a,r)=>a+r.chapters.length,0);
-  document.getElementById("stats").innerHTML=[[S.filter(r=>r.live).length,"場直播"],[n("podcast")-S.filter(r=>r.live&&r.cats.includes("podcast")).length,"集 Podcast"],[hours,"小時的陪伴"],[chs,"個時間軸段落"],[D.books.length,"本書與讀物"],[SH.length,"支 Shorts"]].map(([a,b])=>`<div class="stat"><b>${a}</b><span>${b}</span></div>`).join("");
+  document.getElementById("stats").innerHTML=[[S.filter(r=>r.live).length,"場直播"],[n("podcast")-S.filter(r=>r.live&&r.cats.includes("podcast")).length,"集 Podcast"],[hours,"小時的陪伴"],[chs,"個時間軸段落"],[BOOKS.length,"本書"],[SH.length,"支 Shorts"]].map(([a,b])=>`<div class="stat"><b>${a}</b><span>${b}</span></div>`).join("");
   document.getElementById("upd").textContent="資料自動更新・最後更新 "+String(D.updated).replace("T"," ").slice(0,16);
   const f=S[0];
   const feat=document.getElementById("feat");
@@ -307,6 +359,67 @@ function renderBars(){
 function chips(list){
   const opts=[["","全部"],...CATS.map(c=>[c[0],c[1]]),["collab","連動・來賓"]];
   return `<div class="chips" role="group" aria-label="節目分類">${opts.map(([k,l])=>{const c=k===""?list.length:list.filter(r=>k==="collab"?r.collab:r.cats.includes(k)).length;if(!c&&k)return"";return `<button class="chip" data-cat="${k}" aria-pressed="${state.cat===k}">${esc(l)} <small>${c}</small></button>`}).join("")}</div>`}
+
+/* 書櫃：同一本書的直播和 Podcast 整合在一起 */
+const bookKey=t=>String(t).replace(/（[^）]*）|\([^)]*\)/g,"").toLowerCase().replace(/[\s・·．.、，,！!？?：:「」『』《》〈〉—\-／/]/g,"");
+/* 唱片架：同一首歌整合在一起 */
+const songKey=t=>String(t).replace(/（[^）]*）|\([^)]*\)/g,"").toLowerCase().replace(/[\s・·．.、，,！!？?：:「」『』《》〈〉\-—／/'’"“”~～★☆♡♪]/g,"");
+const hash=t=>{let h=2166136261;for(const c of String(t))h=Math.imul(h^c.codePointAt(0),16777619);return h>>>0};
+const PAL=[["#1E2A4F","#EEF0F4","#51A8DD"],["#2C4C9C","#EEF0F4","#C8A55A"],["#C8A55A","#1A1B22","#1E2A4F"],["#EEF0F4","#1E2A4F","#51A8DD"],["#44597F","#EEF0F4","#C8A55A"],["#51A8DD","#1A1B22","#EEF0F4"],["#1A1B22","#C8A55A","#51A8DD"],["#7A3442","#F3E9DC","#C8A55A"],["#2F5D5A","#EEF0F4","#C8A55A"],["#E7D9C4","#3A2A1E","#7A3442"]];
+const PAT=[a=>`radial-gradient(circle at 72% 30%,${a} 0 14%,transparent 14.5% 26%,${a} 26.5% 27.5%,transparent 28% 38%,${a} 38.5% 39.3%,transparent 40%)`,
+ a=>`repeating-linear-gradient(135deg,${a} 0 5px,transparent 5px 20px)`,
+ a=>`radial-gradient(circle at 50% 112%,${a} 0 46%,transparent 46.5%)`,
+ a=>`radial-gradient(${a} 1.6px,transparent 2.2px) 0 0/16px 16px`,
+ a=>`linear-gradient(158deg,transparent 56%,${a} 56.3%)`,
+ a=>`conic-gradient(from 210deg at 78% 22%,${a} 0 25%,transparent 25% 100%)`,
+ a=>`repeating-radial-gradient(circle at 100% 0,${a} 0 2px,transparent 2px 14px)`];
+const art=(key,o={})=>{const h=hash(key),[bg,fg,ac]=PAL[h%PAL.length],pt=PAT[(h>>>4)%PAT.length](ac+(o.soft?"55":"cc"));return {bg,fg,ac,style:`background:linear-gradient(to top,${bg} 0 16%,${bg}d9 34%,transparent 60%),${pt},${bg};color:${fg}`}};
+function langOf(t,a){const x=t+" "+(a||"");if(/[\uac00-\ud7af]/.test(x))return "韓文";if(/[\u3040-\u30ff]/.test(x))return "日文";if(/[\u4e00-\u9fff]/.test(t))return "華語";if(/[a-z]/i.test(t))return "英文";return "其他"}
+function buildLibrary(){
+  const bm=new Map();
+  D.books.forEach(([id,title,author])=>{const r=byId[id];if(!r)return;const k=bookKey(title);if(!bm.has(k))bm.set(k,{k,title:title.replace(/（[^）]*）/g,""),author:"",eps:[],cover:(D.covers||{})[k]||""});const b=bm.get(k);if(author&&!b.author)b.author=author;if(!b.eps.includes(r))b.eps.push(r)});
+  BOOKS=[...bm.values()].map(b=>(b.eps.sort((x,y)=>y.date.localeCompare(x.date)),b.last=b.eps[0].date,b.live=b.eps.some(r=>r.live),b.pod=b.eps.some(r=>!r.live),b.hay=norm(b.title+b.author),b)).sort((x,y)=>y.last.localeCompare(x.last));
+  const rm=new Map();
+  S.forEach(r=>(r.songs||[]).forEach(s=>{const raw=String(s.s).trim();if(!raw||/^(OP|ED|開場|晚安)$/.test(raw))return;const k=songKey(raw);if(!k)return;
+    if(!rm.has(k))rm.set(k,{k,titles:{},artists:{},perf:[]});const x=rm.get(k);const tt=raw.replace(/（(中斷|日文版|結果.*?)）/g,"").trim();x.titles[tt]=(x.titles[tt]||0)+1;if(s.a)x.artists[s.a]=(x.artists[s.a]||0)+1;x.perf.push({r,t:s.t})}));
+  const top=o=>Object.entries(o).sort((a,b)=>b[1]-a[1])[0]?.[0]||"";
+  RECS=[...rm.values()].map(x=>{x.title=top(x.titles);x.artist=top(x.artists);x.perf.sort((a,b)=>b.r.date.localeCompare(a.r.date));x.n=x.perf.length;x.last=x.perf[0].r.date;x.lang=langOf(x.title,x.artist);x.hay=norm(x.title+x.artist);return x});
+}
+function bookCover(b,big){
+  const a=art(b.k);
+  const fb=`<span class="gcover" style="${a.style}"><span class="gtitle">${esc(b.title)}</span>${b.author?`<span class="gauth">${esc(b.author)}</span>`:""}<span class="gstar">✦</span></span>`;
+  if(!b.cover)return fb;
+  const src=b.cover.replace(/&zoom=\d/,"&zoom=1")+(b.cover.includes("fife=")?"":"&fife=w"+(big?600:300));
+  return `<img class="bimg" src="${esc(src)}" alt="《${esc(b.title)}》封面" loading="lazy" decoding="async" onerror="this.replaceWith(document.createRange().createContextualFragment(this.dataset.fb))" data-fb="${esc(fb)}">`}
+function sleeve(x){const a=art(x.k);return `<span class="sleeve" style="${a.style}"><span class="smark">✦ Nibel Live</span><span class="stitle">${esc(x.title)}</span>${x.artist?`<span class="sart">${esc(x.artist)}</span>`:""}</span>`}
+
+function viewShelf(){
+  const q=qn(),base=BOOKS.filter(b=>!q||b.hay.includes(q)),list=base.filter(b=>!state.btype||(state.btype==="live"?b.live:b.pod));
+  const ch=`<div class="chips" role="group" aria-label="書櫃分類">${[["","全部",base.length],["live","說書直播",base.filter(b=>b.live).length],["pod","說書 Podcast",base.filter(b=>b.pod).length]].map(([k,l,n])=>`<button class="chip" data-btype="${k}" aria-pressed="${state.btype===k}">${l} <small>${n}</small></button>`).join("")}</div>`;
+  return `<h3 class="sect">尼貝爾的書櫃 <span>${list.length} 本</span></h3><p class="sub">說書直播和說書 Podcast 讀過的每一本書，抽一本出來看看</p>`+ch+
+   (list.length?`<div class="shelf">${list.map(b=>`<button class="bk" data-book="${esc(b.k)}" aria-label="《${esc(b.title)}》${b.author?esc(b.author):""}，${b.eps.length} 集"><span class="bcov">${bookCover(b)}</span><span class="bt">${hl(b.title,state.q)}</span><span class="bm">${b.eps.length>1?`${b.eps.length} 集・`:""}${b.live&&b.pod?"直播＋Podcast":b.live?"說書直播":"Podcast"}</span></button>`).join("")}</div>`:`<p class="empty">書櫃裡沒有符合的書</p>`)}
+
+function viewRecords(){
+  const q=qn(),base=RECS.filter(x=>!q||x.hay.includes(q)),list=base.filter(x=>!state.rlang||x.lang===state.rlang);
+  const sorters={count:(a,b)=>b.n-a.n||b.last.localeCompare(a.last),recent:(a,b)=>b.last.localeCompare(a.last),title:(a,b)=>a.title.localeCompare(b.title,"zh-Hant")};
+  list.sort(sorters[state.rsort]);
+  const langs=["華語","日文","韓文","英文"].map(l=>[l,base.filter(x=>x.lang===l).length]).filter(x=>x[1]);
+  const perfs=list.reduce((a,x)=>a+x.n,0);
+  const others=S.filter(r=>r.cats.includes("song")&&!r.songs&&(!q||r.hay.includes(q)));
+  return `<h3 class="sect">尼貝爾的唱片架 <span>${list.length} 首・唱過 ${perfs} 次</span></h3><p class="sub">同一首歌整合成一張唱片，點開就能聽每一次的版本</p>
+   <div class="chips" role="group" aria-label="排序">${[["count","最常唱"],["recent","最近唱"],["title","歌名"]].map(([k,l])=>`<button class="chip" data-rsort="${k}" aria-pressed="${state.rsort===k}">${l}</button>`).join("")}<span class="csep"></span>${[["","全部",base.length],...langs.map(([l,n])=>[l,l,n])].map(([k,l,n])=>`<button class="chip" data-rlang="${k}" aria-pressed="${state.rlang===k}">${l} <small>${n}</small></button>`).join("")}</div>`+
+   (list.length?`<div class="crate">${list.map(x=>`<button class="rec" data-rec="${esc(x.k)}" aria-label="${esc(x.title)}${x.artist?"／"+esc(x.artist):""}，唱過 ${x.n} 次"><span class="rwrap"><span class="vinyl"><i style="background:${art(x.k).ac}"></i></span>${sleeve(x)}${x.n>1?`<span class="rcount">×${x.n}</span>`:""}</span><span class="rt">${hl(x.title,state.q)}</span>${x.artist?`<span class="ra">${hl(x.artist,state.q)}</span>`:""}</button>`).join("")}</div>`:`<p class="empty">唱片架上還沒有這首歌</p>`)+
+   (others.length?`<section class="month" style="margin-top:34px"><h3 class="sect">其他歌回・歌雜 <span>${others.length}</span></h3><p class="sub">這幾場的歌單還在整理中，可以先點進去聽</p><div class="grid">${others.map(card).join("")}</div></section>`:"")}
+
+/* 書和唱片的詳細頁：同一個播放器，點哪一集就播哪一集 */
+function openMulti(html){if(!sheet.classList.contains("open"))lastFocus=document.activeElement;stopPlayer();panel.dataset.kind="multi";panel.dataset.id="";panel.innerHTML=html;sheet.classList.add("open");document.body.style.overflow="hidden";sheet.scrollTop=0;document.getElementById("close").focus()}
+const PHOLD=`<div class="player" id="player"></div>`;
+function openBook(k){
+  const b=BOOKS.find(x=>x.k===k);if(!b)return;
+  openMulti(`<button class="close" id="close" aria-label="關閉">×</button><div class="mhead"><span class="mcov">${bookCover(b,true)}</span><div><p class="eb2">${b.live&&b.pod?"說書直播＋Podcast":b.live?"說書直播":"說書 Podcast"}</p><h2 id="ptitle">《${esc(b.title)}》</h2>${b.author?`<p class="note">${esc(b.author)}</p>`:""}<p class="note">聊過 ${b.eps.length} 集，點下面任一集就在這裡播放</p></div></div>${PHOLD}<div class="pbody">${b.eps.map(r=>`<div class="ep"><a class="eprow" ${tlink(r.id,"0")}>${th("v",r.id)}<span><small>${esc(r.date.replaceAll("-","."))}・${r.live?"說書直播":"Podcast"}・${esc(r.dur)}</small><b>${esc(r.title)}</b></span></a>${r.chapters.length?`<button class="epch" data-open="${esc(r.id)}">時間軸 ${r.chapters.length} 段 →</button>`:""}</div>`).join("")}</div>`)}
+function openRecord(k){
+  const x=RECS.find(y=>y.k===k);if(!x)return;
+  openMulti(`<button class="close" id="close" aria-label="關閉">×</button><div class="mhead"><span class="mcov sq">${sleeve(x)}</span><div><p class="eb2">${esc(x.lang)}・唱過 ${x.n} 次</p><h2 id="ptitle">${esc(x.title)}</h2>${x.artist?`<p class="note">原唱：${esc(x.artist)}</p>`:""}<p class="note">點下面任一次，就從這首歌開始播</p></div></div>${PHOLD}<div class="pbody">${x.perf.map(p=>`<div class="ep"><a class="eprow" ${tlink(p.r.id,p.t)}>${th("v",p.r.id)}<span><small>${esc(p.r.date.replaceAll("-","."))}・從 ${esc(p.t)} 開始</small><b>${esc(p.r.title)}</b></span></a><button class="epch" data-open="${esc(p.r.id)}">整場歌單 →</button></div>`).join("")}</div>`)}
 
 function card(r){
   const hits=chapHits(r).length;
@@ -360,7 +473,7 @@ function viewSongs(){
 
 function render(){
   document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-current",String(t.dataset.v===state.v)));
-  document.getElementById("view").innerHTML=({all:viewAll,shorts:viewShorts,books:viewBooks,topics:viewTopics,songs:viewSongs}[state.v])();
+  document.getElementById("view").innerHTML=({all:viewAll,shorts:viewShorts,shelf:viewShelf,topics:viewTopics,records:viewRecords}[state.v])();
   renderBars();buildRail();
 }
 
@@ -405,7 +518,9 @@ function loadYT(){if(ytReady)return ytReady;ytReady=new Promise(res=>{window.onY
 window.__nbPlayer=()=>player;
 function stopPlayer(){if(player){try{player.destroy()}catch(e){}}player=null;playerId=null}
 async function play(id,t){
-  if(!sheet.classList.contains("open")||panel.dataset.id!==id)openSheet(id);
+  if(!sheet.classList.contains("open")||(panel.dataset.kind!=="multi"&&panel.dataset.id!==id))openSheet(id);
+  panel.querySelectorAll(".eprow.now").forEach(e=>e.classList.remove("now"));
+  panel.querySelectorAll(`.eprow[data-play="${CSS.escape(id+"|"+Math.floor(t))}"]`).forEach(e=>e.classList.add("now"));
   const box=document.getElementById("player");if(!box)return;
   box.classList.add("on");
   if(player&&playerId===id&&player.seekTo){player.seekTo(t,true);player.playVideo();return}
@@ -424,7 +539,7 @@ function openSheet(id){
   const r=byId[id];if(!r)return;if(!sheet.classList.contains("open"))lastFocus=document.activeElement;stopPlayer();
   const pills=r.cats.map(c=>`<span class="pill">${esc(CN[c])}</span>`).join("")+(r.collab?`<span class="pill">連動・來賓</span>`:"");
   const f=state.q;
-  panel.dataset.id=r.id;
+  panel.dataset.id=r.id;panel.dataset.kind="stream";
   panel.innerHTML=`<button class="close" id="close" aria-label="關閉">×</button><div class="player" id="player"><button class="poster" type="button" data-play="${esc(r.id)}|0" aria-label="在這裡播放">${th("v",r.id,true)}<span class="pbtn">▶</span></button></div><div class="pbody"><div class="pmeta"><span>${esc(r.date.replaceAll("-","."))}</span><span>${esc(r.dur)}</span>${pills}</div><h2 id="ptitle">${esc(r.title)}</h2>${r.book?`<p class="note">書目：《${esc(r.book)}》${r.author?"／"+esc(r.author):""}</p>`:""}${r.topic?`<p class="note">本週專題：${esc(r.topic)}</p>`:""}<a class="watch" href="${yt(r.id)}" target="_blank" rel="noopener">到 YouTube 看這場 ↗</a><p class="note">點時間軸的任何一段，上面的播放器就會從那一秒開始播</p>${r.cats.includes("member")?`<p class="note">這場是會員限定，需要加入頻道會員才能觀看</p>`:""}
   ${(()=>{const rel=SH.filter(x=>(D.shortSource||{})[x.id]===r.id);return rel.length?`<h3>從這場剪出來的 Shorts（${rel.length}）</h3><div class="shorts">${rel.map(x=>`<a class="short" href="https://www.youtube.com/shorts/${encodeURIComponent(x.id)}" target="_blank" rel="noopener"><span class="pic">${th("s",x.id)}</span><span class="t">${esc(x.title)}</span></a>`).join("")}</div>`:""})()}
   ${r.songs?`<h3>歌單（${r.songs.length} 首）</h3>${r.songs.map(s=>`<a class="chap" ${tlink(r.id,s.t)}><time>${esc(s.t)}</time><span>${esc(s.s)}${s.a?`<span class="sa">${esc(s.a)}</span>`:""}</span></a>`).join("")}`:""}
@@ -437,10 +552,13 @@ function closeSheet(){stopPlayer();sheet.classList.remove("open");document.body.
 sheet.addEventListener("click",e=>{if(e.target===sheet||e.target.closest("#close"))closeSheet()});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&sheet.classList.contains("open"))closeSheet()});
 
-function route(){const h=location.hash.slice(1);state.v=["books","topics","songs","shorts"].includes(h)?h:"all";render()}
+function route(){let h=location.hash.slice(1);h={books:"shelf",songs:"records"}[h]||h;state.v=["shelf","topics","records","shorts"].includes(h)?h:"all";render()}
 document.getElementById("view").addEventListener("click",e=>{
-  const c=e.target.closest(".chip");if(c){if("cat" in c.dataset)state.cat=c.dataset.cat;if("scat" in c.dataset)state.scat=c.dataset.scat;render();return}
+  const c=e.target.closest(".chip");if(c){for(const k of ["cat","scat","btype","rsort","rlang"])if(k in c.dataset)state[k]=c.dataset[k];render();return}
+  const bk=e.target.closest("[data-book]");if(bk){openBook(bk.dataset.book);return}
+  const rc=e.target.closest("[data-rec]");if(rc){openRecord(rc.dataset.rec);return}
   const k=e.target.closest("[data-id]");if(k)openSheet(k.dataset.id)});
+panel.addEventListener("click",e=>{const o=e.target.closest("[data-open]");if(o){openSheet(o.dataset.open);setTimeout(()=>{const h=[...panel.querySelectorAll("h3")].find(x=>/歌單|時間軸/.test(x.textContent));if(h)h.scrollIntoView({block:"start"})},50)}});
 document.getElementById("feat").addEventListener("click",e=>openSheet(e.currentTarget.dataset.id));
 document.getElementById("bars").addEventListener("click",e=>{
   const b=e.target.closest(".bar");if(!b)return;
@@ -453,7 +571,7 @@ qi.addEventListener("input",()=>{clr.hidden=!qi.value;clearTimeout(tm);tm=setTim
 clr.addEventListener("click",()=>{qi.value="";clr.hidden=true;state.q="";render();qi.focus()});
 window.addEventListener("hashchange",route);
 
-fetch("data.json").then(r=>r.json()).then(d=>{D=d;prep();renderStats();route()}).catch(()=>{document.getElementById("view").innerHTML='<p class="empty">資料載入失敗，請重新整理一次</p>'});
+fetch("data.json",{cache:"no-cache"}).then(r=>r.json()).then(d=>{D=d;prep();buildLibrary();renderStats();route()}).catch(()=>{document.getElementById("view").innerHTML='<p class="empty">資料載入失敗，請重新整理一次</p>'});
 }
 </script>
 </body>
