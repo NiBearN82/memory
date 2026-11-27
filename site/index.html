@@ -516,6 +516,45 @@ body[data-sec="songs"] main.band{background:linear-gradient(rgba(16,18,28,.4),rg
 .flow{background:rgba(14,16,26,.45);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 @media(prefers-reduced-motion:reduce){.jbtube,.jbtube i{animation:none}}
 
+.panchor{display:block;height:0}
+/* 報紙攤日曆 */
+.ndate{padding:22px 20px 18px;gap:0}
+.ndtop{display:flex;flex-direction:column;align-items:center;gap:2px;width:100%}
+.ndtop .ndbig{font-size:clamp(54px,5.6vw,84px)}
+.ndtop .ndw{font-size:14px}.ndtop .ndw b{font-family:"Cormorant Garamond",serif;font-size:20px;color:#F2D46B}
+.ndtop .ndhead{margin-top:8px;font-size:15px}
+.cal{width:100%;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.25)}
+.calhd{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.calhd b{font-family:"Noto Serif TC",serif;font-size:17px}
+.calnav{width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);color:#fff;font-size:18px;cursor:pointer}
+.calnav:disabled{opacity:.25;cursor:default}
+.calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cw{font-size:11px;color:#F2D46B;font-weight:900;padding:2px 0}
+.cd{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;aspect-ratio:1;border-radius:8px;font-size:13px;color:rgba(244,241,232,.75);font-family:"Cormorant Garamond",serif;font-weight:700}
+.cd.e{visibility:hidden}
+.cd.rg{background:rgba(242,212,107,.18);color:#fff}
+button.cd{all:unset;box-sizing:border-box;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;aspect-ratio:1;border-radius:8px;cursor:pointer;font-family:"Cormorant Garamond",serif;font-weight:700;font-size:15px;color:#1F1B16;background:#F4EEDF;box-shadow:0 2px 0 #b9b09b}
+button.cd i{font-style:normal;font-family:"Noto Sans TC",sans-serif;font-size:8px;font-weight:900;color:#B3261E;line-height:1}
+button.cd:hover,button.cd:focus-visible{background:#F2D46B;outline:none;transform:translateY(-1px)}
+button.cd.cur{background:#B3261E;color:#fff;box-shadow:0 0 0 2px #fff}button.cd.cur i{color:#fff}
+.calnote{font-size:11px;color:#E6E2D6;margin:10px 0 0;line-height:1.7;text-shadow:none}
+.lg{display:inline-block;width:10px;height:10px;border-radius:3px;vertical-align:-1px;margin-right:3px}.lg.live{background:#F4EEDF}.lg.rg{background:rgba(242,212,107,.4)}
+@media(max-width:900px){.ndate{max-height:46vh;overflow:auto}.cal{display:block}.ndtop .ndhead{display:none}.ndtop{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:4px 10px}.ndtop .ndbig{font-size:36px}}
+/* 點唱機：選哪一次 */
+.jbperf{width:88%;display:flex;flex-direction:column;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:10px}
+.jbpl{font-size:13px;font-weight:900;color:#F6D78A;text-align:left}
+.jbpchips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.jbpc{flex:none;border:0;border-radius:10px;padding:6px 10px;background:#FFF3D6;color:#3B2A12;cursor:pointer;display:flex;flex-direction:column;align-items:center;font:inherit;box-shadow:0 3px 0 #8A5A24}
+.jbpc b{font-family:"Cormorant Garamond",serif;font-size:15px}.jbpc small{font-size:11px;font-weight:700}
+.jbpc:hover{background:#F6D78A}.jbpc.on{background:#F2A7B5;color:#3A1520;box-shadow:0 1px 0 #8a4a57;transform:translateY(2px)}
+.jbmore.big{display:flex;align-items:center;gap:8px;background:#E9B872;color:#3B2A12;border:0;font-size:15px;padding:11px 20px;box-shadow:0 4px 0 #8A5A24;animation:nudge 2.4s ease-in-out infinite}
+.jbmore.big span{transition:transform .2s}.jbmore.big:hover span{transform:translateX(4px)}
+@keyframes nudge{0%,85%,100%{transform:none}90%{transform:translateY(-3px)}95%{transform:translateY(1px)}}
+.jbspk{justify-content:space-around;width:94%;margin-top:10px}
+.spk{width:130px;height:130px;box-shadow:0 0 0 6px #6B4B1F,0 0 0 9px #C8A55A,inset 0 0 18px rgba(0,0,0,.7)}
+@media(max-width:560px){.spk{width:90px;height:90px}}
+@media(prefers-reduced-motion:reduce){.jbmore.big{animation:none}}
+
 </style>
 </head>
 <body>
@@ -825,7 +864,7 @@ function render(){
   else html=({all:viewAll,shorts:viewShorts,topics:viewTopics}[state.v]||viewAll)();
   document.getElementById("view").innerHTML=html;
   if(state.sec==="live")renderBars();
-  buildRail();if(state.sec==="songs")initFlows();if(state.sec==="news")updNews();animView();
+  buildRail();if(state.sec==="songs")initFlows();if(state.sec==="news"){calCur="";updNews()}animView();
   document.documentElement.style.setProperty("--ctrl",(document.querySelector(".controls").offsetHeight||0)+"px");
 }
 
@@ -991,13 +1030,15 @@ function newsInfo(r){
   const ch=(r.chapters||[]).map(c=>({t:c.t,x:c.x.replace(/^[\d:\s]+/,"").replace(/^[🎵🎶♪♫]\s*/u,"").trim()})).filter(c=>c.x&&!NOISE.test(c.x)&&!CH_SKIP.test(c.x));
   if(!head)head=ch[0]?.x||"本週國內國際大小事";
   const [, m1, d1, m2, d2]=dm||[];
-  return {head,tags,ch:ch.filter(c=>c.x!==head),range:dm?`${+m1}月${+d1}日 – ${+m2}月${+d2}日`:r.date.slice(5).replace("-","月")+"日",rng:dm?`${+m1}/${+d1}–${+m2}/${+d2}`:"—",hasTopic:/專題/.test(t)}}
+  const ly=+r.date.slice(0,4),lm=+r.date.slice(5,7),iso=(y,m,d)=>`${y}-${String(m).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+  const from=dm?iso(+m1>lm?ly-1:ly,+m1,+d1):r.date,to=dm?iso(+m2>lm?ly-1:ly,+m2,+d2):r.date;
+  return {from,to,head,tags,ch:ch.filter(c=>c.x!==head),range:dm?`${+m1}月${+d1}日 – ${+m2}月${+d2}日`:r.date.slice(5).replace("-","月")+"日",rng:dm?`${+m1}/${+d1}–${+m2}/${+d2}`:"—",hasTopic:/專題/.test(t)}}
 function viewNews(){
   const q=qn();const all=S.filter(r=>/新聞久一點/.test(r.raw||r.title));const list=all.filter(r=>!q||r.hay.includes(q));
   return `<div class="stand"><div class="awning" aria-hidden="true"></div>
     <div class="standhead"><img class="shani" src="${HANI("cube")}" alt=""><div><p class="eyebrow">News Stand · 新聞久一點</p><h2>尼貝爾報紙攤</h2><p class="sub">每週一 20:00 的新聞直播，一期一份報紙，共 ${all.length} 期。往下滑翻報紙，點一份就能看整場時間軸</p></div></div></div>
     ${list.length?`<div class="newsgrid"><div class="papers">${list.map(r=>{const n=newsInfo(r),no=all.length-all.indexOf(r),dt=new Date(r.date+"T12:00:00");
-      return `<button class="paper" data-id="${esc(r.id)}" data-no="${no}" data-md="${dt.getMonth()+1}/${dt.getDate()}" data-wd="週${WD[dt.getDay()]}・${dt.getFullYear()}" data-rng="${esc(n.rng)}" data-head="${esc(n.head)}" style="--r:${((hash(r.id)%7)-3)*.4}deg;--s:${(hash(r.id)>>3)%3}" aria-label="第 ${no} 期 ${esc(n.range)} ${esc(n.head)}">
+      return `<span class="panchor" id="np-${esc(r.id)}"></span><button class="paper" data-id="${esc(r.id)}" data-date="${r.date}" data-from="${n.from}" data-to="${n.to}" data-no="${no}" data-md="${dt.getMonth()+1}/${dt.getDate()}" data-wd="週${WD[dt.getDay()]}・${dt.getFullYear()}" data-rng="${esc(n.rng)}" data-head="${esc(n.head)}" style="--r:${((hash(r.id)%7)-3)*.4}deg;--s:${(hash(r.id)>>3)%3}" aria-label="第 ${no} 期 ${esc(n.range)} ${esc(n.head)}">
       <span class="pedge" aria-hidden="true"></span>
       <span class="ptop"><span>第 ${no} 期</span><span>${dt.getFullYear()} 年 ${esc(n.range)}</span><span>每週一出刊・尼貝爾新聞社</span></span>
       <span class="mast"><img src="${HANI("cube")}" alt=""><b>新聞久一點</b><small>Weekly News Digest</small></span>
@@ -1007,11 +1048,24 @@ function viewNews(){
       <span class="pcols"><span class="pphoto">${th("v",r.id)}<small>${esc(r.date.replaceAll("-","."))}（${WD[dt.getDay()]}）直播・全長 ${esc(r.dur)}</small></span>
         <span class="pidx">${n.ch.length?n.ch.slice(0,28).map(c=>`<span class="pi"><time>${esc(c.t)}</time>${hl(c.x,state.q)}</span>`).join(""):`<span class="pi">這期還沒有時間軸，點進來看整場直播</span>`}</span></span>
       <span class="pfoot"><span>本期共 ${n.ch.length} 則</span><span class="pcta">翻開這期報紙 →</span></span></button>`}).join("")}</div><aside class="ndate" id="ndate" aria-live="polite"></aside></div>`:`<p class="empty">報紙攤沒有符合的報紙</p>`}`}
-function updNews(){const a=document.getElementById("ndate");if(!a)return;const ps=[...document.querySelectorAll(".paper")];if(!ps.length)return;
+let calM="",calCur="";
+function updNews(force){const a=document.getElementById("ndate");if(!a)return;const ps=[...document.querySelectorAll(".paper")];if(!ps.length)return;
   const line=(document.querySelector(".controls")?.offsetHeight||0)+80;let cur=ps[0];for(const p of ps){if(p.getBoundingClientRect().top<=line)cur=p;else break}
-  if(a.dataset.cur===cur.dataset.id)return;a.dataset.cur=cur.dataset.id;const d=cur.dataset;
-  a.innerHTML=`<span class="ndno">第 ${d.no} 期</span><span class="ndl">直播日期</span><span class="ndbig">${d.md.replace("/","<i>/</i>")}</span><span class="ndw">${d.wd}</span><span class="ndsep"></span><span class="ndl">新聞範圍</span><span class="ndrng">${d.rng.replace("–","<i>–</i>")}</span><span class="ndhead">${d.head}</span>`;
-  if(G())gsap.fromTo(a.children,{y:8,autoAlpha:0},{y:0,autoAlpha:1,duration:.3,stagger:.03})}
+  if(!force&&calCur===cur.dataset.id)return;if(calCur!==cur.dataset.id){calCur=cur.dataset.id;calM=cur.dataset.date.slice(0,7)}
+  const d=cur.dataset,byD={};ps.forEach(p=>byD[p.dataset.date]=p);
+  const [Y,M]=calM.split("-").map(Number),first=new Date(Y,M-1,1),days=new Date(Y,M,0).getDate(),lead=(first.getDay()+6)%7;
+  const iso=n=>`${Y}-${String(M).padStart(2,"0")}-${String(n).padStart(2,"0")}`;
+  let cells="";for(let i=0;i<lead;i++)cells+=`<span class="cd e"></span>`;
+  for(let n=1;n<=days;n++){const k=iso(n),p=byD[k],inR=k>=d.from&&k<=d.to,isCur=k===d.date;
+    cells+=p?`<button class="cd live${isCur?" cur":""}${inR?" rg":""}" data-jump="${p.dataset.id}" title="第 ${p.dataset.no} 期">${n}<i>第${p.dataset.no}期</i></button>`:`<span class="cd${inR?" rg":""}">${n}</span>`}
+  const months=[...new Set(ps.map(p=>p.dataset.date.slice(0,7)))].sort(),mi=months.indexOf(calM);
+  a.innerHTML=`<div class="ndtop"><span class="ndno">第 ${d.no} 期</span><span class="ndbig">${d.md.replace("/","<i>/</i>")}</span><span class="ndw">${d.wd} 直播・新聞範圍 <b>${d.rng}</b></span><span class="ndhead">${d.head}</span></div>
+   <div class="cal"><div class="calhd"><button class="calnav" data-calm="${months[mi-1]||""}" ${mi>0?"":"disabled"} aria-label="上個月">‹</button><b>${Y} 年 ${M} 月</b><button class="calnav" data-calm="${months[mi+1]||""}" ${mi<months.length-1&&mi>=0?"":"disabled"} aria-label="下個月">›</button></div>
+   <div class="calgrid">${["一","二","三","四","五","六","日"].map(w=>`<span class="cw">${w}</span>`).join("")}${cells}</div>
+   <p class="calnote"><span class="lg live"></span>有直播的週一，點一下就翻到那一期　<span class="lg rg"></span>這期涵蓋的新聞</p></div>`}
+function jumpPaper(id){const an=document.getElementById("np-"+id);if(!an)return;const y=an.getBoundingClientRect().top+scrollY-(document.querySelector(".controls")?.offsetHeight||0)-14;scrollTo({top:y,behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})}
+document.getElementById("view").addEventListener("click",e=>{const j=e.target.closest("[data-jump]");if(j){e.stopPropagation();jumpPaper(j.dataset.jump);return}
+  const c=e.target.closest("[data-calm]");if(c&&c.dataset.calm){e.stopPropagation();calM=c.dataset.calm;updNews(true)}},true);
 addEventListener("scroll",()=>{if(state.sec==="news")requestAnimationFrame(updNews)},{passive:true});
 
 /* ---------- 說書：書櫃 ---------- */
@@ -1077,9 +1131,9 @@ function jukeInner(){const x=juke;if(!x)return `<div class="jbdeck"><p class="no
      <span class="jbsleeve">${sleeve(x)}</span>
    </div>
    <div class="jbinfo"><span class="jblang">${esc(x.lang)}・唱過 ${x.n} 次</span><b>${esc(x.title)}</b>${x.artist?`<small>${esc(x.artist)}</small>`:""}</div>
-   <div class="jbbtns"><button class="jbplay" data-jplay="${esc(x.k)}">▶ 播放最近一次</button><button class="jbmore" data-rec="${esc(x.k)}">全部 ${x.n} 次演唱</button></div>
-   <span class="jbkeys" aria-hidden="true">${["A","B","C","D","E","F","G","H"].map((k,i)=>`<i class="${i===hash(x.k)%8?"on":""}">${k}${1+hash(x.k+k)%9}</i>`).join("")}</span>
-   <span class="jbspk" aria-hidden="true"><span class="spk"></span><span class="coin"><i></i><small>25¢</small></span><span class="spk"></span></span>
+   <div class="jbperf"><span class="jbpl">🎧 選一次來聽${x.n>1?`（共 ${x.n} 次）`:""}</span><div class="jbpchips">${x.perf.map((p,i)=>`<button class="jbpc" data-jperf="${esc(x.k)}|${i}"><b>${esc(p.r.date.slice(2).replaceAll("-","."))}</b><small>▶ ${esc(p.t)}</small></button>`).join("")}</div></div>
+   <button class="jbmore big" data-rec="${esc(x.k)}">📖 看這首歌的完整介紹與每次演唱 <span>→</span></button>
+   <span class="jbspk" aria-hidden="true"><span class="spk"></span><span class="spk"></span></span>
    <span class="jbfeet" aria-hidden="true"><i></i><i></i></span>`}
 function setJuke(k,fromEl){const x=RECS.find(y=>y.k===k);if(!x)return;juke=x;const jb=document.getElementById("jukebox");if(!jb)return;
   const go=()=>{jb.innerHTML=jukeInner();const bd=document.getElementById("bdisc"),arm=document.getElementById("barm");if(bd)bd.innerHTML=`<span class="blabel">${sleeve(x)}</span>`;
@@ -1092,7 +1146,7 @@ function setJuke(k,fromEl){const x=RECS.find(y=>y.k===k);if(!x)return;juke=x;con
 /* 唱盤下的小播放器：留在這頁背景播放 */
 let mini=null,miniVid=null;
 function miniState(on){document.querySelector(".bigtt")?.classList.toggle("playing",on);const t=document.getElementById("mtoggle");if(t){t.textContent=on?"❚❚":"▶";t.setAttribute("aria-label",on?"暫停":"播放")}}
-async function miniPlay(x){const p=x.perf[0],id=p.r.id,t=secs(p.t);stopPlayer();
+async function miniPlay(x,pi=0){const p=x.perf[pi]||x.perf[0],id=p.r.id,t=secs(p.t);stopPlayer();
   const box=document.getElementById("mini");if(!box){openRecord(x.k);play(id,t);return}
   box.hidden=false;box.classList.remove("min");document.getElementById("mtitle").innerHTML=`♪ ${esc(x.title)}<small>${esc(p.r.date.replaceAll("-","."))}・從 ${esc(p.t)} 開始</small>`;
   const YT=await loadYT();
@@ -1129,6 +1183,7 @@ document.getElementById("view").addEventListener("click",e=>{
   const fn=e.target.closest("[data-fnav]");if(fn){e.stopPropagation();const f=fn.closest(".flow");f._go(f._idx()+ +fn.dataset.fnav);return}
   if(e.target.closest(".cf")||e.target.closest(".flow")&&!e.target.closest(".fnav")){e.stopPropagation();e.preventDefault();return}
   const jp=e.target.closest("[data-jplay]");if(jp){e.stopPropagation();const x=RECS.find(y=>y.k===jp.dataset.jplay);if(x)miniPlay(x);return}
+  const jpf=e.target.closest("[data-jperf]");if(jpf){e.stopPropagation();const [k,i]=jpf.dataset.jperf.split("|");const x=RECS.find(y=>y.k===k);if(x){document.querySelectorAll(".jbpc.on").forEach(b=>b.classList.remove("on"));jpf.classList.add("on");miniPlay(x,+i)}return}
   const mt=e.target.closest("#mtoggle");if(mt){e.stopPropagation();if(!mini)return;const st=mini.getPlayerState?.();if(st===1){mini.pauseVideo()}else mini.playVideo();return}
   const ms=e.target.closest("#mstop");if(ms){e.stopPropagation();miniStop();return}
   const mm=e.target.closest("#mmin");if(mm){e.stopPropagation();const b=document.getElementById("mini");const m=b.classList.toggle("min");mm.textContent=m?"▢":"–";mm.setAttribute("aria-label",m?"展開影片":"縮小影片");return}
