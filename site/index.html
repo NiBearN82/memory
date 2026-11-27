@@ -666,7 +666,8 @@ const CATS=[
  ["special","紀念・生日",/誕生日|尼誕祭|Say尼快樂|周年|一個月紀念|初配信|收益化|萬訂|1111|元宵/],
  ["talk","雜談",/./]
 ];
-CATS.splice(CATS.length-1,0,["work","翻唱・作品",/$^/]);
+CATS.splice(CATS.length-1,0,["cover","翻唱・原創曲",/$^/],["work","配音・資訊作品",/$^/]);
+const COVER=/cover|歌ってみた|翻唱|原創曲|original song/i;
 const CN=Object.fromEntries(CATS.map(c=>[c[0],c[1]]));
 const isLive=t=>/^\s*【[^】]*#/.test(t)||/繪畫接力大賽/.test(t);
 const isPod=t=>/要不要聽聽尼在說什麼|^S\d+EP\d+|^EP\d+/.test(t);
@@ -696,7 +697,7 @@ function chapSong(c){const x=c.x.replace(/^\s*(\d{1,2}:)?\d{1,2}:\d{2}\s*/,"").t
 function prep(){
   S=D.streams.map(([date,id,dur,raw],i)=>{
     const live=isLive(raw)&&(!dur||secs(dur)>=1200);  // 20 分鐘以下的是剪輯或預告，不算直播
-    const cats=live?CATS.filter(c=>c[0]!=="talk"&&c[2].test(raw)).map(c=>c[0]):[isPod(raw)?"podcast":"work"];
+    const cats=live?CATS.filter(c=>c[0]!=="talk"&&c[2].test(raw)).map(c=>c[0]):[isPod(raw)?"podcast":COVER.test(raw)?"cover":"work"];
     if(!cats.length)cats.push("talk");
     const r={i,date,id,dur,raw,live,title:live?clean(raw):raw.replace(/\s*【CC字幕】/,"").replace(/\s*#\S+/g,"").replace(/\s*@尼貝爾Nibel\S*/g,"").trim(),cats,collab:/連動|聯動|with|ft\.|feat\./i.test(raw),ym:date.slice(0,7)};
     const b=D.books.find(x=>x[0]===id);if(b){r.book=b[1];r.author=b[2]}
