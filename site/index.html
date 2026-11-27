@@ -221,7 +221,7 @@ mark{background:rgba(81,168,221,.3);color:var(--pearl);border-radius:3px;padding
 body.has-rail main.band{padding-right:max(4vw,80px)}
 @media(max-width:600px){.rail{width:30px;top:118px}.rm b{display:none}.rtip{right:30px;font-size:13px;padding:5px 10px;opacity:0;transition:opacity .3s,top .15s}.rail.active .rtip,.rail.drag .rtip{opacity:1}body.has-rail main.band{padding-right:40px}}
 @media(prefers-reduced-motion:reduce){.rtip,.pbtn{transition:none}}
-.close{position:absolute;top:12px;right:12px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(26,27,34,.85);color:var(--pearl);font-size:22px;cursor:pointer;z-index:2}
+.close{position:sticky;top:10px;display:block;margin:12px 12px -56px auto;width:44px;height:44px;border-radius:50%;border:0;background:rgba(26,27,34,.85);color:var(--pearl);font-size:22px;cursor:pointer;z-index:6}
 .pbody{padding:18px clamp(16px,3vw,28px) 26px}
 .pbody h2{font:900 clamp(21px,3vw,27px)/1.35 var(--serif);margin:6px 0 10px;text-wrap:balance}
 .pmeta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;color:var(--silver);font-size:14px}
@@ -803,7 +803,8 @@ function viewRecords(){
    (others.length?`<section class="month" style="margin-top:34px"><h3 class="sect">其他歌回・歌雜 <span>${others.length}</span></h3><p class="sub">這幾場的歌單還在整理中，可以先點進去聽</p><div class="grid">${others.map(card).join("")}</div></section>`:"")}
 
 /* 書和唱片的詳細頁：同一個播放器，點哪一集就播哪一集 */
-function openMulti(html){if(!sheet.classList.contains("open"))lastFocus=document.activeElement;stopPlayer();panel.dataset.kind="multi";panel.dataset.id="";panel.innerHTML=html;sheet.classList.add("open");document.body.style.overflow="hidden";sheet.scrollTop=0;document.getElementById("close").focus()}
+function sheetTop(){const c=document.querySelector(".controls");sheet.style.top=c?Math.max(0,Math.round(c.getBoundingClientRect().bottom))+"px":""}
+function openMulti(html){if(!sheet.classList.contains("open"))lastFocus=document.activeElement;sheetTop();stopPlayer();panel.dataset.kind="multi";panel.dataset.id="";panel.innerHTML=html;sheet.classList.add("open");document.body.style.overflow="hidden";sheet.scrollTop=0;document.getElementById("close").focus()}
 const PHOLD=`<div class="player" id="player"></div>`;
 
 /* 動效（GSAP）：書櫃、唱片架進場，打開書／唱片時的小動畫；系統設定「減少動態」時全部略過 */
@@ -961,7 +962,7 @@ function openSheet(id){
   ${(()=>{const rel=SH.filter(x=>(D.shortSource||{})[x.id]===r.id);return rel.length?`<h3>從這場剪出來的 Shorts（${rel.length}）</h3><div class="shorts">${rel.map(x=>`<a class="short" href="https://www.youtube.com/shorts/${encodeURIComponent(x.id)}" target="_blank" rel="noopener"><span class="pic">${th("s",x.id)}</span><span class="t">${esc(x.title)}</span></a>`).join("")}</div>`:""})()}
   ${r.songs?`<h3>歌單（${r.songs.length} 首）</h3>${r.songs.map(s=>`<a class="chap" ${tlink(r.id,s.t)}><time>${esc(s.t)}</time><span>${esc(s.s)}${s.a?`<span class="sa">${esc(s.a)}</span>`:""}</span></a>`).join("")}`:""}
   ${r.chapters.length?`<h3>時間軸（${r.chapters.length} 段）<input id="cf" type="text" placeholder="在這場裡搜尋" value="${esc(f&&chapHits(r).length?f:"")}" aria-label="在這場的時間軸裡搜尋"></h3><div id="cl">${chapList(r,f&&chapHits(r).length?f:"")}</div>`:`<h3>時間軸</h3><p class="note">這場的說明欄還沒有時間軸</p>`}</div>`;
-  sheet.classList.add("open");document.body.style.overflow="hidden";sheet.scrollTop=0;
+  sheetTop();sheet.classList.add("open");document.body.style.overflow="hidden";sheet.scrollTop=0;
   document.getElementById("close").focus();
   const cf=document.getElementById("cf");if(cf)cf.addEventListener("input",()=>{document.getElementById("cl").innerHTML=chapList(r,cf.value.trim())});
 }
@@ -1171,16 +1172,20 @@ function setJuke(k,fromEl){const x=RECS.find(y=>y.k===k);if(!x)return;juke=x;con
 /* 唱盤下的小播放器：留在這頁背景播放 */
 let mini=null,miniVid=null;
 function miniState(on){document.querySelector(".bigtt")?.classList.toggle("playing",on);const t=document.getElementById("mtoggle");if(t){t.textContent=on?"❚❚":"▶";t.setAttribute("aria-label",on?"暫停":"播放")}}
-let miniKey="";async function miniPlay(x,pi=0){miniKey=x.k;const p=x.perf[pi]||x.perf[0],id=p.r.id,t=secs(p.t);stopPlayer();
+let miniKey="",miniReady=false;
+function miniMake(YT,id,t,auto){document.getElementById("miniyt")?.remove();const box=document.getElementById("mini");if(!box)return;const d=document.createElement("div");d.id="miniyt";box.querySelector(".minivid").appendChild(d);
+  miniVid=id;miniReady=false;mini=new YT.Player("miniyt",{videoId:id,playerVars:{start:t,autoplay:auto?1:0,playsinline:1,rel:0},events:{onReady:e=>{miniReady=true;if(auto){e.target.seekTo(t,true);e.target.playVideo()}},onStateChange:e=>miniState(e.data===1),
+    onError:()=>{const k=miniKey;miniStop();if(k)openRecord(k)}}})}
+/* 先把播放器準備好：手機（iOS）只有在點擊的當下呼叫播放才會真的開始播 */
+const miniAlive=()=>!!mini&&document.getElementById("miniyt")?.tagName==="IFRAME";
+function miniPrep(){if(mini&&!miniAlive()){try{mini.destroy()}catch(e){}mini=null;miniReady=false}if(mini||!juke||!document.getElementById("mini"))return;const p=juke.perf[0];if(!p)return;loadYT().then(YT=>{if(!mini&&document.getElementById("mini"))miniMake(YT,p.r.id,secs(p.t),false)})}
+function miniPlay(x,pi=0){miniKey=x.k;const p=x.perf[pi]||x.perf[0],id=p.r.id,t=secs(p.t);stopPlayer();
   const box=document.getElementById("mini");if(!box){openRecord(x.k);play(id,t);return}
   box.hidden=false;box.classList.toggle("min",box.classList.contains("flt")||userMin);setMinBtn(box);document.getElementById("mtitle").innerHTML=`♪ ${esc(x.title)}<small>${esc(p.r.date.replaceAll("-","."))}・從 ${esc(p.t)} 開始</small>`;
-  const YT=await loadYT();
-  if(mini&&miniVid===id&&mini.seekTo){mini.seekTo(t,true);mini.playVideo();return}
-  if(mini){try{mini.destroy()}catch(e){}}
-  document.getElementById("miniyt")?.remove();const d=document.createElement("div");d.id="miniyt";box.querySelector(".minivid").appendChild(d);
-  miniVid=id;mini=new YT.Player("miniyt",{videoId:id,playerVars:{start:t,autoplay:1,playsinline:1,rel:0},events:{onReady:e=>{e.target.seekTo(t,true);e.target.playVideo()},onStateChange:e=>miniState(e.data===1),
-    onError:()=>{miniStop();openRecord(x.k)}}})}
-function miniStop(){if(mini){try{mini.destroy()}catch(e){}}mini=null;miniVid=null;const b=document.getElementById("mini");if(b){b.hidden=true;b.querySelector(".minivid").innerHTML='<div id="miniyt"></div>'}miniState(false)}
+  if(miniAlive()&&miniReady){if(miniVid===id){mini.seekTo(t,true);mini.playVideo()}else{miniVid=id;mini.loadVideoById({videoId:id,startSeconds:t})}return}
+  if(mini){try{mini.destroy()}catch(e){}mini=null}
+  loadYT().then(YT=>miniMake(YT,id,t,true))}
+function miniStop(){if(mini){try{mini.destroy()}catch(e){}}mini=null;miniVid=null;miniReady=false;const b=document.getElementById("mini");if(b){b.hidden=true;b.querySelector(".minivid").innerHTML='<div id="miniyt"></div>'}miniState(false)}
 let userMin=false;
 function setMinBtn(m){const b=document.getElementById("mmin");if(!b)return;const on=m.classList.contains("min");b.textContent=on?"▢":"–";b.setAttribute("aria-label",on?"展開影片":"縮小影片")}
 function setFloat(m,f){if(m.classList.contains("flt")===f)return;
@@ -1196,7 +1201,7 @@ function pickCf(el,go){
   miniPlay(x);setJuke(x.k,el);
   const w=document.querySelector(".jbwrap");if(w)scrollTo({top:w.getBoundingClientRect().top+scrollY-(document.querySelector(".controls")?.offsetHeight||0)-20,behavior:"smooth"});
   setTimeout(()=>document.querySelector(".jbpc")?.classList.add("on"),900)}
-function initFlows(){watchTT();
+function initFlows(){watchTT();miniPrep();
   document.querySelectorAll(".flow").forEach(f=>{
     const lang=f.dataset.lang,items=[...f.querySelectorAll(".cf")],cap=f.parentElement.querySelector(".cfcap");
     const W=()=>items[0]?.offsetWidth||180;
@@ -1226,7 +1231,7 @@ document.getElementById("view").addEventListener("click",e=>{
   const jpf=e.target.closest("[data-jperf]");if(jpf){e.stopPropagation();const [k,i]=jpf.dataset.jperf.split("|");const x=RECS.find(y=>y.k===k);if(x){document.querySelectorAll(".jbpc.on").forEach(b=>b.classList.remove("on"));jpf.classList.add("on");miniPlay(x,+i)}return}
   const mx=e.target.closest("#mexp");if(mx){e.stopPropagation();if(miniKey)openRecord(miniKey);return}
   const mt=e.target.closest("#mtoggle");if(mt){e.stopPropagation();if(!mini)return;const st=mini.getPlayerState?.();if(st===1){mini.pauseVideo()}else mini.playVideo();return}
-  const ms=e.target.closest("#mstop");if(ms){e.stopPropagation();miniStop();return}
+  const ms=e.target.closest("#mstop");if(ms){e.stopPropagation();miniStop();miniPrep();return}
   const mm=e.target.closest("#mmin");if(mm){e.stopPropagation();const b=document.getElementById("mini");const m=b.classList.toggle("min");if(!b.classList.contains("flt"))userMin=m;setMinBtn(b);return}
   const fj=e.target.closest("[data-flowjump]");if(fj){e.preventDefault();document.getElementById("flow-"+fj.dataset.flowjump)?.scrollIntoView({behavior:"smooth",block:"center"});return}
   const bk=e.target.closest(".bk[data-book]");if(bk&&state.sec==="books"){e.stopPropagation();openBookFx(bk);return}
