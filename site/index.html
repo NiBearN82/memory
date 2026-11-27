@@ -151,7 +151,7 @@ mark{background:rgba(81,168,221,.3);color:var(--pearl);border-radius:3px;padding
 .tcover::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0 38%,color-mix(in srgb,var(--bg) 75%,transparent) 52%,transparent 72%);pointer-events:none}
 .gband{position:relative;z-index:1;display:flex;flex-direction:column;gap:5px;padding:0 11% 13%;margin-top:auto}
 .tcover .gstar{z-index:1;color:#fff;text-shadow:0 1px 6px #000}
-.tsleeve>.th{z-index:0}.tsleeve::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to top,var(--bg) 0 30%,color-mix(in srgb,var(--bg) 85%,transparent) 46%,transparent 72%),linear-gradient(135deg,color-mix(in srgb,var(--ac) 30%,transparent),transparent 50%)}
+.tsleeve>.th{z-index:0}.rcover{padding:0;background:#111}.rcover>.th{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.tsleeve::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to top,var(--bg) 0 30%,color-mix(in srgb,var(--bg) 85%,transparent) 46%,transparent 72%),linear-gradient(135deg,color-mix(in srgb,var(--ac) 30%,transparent),transparent 50%)}
 .tsleeve .stitle,.tsleeve .sart{position:relative;z-index:2}.tsleeve .smark{z-index:2}.tsleeve .smark{color:#fff;text-shadow:0 1px 6px #000}.tsleeve .stitle,.tsleeve .sart,.tcover .gtitle,.tcover .gauth{text-shadow:0 1px 8px color-mix(in srgb,var(--bg) 90%,#000)}
 .gcover{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:12% 12% 14%;gap:6px}
 .gtitle{font:900 clamp(15px,1.6vw,19px)/1.3 var(--serif);text-wrap:balance;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
@@ -392,7 +392,7 @@ const LANG_TW=/^(傷心酒店|歡喜就好|查某囡仔|落雨聲|舞女|愛情�
 const LANG_JA=/^(祝福|群青|本能|炎|未来予想図II|世界的秘密|亞麻色頭髮的少女|千本櫻|海市蜃樓|打上花火|少女S|命運的名字|春日影|紅蓮華|殘響散歌|Love so sweet|so sweet|Happiness|A·RA·SHI|Everything|RAIN|LA·LA·LA LOVE SONG|U\.S\.A\.|sister's noise|God knows\.\.\.|Snow halation|SAKURA|YELL|Rainy Blue|倍倍Fight！)$/i;
 const LANG_KO=/^(BUUUU|Oh!)$/;
 const LANG_ZH=/^(Fall in Love|Honey|11)$/;
-function langOf(t,a){const x=t+" "+(a||""),k=(D.songLang||{})[songKey(t)];if(k)return k;
+function langOf(t,a){const x=t+" "+(a||""),k=Object.entries(D.songLang||{}).find(([n])=>songKey(n)===songKey(t));if(k)return k[1];
   if(LANG_TW.test(t))return "台語";if(LANG_JA.test(t)||/日文版/.test(x))return "日文";if(LANG_KO.test(t))return "韓文";if(LANG_ZH.test(t))return "中文";
   if(/[가-힯]/.test(x))return "韓文";if(/[぀-ヿ]/.test(x))return "日文";if(/[一-鿿]/.test(t))return "中文";if(/[a-z]/i.test(t))return "英文";return "其他"}
 function buildLibrary(){
@@ -403,16 +403,16 @@ function buildLibrary(){
   S.forEach(r=>(r.songs||[]).forEach(s=>{const raw=String(s.s).trim();if(!raw||/^(OP|ED|開場|晚安)$/.test(raw))return;const k=songKey(raw);if(!k)return;
     if(!rm.has(k))rm.set(k,{k,titles:{},artists:{},perf:[]});const x=rm.get(k);const tt=raw.replace(/（(中斷|日文版|結果.*?)）/g,"").trim();x.titles[tt]=(x.titles[tt]||0)+1;if(s.a)x.artists[s.a]=(x.artists[s.a]||0)+1;x.perf.push({r,t:s.t})}));
   const top=o=>Object.entries(o).sort((a,b)=>b[1]-a[1])[0]?.[0]||"";
-  window.__lib=()=>({BOOKS,RECS});RECS=[...rm.values()].map(x=>{x.title=top(x.titles);x.artist=top(x.artists);x.perf.sort((a,b)=>b.r.date.localeCompare(a.r.date));x.n=x.perf.length;x.last=x.perf[0].r.date;x.lang=langOf(x.title,x.artist);x.hay=norm(x.title+x.artist);return x});
+  window.__lib=()=>({BOOKS,RECS});RECS=[...rm.values()].map(x=>{x.title=top(x.titles);x.artist=top(x.artists);x.perf.sort((a,b)=>b.r.date.localeCompare(a.r.date));x.n=x.perf.length;x.last=x.perf[0].r.date;x.lang=langOf(x.title,x.artist);const rc=Object.entries(D.recCovers||{}).find(([n])=>songKey(n)===x.k);x.cover=rc?rc[1]:"";x.hay=norm(x.title+x.artist);return x});
 }
 function bookCover(b,big){
   const a=art(b.k);
   const pos=["50%","62%","38%"][hash(b.k)%3];
   const fb=`<span class="gcover tcover" style="--bg:${a.bg};color:${a.fg}">${th("v",b.eps[0].id,big).replace('class="th"',`class="th" style="object-position:${pos} 50%"`)}<span class="gband"><span class="gtitle">${esc(b.title)}</span>${b.author?`<span class="gauth">${esc(b.author)}</span>`:""}</span><span class="gstar">✦</span></span>`;
   if(!b.cover)return fb;
-  const src=b.cover.replace(/&zoom=\d/,"&zoom=1")+(b.cover.includes("fife=")?"":"&fife=w"+(big?600:300));
+  const src=/^https?:/.test(b.cover)?b.cover.replace(/&zoom=\d/,"&zoom=1")+(b.cover.includes("fife=")?"":"&fife=w"+(big?600:300)):b.cover;
   return `<img class="bimg" src="${esc(src)}" alt="《${esc(b.title)}》封面" loading="lazy" decoding="async" onerror="this.replaceWith(document.createRange().createContextualFragment(this.dataset.fb))" data-fb="${esc(fb)}">`}
-function sleeve(x){const a=art(x.k),h=hash(x.k),pos=["50%","30%","70%","40%","60%"][h%5];return `<span class="sleeve tsleeve" style="--bg:${a.bg};--ac:${a.ac};color:${a.fg}">${th("v",x.perf[0].r.id).replace('class="th"',`class="th" style="object-position:${pos} 35%"`)}<span class="smark">✦ Nibel Live</span><span class="stitle">${esc(x.title)}</span>${x.artist?`<span class="sart">${esc(x.artist)}</span>`:""}</span>`}
+function sleeve(x){if(x.cover)return `<span class="sleeve rcover"><img class="th" src="${esc(x.cover)}" alt="${esc(x.title)} 封面" loading="lazy" decoding="async"></span>`;const a=art(x.k),h=hash(x.k),pos=["50%","30%","70%","40%","60%"][h%5];return `<span class="sleeve tsleeve" style="--bg:${a.bg};--ac:${a.ac};color:${a.fg}">${th("v",x.perf[0].r.id).replace('class="th"',`class="th" style="object-position:${pos} 35%"`)}<span class="smark">✦ Nibel Live</span><span class="stitle">${esc(x.title)}</span>${x.artist?`<span class="sart">${esc(x.artist)}</span>`:""}</span>`}
 
 function viewShelf(){
   const q=qn(),base=BOOKS.filter(b=>!q||b.hay.includes(q)),list=base.filter(b=>!state.btype||(state.btype==="live"?b.live:b.pod));

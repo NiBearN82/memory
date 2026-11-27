@@ -1,765 +1,771 @@
 {
- "_說明": "人工整理的資料。update.py 每次抓完 YouTube 後會套用這裡的內容。books：說書書單 [影片ID, 書名, 作者]；news：新聞久一點專題名稱；setlists：歌單 [時間, 歌名, 歌手]；shortCats：Shorts 分類（clip 直播精華／song 翻唱・歌曲／topic 議題短講）；shortTitles：Shorts 顯示用標題；shortSource：Shorts 剪自哪一場直播；noChapters：說明欄的時間碼不是時間軸的影片；hide：不想放進紀錄館的影片ID；shortsSince：只收這天以後的 Shorts；bookCovers：手動指定書封圖片網址（書名: 網址），自動抓到的封面不對時用這個蓋過去",
- "channelHandle": "@尼貝爾Nibel",
- "books": [
-  [
-   "gIa4MA4VOcg",
-   "昭和感性：昭和100年特別編集",
-   "有理編輯部"
+  "_說明": "人工整理的資料。update.py 每次抓完 YouTube 後會套用這裡的內容。books：說書書單 [影片ID, 書名, 作者]；news：新聞久一點專題名稱；setlists：歌單 [時間, 歌名, 歌手]；shortCats：Shorts 分類（clip 直播精華／song 翻唱・歌曲／topic 議題短講）；shortTitles：Shorts 顯示用標題；shortSource：Shorts 剪自哪一場直播；noChapters：說明欄的時間碼不是時間軸的影片；hide：不想放進紀錄館的影片ID；shortsSince：只收這天以後的 Shorts；bookCovers：手動指定書封圖片網址（書名: 網址），自動抓到的封面不對時用這個蓋過去",
+  "channelHandle": "@尼貝爾Nibel",
+  "books": [
+    [
+      "gIa4MA4VOcg",
+      "昭和感性：昭和100年特別編集",
+      "有理編輯部"
+    ],
+    [
+      "ow_r49LH5MI",
+      "BLPT耽美日語文法檢定（第二集）",
+      ""
+    ],
+    [
+      "0lv953TmdKs",
+      "日本在地零食手帖",
+      "日本懷舊大全編輯部"
+    ],
+    [
+      "AYebLRA-uQw",
+      "人生只有兩件事，關你屁事和關我屁事",
+      "老楊的貓頭鷹"
+    ],
+    [
+      "1UFunjfEYNQ",
+      "東京，謝謝款待",
+      "Miho"
+    ],
+    [
+      "UH6UsZHZtI0",
+      "台北早餐大王",
+      "真芳早餐編輯部"
+    ],
+    [
+      "20ZH-eh1cC4",
+      "頭腦好的人才解得開的邏輯思考題",
+      "野村裕之"
+    ],
+    [
+      "StCjHlGrTKQ",
+      "醫生說我可以去死沒關係",
+      "平光源"
+    ],
+    [
+      "nLk4U2tMsZM",
+      "你該管理的是能量，而不是時間",
+      "韓善英"
+    ],
+    [
+      "jBWbSUVjYCc",
+      "世界盡頭的咖啡館",
+      "John Strelecky"
+    ],
+    [
+      "PtRsYEIR4w0",
+      "擁抱人生10大無解",
+      "Anna Mathur"
+    ],
+    [
+      "vsLOomCY9Z0",
+      "獨斷與偏見",
+      "二宮和也"
+    ],
+    [
+      "O5ZWv-FBdQ8",
+      "謠言心理學",
+      "Gordon W. Allport、Leo Postman"
+    ],
+    [
+      "bFbxi-BnAbQ",
+      "失控的焦慮世代",
+      "Jonathan Haidt"
+    ],
+    [
+      "5ykLzSCLXxE",
+      "我的痛苦有名字嗎？",
+      "河美娜"
+    ],
+    [
+      "ElNvkAQuB0Q",
+      "高效偷懶",
+      "牛尾剛"
+    ],
+    [
+      "3j63pqLcIKA",
+      "母親像月亮一樣，所以老娘有陰晴圓缺怎麼了嗎？",
+      "High媽。心理師"
+    ],
+    [
+      "AbK-TPDn678",
+      "今天，我想休息一下",
+      ""
+    ],
+    [
+      "7_B4_6iLurI",
+      "每一個告別都珍貴",
+      ""
+    ],
+    [
+      "9NjoucM4XmM",
+      "謝罪的藝術",
+      ""
+    ],
+    [
+      "B0LrFS00fko",
+      "家鎖",
+      ""
+    ],
+    [
+      "CiiGCzdcymk",
+      "不是妳想太多",
+      ""
+    ],
+    [
+      "C8eN87LPjcc",
+      "日本中學道德教科書",
+      ""
+    ],
+    [
+      "Q2MtKU4eDIg",
+      "死亡否認",
+      ""
+    ],
+    [
+      "e7jpLRaLhcQ",
+      "東京防災／台灣全民安全指引",
+      ""
+    ],
+    [
+      "nQGCB0nsHh0",
+      "超．雑談力",
+      ""
+    ],
+    [
+      "KPn5WVuFEaI",
+      "長女病",
+      ""
+    ],
+    [
+      "rYlXCp-gITs",
+      "BLPT耽美日語文法檢定（第一集）",
+      ""
+    ],
+    [
+      "jv52TiCil6k",
+      "Vtuberの哲学",
+      ""
+    ],
+    [
+      "Fzprr3wNq_k",
+      "我想把這個世界讀給你聽",
+      "李尚龍"
+    ]
   ],
-  [
-   "ow_r49LH5MI",
-   "BLPT耽美日語文法檢定（第二集）",
-   ""
+  "news": {
+    "Nezs6GJQnG4": "APEC後的美中俄與世界",
+    "dTTdK0zDssQ": "黃仁勳離開輝達的未來",
+    "HFAv6beGDvI": "美國期中選舉（後）",
+    "HAaaVMw9X1I": "美國期中選舉（前）",
+    "MSYhxfQiXCc": "法國抗爭騷亂",
+    "hEUMCj94heY": "康乃爾兄弟會案 #IAmJaneDoe",
+    "nMmBGkD-X-Y": "台北同志酒吧執法",
+    "yHPQ3swepY8": "川習會回顧",
+    "aXU-0cURaG0": "美中川習前瞻",
+    "9qVs5TVs4NI": "東亞AI法案立憲",
+    "pQ-xwihTH4k": "尼泊爾冰崩洪災",
+    "9estVvrAKV4": "光州雙年展與「台灣正名」風暴",
+    "ivWH09VK6j0": "晶片走私中國",
+    "zWyDW6cUScQ": "AI深度偽造",
+    "lhphZdpQ0AE": "再見AI戀人",
+    "qLr3COKkpYw": "AI泡沫",
+    "HuSCHxZYO94": "中聯問題油品",
+    "ZpGTw1iWNBQ": "台灣水果出口",
+    "xFqhRu8ycvU": "SpaceX上市IPO",
+    "-_2_wQ93VHE": "韓國大選"
+  },
+  "setlists": {
+    "qs4bZHsSWCw": [
+      [
+        "2:16:00",
+        "Everything",
+        "MISIA"
+      ],
+      [
+        "2:24:30",
+        "有你的快樂",
+        "王若琳"
+      ],
+      [
+        "2:29:15",
+        "BUUUU",
+        "PLAVE"
+      ],
+      [
+        "2:34:40",
+        "Happiness",
+        "嵐"
+      ],
+      [
+        "2:42:25",
+        "Fall in Love",
+        "4 in Love"
+      ],
+      [
+        "2:48:40",
+        "蜚蜚",
+        "陳禧儀"
+      ]
+    ],
+    "MjsyY9wuAZM": [
+      [
+        "9:12",
+        "明天我要嫁給你",
+        ""
+      ],
+      [
+        "16:18",
+        "如果還有明天（中斷）",
+        ""
+      ],
+      [
+        "19:33",
+        "Everything",
+        "MISIA"
+      ],
+      [
+        "27:15",
+        "愛は勝つ",
+        "KAN"
+      ],
+      [
+        "33:40",
+        "接受",
+        "梁靜茹"
+      ],
+      [
+        "39:58",
+        "聽袁惟仁彈吉他",
+        "S.H.E"
+      ],
+      [
+        "44:53",
+        "有沒有",
+        "By2"
+      ],
+      [
+        "49:31",
+        "I Will Survive",
+        ""
+      ],
+      [
+        "54:36",
+        "如果有一天",
+        "梁靜茹"
+      ],
+      [
+        "1:04:37",
+        "相見恨晚",
+        "彭佳慧"
+      ],
+      [
+        "1:10:02",
+        "第一天",
+        "孫燕姿"
+      ],
+      [
+        "1:15:10",
+        "倍倍Fight！",
+        "CANDY TUNE"
+      ],
+      [
+        "1:20:00",
+        "愛♡スクリ～ム！",
+        "AiScReam"
+      ],
+      [
+        "1:27:20",
+        "アンコール",
+        "YOASOBI"
+      ],
+      [
+        "1:33:00",
+        "残酷な天使のテーゼ",
+        "高橋洋子"
+      ],
+      [
+        "1:38:08",
+        "絶対アイドル辞めないで",
+        "=LOVE"
+      ],
+      [
+        "1:43:20",
+        "好きすぎて滅",
+        "M!LK"
+      ],
+      [
+        "1:47:38",
+        "Rolling in the Deep",
+        "Adele"
+      ],
+      [
+        "1:52:52",
+        "연애의 조건 (Love Options)",
+        "BESTie"
+      ],
+      [
+        "1:55:20",
+        "負けないで",
+        "ZARD"
+      ],
+      [
+        "1:57:00",
+        "Oh!",
+        "少女時代"
+      ],
+      [
+        "2:01:08",
+        "나쁜여자야",
+        "FTISLAND"
+      ],
+      [
+        "2:06:35",
+        "夜に駆ける",
+        "YOASOBI"
+      ],
+      [
+        "2:11:25",
+        "RAIN",
+        "SEKAI NO OWARI"
+      ],
+      [
+        "2:17:26",
+        "変わらないもの",
+        "奧華子"
+      ],
+      [
+        "2:25:05",
+        "明天會更好",
+        ""
+      ],
+      [
+        "2:30:36",
+        "快樂天堂",
+        ""
+      ],
+      [
+        "2:35:19",
+        "傷心酒店",
+        "施文彬、江蕙"
+      ],
+      [
+        "2:40:28",
+        "我要你愛",
+        "美秀集團"
+      ],
+      [
+        "2:45:48",
+        "說愛你",
+        "蔡依林"
+      ]
+    ],
+    "N7ArwtMpFiY": [
+      [
+        "9:20",
+        "怪獣の花唄",
+        "Vaundy"
+      ],
+      [
+        "17:15",
+        "炎",
+        "LiSA"
+      ],
+      [
+        "22:45",
+        "群青",
+        "YOASOBI"
+      ],
+      [
+        "28:58",
+        "祝福",
+        "YOASOBI"
+      ],
+      [
+        "33:38",
+        "オー・シャンゼリゼ",
+        "香榭大道日文版"
+      ],
+      [
+        "37:58",
+        "津軽海峡・冬景色",
+        "石川小百合"
+      ],
+      [
+        "43:08",
+        "時の流れに身をまかせ",
+        "鄧麗君"
+      ],
+      [
+        "48:30",
+        "未来予想図II",
+        "DREAMS COME TRUE"
+      ],
+      [
+        "56:15",
+        "アイノカタチ",
+        "MISIA"
+      ],
+      [
+        "1:02:30",
+        "おジャ魔女カーニバル!!",
+        "小魔女DoReMi"
+      ],
+      [
+        "1:08:10",
+        "恋愛サーキュレーション",
+        "化物語"
+      ],
+      [
+        "1:10:38",
+        "光るなら",
+        "Goose house"
+      ],
+      [
+        "1:17:21",
+        "ブルーバード",
+        "火影忍者"
+      ],
+      [
+        "1:23:20",
+        "God knows...",
+        "涼宮春日的憂鬱"
+      ],
+      [
+        "1:29:07",
+        "ひまわりの約束",
+        "秦基博"
+      ],
+      [
+        "1:37:25",
+        "わわわたくたくちゃお",
+        ""
+      ],
+      [
+        "1:43:58",
+        "夜に駆ける",
+        "YOASOBI"
+      ],
+      [
+        "1:49:30",
+        "恋するフォーチュンクッキー",
+        "AKB48"
+      ],
+      [
+        "1:55:56",
+        "LOVEマシーン",
+        "早安少女組。"
+      ],
+      [
+        "2:01:12",
+        "恋愛レボリューション21",
+        "早安少女組。"
+      ],
+      [
+        "2:06:50",
+        "so sweet",
+        "嵐"
+      ],
+      [
+        "2:15:10",
+        "ようかい体操第一",
+        "妖怪手錶"
+      ],
+      [
+        "2:19:55",
+        "ルカルカ★ナイトフィーバー",
+        "巡音流歌"
+      ],
+      [
+        "2:28:06",
+        "Let It Go（日文版）",
+        "冰雪奇緣"
+      ],
+      [
+        "2:36:03",
+        "青い珊瑚礁",
+        "松田聖子"
+      ]
+    ],
+    "f714St5ddJg": [
+      [
+        "9:13",
+        "SAKURA",
+        "生物股長"
+      ],
+      [
+        "21:23",
+        "群青",
+        "合唱曲"
+      ],
+      [
+        "28:10",
+        "春日影",
+        "MyGO!!!!!"
+      ],
+      [
+        "34:17",
+        "香水百合",
+        "張韶涵"
+      ],
+      [
+        "37:54",
+        "春泥",
+        "庾澄慶"
+      ],
+      [
+        "43:16",
+        "ハルジオン",
+        "YOASOBI"
+      ],
+      [
+        "47:45",
+        "碼頭姑娘",
+        "劉芷融（杜美心）"
+      ],
+      [
+        "54:31",
+        "萬千花蕊慈母悲哀",
+        "珂拉琪"
+      ],
+      [
+        "1:02:32",
+        "怪獣の花唄",
+        "Vaundy"
+      ],
+      [
+        "1:09:44",
+        "燕尾蝶",
+        "梁靜茹"
+      ],
+      [
+        "1:16:05",
+        "YELL",
+        "生物股長"
+      ],
+      [
+        "1:26:06",
+        "未来予想図II",
+        "DREAMS COME TRUE"
+      ],
+      [
+        "1:36:46",
+        "春よ、来い",
+        "松任谷由実"
+      ],
+      [
+        "1:43:02",
+        "花若離枝",
+        "江蕙"
+      ],
+      [
+        "1:49:53",
+        "背叛",
+        "曹格"
+      ],
+      [
+        "1:58:29",
+        "檸檬草的味道",
+        "蔡依林"
+      ],
+      [
+        "2:12:57",
+        "ヘビーローテーション",
+        "AKB48"
+      ],
+      [
+        "2:19:15",
+        "愛♡スクリ～ム！",
+        "AiScReam"
+      ],
+      [
+        "2:27:39",
+        "紅蓮華",
+        "LiSA"
+      ],
+      [
+        "2:35:32",
+        "殘響散歌",
+        "Aimer"
+      ],
+      [
+        "2:38:51",
+        "千本櫻",
+        "初音ミク"
+      ]
+    ]
+  },
+  "shortCats": {
+    "HHJphoR3Cyg": "song",
+    "zA15oPbPYZI": "topic",
+    "eB-0TAwdjp4": "topic",
+    "PGYw4gscE-E": "topic",
+    "6ZWcIP9Y1FI": "topic",
+    "pDWbN9aTi1s": "topic",
+    "J_zcyOJdJKQ": "topic",
+    "eI8crG2z0RU": "topic",
+    "UbH-gylqQkY": "topic",
+    "pnfLwTUQf2M": "topic",
+    "NJcK63kaN1c": "topic",
+    "LrGR2DCJ5a0": "topic",
+    "c9GSf5jSCio": "song",
+    "b7vq_3MR2Cw": "song",
+    "vPK1gt8scjI": "song",
+    "107ecTb4hOo": "song",
+    "enTeQyAwp4M": "song",
+    "i0o_l9CDvwM": "song",
+    "T3pk4rr7B3A": "song",
+    "ElisaWOTxvY": "song",
+    "9kq5pKj8DP4": "song",
+    "HaQrZkHbKQM": "song",
+    "ZUwhcohM0cI": "song",
+    "xTcu72ixf0o": "song",
+    "HRAdpAwTMd8": "song",
+    "XO-WxLJLzjY": "song",
+    "l_pxztU597k": "song",
+    "zirNLJFzcK0": "song",
+    "Yivvb_zqC5c": "song",
+    "kTbTO4UobGg": "song",
+    "CbVhjcu5o-w": "song",
+    "WOg1bzOrYgM": "song",
+    "PkwOi1org0o": "song",
+    "XsiGGYSg-h8": "song",
+    "upe-5EBSYE0": "song",
+    "d_brPOCf5Mg": "song"
+  },
+  "shortTitles": {
+    "NzJGNiaRYnU": "買飯被老闆記住喜好，到底該高興還是想逃？！",
+    "AK49pyPOMzU": "雞胚胚雞雞蛋？！播新聞舌頭徹底打結的尼主播",
+    "HHJphoR3Cyg": "只要聽過兩首以上，代表你的青春有這些歌！【尼貝爾翻唱】",
+    "P7L0zdyqawo": "炭暈郎出沒！熱炒店竟然有「白飯無限城」？！",
+    "zR_u1hz48KU": "「哭沒辦法解決事情」現場直接變演唱會？！",
+    "7sxhLYtGK48": "出道一年的主播，成功蒐集「原告五人」...",
+    "EYK_qN5-UMc": "怎麼突然離大家而去......主播播到一半突然變透明",
+    "6LQpOFkOajw": "快來看看兩千年後的我們...",
+    "KATwa6EZ-4E": "千萬不要買我的周邊！因為我會......",
+    "DpkiDa01rEY": "兩千年後的人看到尼貝爾留下來的東西會......？",
+    "zA15oPbPYZI": "關於台北同志酒吧執法爭議我想說......",
+    "HVQVOdxsnKg": "我愛紅娘，紅娘愛尼，弘法愛德......",
+    "g-x8b5zEPL4": "尼貝爾還我龍......",
+    "Y26snGMstUQ": "一言不合就被太陽餅團攻擊後頸？",
+    "H_ufUSRyKlw": "這就是傳說中說話的藝術......",
+    "rT5rWDe7zfc": "不好意思，主播活在侏羅紀到底關我P4......",
+    "kI8PXZZ8Exw": "你一定會喜歡這樣突然開車的主播......",
+    "nLDqSOj9HeY": "一開始也是朋友帶我去的，誰知道會......",
+    "91NsDtY4XB8": "一言不合就開唱，尼最可愛的地方是？？",
+    "RSuHPO4E7pg": "Given 阿霞！冬のはなし是紅蟳米糕",
+    "SssC8ZsNT0Q": "下一站：清朝！康熙不能捐，讓拓也捐",
+    "rtbY1jVIVJ4": "賭徒尼貝爾：這次真的梭哈了！",
+    "60LzDui2baM": "路怒症發作？原來是尼桑卡車司機！",
+    "LpZdHtIiUUI": "背台詞神速法：演員親自示範30秒記憶術",
+    "-4LSHLGbvEU": "限定公道價：想叫老公老婆請準備好「這筆錢」with納希斯",
+    "-d92QaEgvZw": "壓力大到走火入魔？演員教你一招「宇宙能量」心情變好",
+    "eB-0TAwdjp4": "真的有「選擇的權力」嗎？",
+    "PGYw4gscE-E": "演員的生存法則：吃不飽穿不暖還是要熱愛劇場？",
+    "6ZWcIP9Y1FI": "這一切只是入學前的浪漫想像？with海色水晶",
+    "pDWbN9aTi1s": "先進台大！轉系比例最高的是哪個系所？",
+    "J_zcyOJdJKQ": "高中畢業然後呢？大學四年，我們想要得到什麼樣的認可 ft. 海色水晶",
+    "eI8crG2z0RU": "有緣無份的人，最難放下",
+    "UbH-gylqQkY": "大廚5分鐘端出假菜",
+    "pnfLwTUQf2M": "聰明人的致命弱點？",
+    "NJcK63kaN1c": "跟神聖羅馬帝國一樣的科學、理性、務實？",
+    "LrGR2DCJ5a0": "越陷越深的人，不是因為他比較笨",
+    "c9GSf5jSCio": "好きすぎて滅！Cover 04.01公開",
+    "b7vq_3MR2Cw": "BLINK GONE (Mizi & Ivan.ver) - Alien Stage｜Cover by 尼貝爾 & 伊莉西亞",
+    "vPK1gt8scjI": "幽霊東京 / Ayase【歌ってみた】",
+    "f6O_l9O42Ps": "健康地獄步道歌回... 原唱變原告",
+    "p1VIaNl153Y": "最後的贏家……是？",
+    "U0V_PJZ8Tr8": "鱔魚不能輸",
+    "igSB75BpxUU": "銀髮族主播唱歌",
+    "_py-yRDVx9c": "尼貝爾沒有飆股社團",
+    "Do_Q_4Uw-J0": "來比比看，看誰氣比較長",
+    "107ecTb4hOo": "【聚】尼貝爾 原創曲 Original Song",
+    "Kprqp73BZ2Q": "我婆慈悲",
+    "enTeQyAwp4M": "My Icy Blue Eye Loop",
+    "i0o_l9CDvwM": "東京テディベア / Neru【歌ってみた】",
+    "TD6iQyndanY": "竹筍竹筍蹦蹦出",
+    "lK6mawrvtUY": "請善待尼！或者帶他走",
+    "B99XIskVZQs": "主播是比較多愁善感那種",
+    "tQkyi8JqCFc": "外面的世界太危險了！帶上尼吧！",
+    "T3pk4rr7B3A": "コネクト / ClariS【歌ってみた】",
+    "eltx5bn9wT4": "去北車買隱眼，邊買珍奶問糖冰，邊對抗逝去的青春",
+    "ElisaWOTxvY": "有一種悲傷 / A-Lin cover",
+    "9kq5pKj8DP4": "弱虫モンブラン / DECO*27【歌ってみた】",
+    "0R3eSxPLWCk": "主播你幹嘛？？有點反應過度欸",
+    "HaQrZkHbKQM": "からくりピエロ / 40㍍【歌ってみた】",
+    "xSGIZMrf9Ik": "歡迎仿生人康納加入創傷劇團",
+    "4rLGQHBXp4U": "早上腦袋不清楚硬要開唱",
+    "ZUwhcohM0cI": "CH4NGE / Giga【歌ってみた】",
+    "xTcu72ixf0o": "劇上 / YOASOBI【歌ってみた】",
+    "HRAdpAwTMd8": "起床囉！給哈尼的早安鬧鐘 Nibel Ringtone",
+    "bmGhkJTYw-E": "主播平常腦袋到底裝甚麼",
+    "OFqPvgBa0ls": "好希望一覺醒來QTE全部都按對",
+    "XO-WxLJLzjY": "炎 / LiSA【歌ってみた】",
+    "l_pxztU597k": "悪魔の子 / ヒグチアイ【歌ってみた】",
+    "zirNLJFzcK0": "JANE DOE / 米津玄師・宇多田ヒカル【歌ってみた】",
+    "Yivvb_zqC5c": "「最上級にかわいいの！」尼萌口愛登場！",
+    "cU_hJS1NNwU": "宋慧喬表示：",
+    "9ZWH8BGIlj8": "主播的原則就是沒有原則",
+    "dqM-xcGmwEg": "還有一位老校長～～",
+    "oLPSsEgNn9k": "海鮮好吃，但陸地上的並不美味",
+    "kTbTO4UobGg": "ずっといっしょ / キタニタツヤ【歌ってみた】",
+    "CbVhjcu5o-w": "妄想感傷代償連盟 / DECO*27【歌ってみた】",
+    "Xy0PUoIRJic": "怎麼會有嘴巴這麼爛的主播",
+    "WOg1bzOrYgM": "モニタリング (Best Friend Remix) / DECO*27【歌ってみた】",
+    "PkwOi1org0o": "革命道中 / AiNA THE END【歌ってみた】",
+    "8EnboMuNH6E": "這個主播可以唱演歌，也可以唱曹格",
+    "4juWmt-RxuQ": "勇氣並不是恐怖遊戲都不叫",
+    "2HCdhDu9zhM": "廁所裡撐竿跳，真過分",
+    "CRLZ0InNspY": "運氣用光的尼，只能說對不起",
+    "OY9A3sH2_uY": "把遊戲玩成BL遊戲",
+    "CU8u_Yy_UmY": "銀髮族也能當V",
+    "nbm-XvrOsyM": "沒見過如此高齡（瘋）的台灣男V",
+    "1oJFDVBNanQ": "廣告商爸爸媽媽快看！台南國際芒果節開幕了",
+    "86VWrabCFqU": "快來一場即興喜劇！",
+    "mPeuSVIgb-s": "不小心露出了......開嗓的聲音",
+    "XsiGGYSg-h8": "Bright Purity OST - Frostie｜Cover",
+    "X6jrVMuWsOs": "恐怖油膩遊戲！",
+    "_hGj0UMhTUI": "戀愛教師_尼貝爾！",
+    "KJcEYBy6yjk": "迷因上巴劇團！",
+    "WOGexM7oYpU": "超暴躁仿生人！",
+    "ri2CtWznZ_8": "人質有危險，我還在救魚......",
+    "zeXM1vyt10Q": "這是西亞最積極的一天！",
+    "pjs6OTK1ng4": "哈尼！方尼！花園寶寶",
+    "tHQWftLVakM": "你看，大腸在天上！",
+    "8p9yGgVXZFY": "快！快來叫叫ABC",
+    "uG0tkBiCdtg": "我跟你說，尼貝爾就是激不得！",
+    "4ZEUOB-8Tvo": "當V一個月了，可以寧靜辭職了！",
+    "yG3C9gpD_JM": "愛烤愛對囉！",
+    "ZEKJqlaMaE8": "我就知道，主播是一個斜咖（物理）",
+    "81Wy_45wLEc": "蝴蝶生的真美麗，那熟的呢？",
+    "GuG4mAzYLSc": "告訴我小林，你喜歡動物嗎？",
+    "E0vhd1a2wj8": "我才不是渣男勢！！",
+    "Fa6rCfooTt0": "我是誰？哈哈哈尼！",
+    "PU0tOA49o5I": "我們歡迎國語朗讀1號參賽者",
+    "upe-5EBSYE0": "Soda Pop - Saja Boys（Short Cover）",
+    "d_brPOCf5Mg": "Your Idol - Saja Boys（Cover）",
+    "Wt66Gind6YY": "【初配信精華】我是一個透明人",
+    "KxWaB_RS2TM": "【初配信精華】不論如何，我會在你左右",
+    "vnv3H_MyYXI": "【初配信精華】好險沒有要蒐集七顆龍珠......",
+    "DS7ecTLMd4I": "【初配信精華】尼不是冰霸王，是冰炫風吧",
+    "fZR1MheldyY": "【初配信精華】初配信被不知名海盜搶走了",
+    "hmqgE-twSQc": "【初配信精華】你說這是初配信？我不信",
+    "4PN7fa5c9Co": "尼在這，明天見！",
+    "RYSf3RBg5hY": "翻唱 Shorts",
+    "Zs6uYQf4R_Q": "翻唱 Shorts"
+  },
+  "shortSource": {},
+  "noChapters": [
+    "J5dG_rgllj8",
+    "JBMwj6Cik6E"
   ],
-  [
-   "0lv953TmdKs",
-   "日本在地零食手帖",
-   "日本懷舊大全編輯部"
-  ],
-  [
-   "AYebLRA-uQw",
-   "人生只有兩件事，關你屁事和關我屁事",
-   "老楊的貓頭鷹"
-  ],
-  [
-   "1UFunjfEYNQ",
-   "東京，謝謝款待",
-   "Miho"
-  ],
-  [
-   "UH6UsZHZtI0",
-   "台北早餐大王",
-   "真芳早餐編輯部"
-  ],
-  [
-   "20ZH-eh1cC4",
-   "頭腦好的人才解得開的邏輯思考題",
-   "野村裕之"
-  ],
-  [
-   "StCjHlGrTKQ",
-   "醫生說我可以去死沒關係",
-   "平光源"
-  ],
-  [
-   "nLk4U2tMsZM",
-   "你該管理的是能量，而不是時間",
-   "韓善英"
-  ],
-  [
-   "jBWbSUVjYCc",
-   "世界盡頭的咖啡館",
-   "John Strelecky"
-  ],
-  [
-   "PtRsYEIR4w0",
-   "擁抱人生10大無解",
-   "Anna Mathur"
-  ],
-  [
-   "vsLOomCY9Z0",
-   "獨斷與偏見",
-   "二宮和也"
-  ],
-  [
-   "O5ZWv-FBdQ8",
-   "謠言心理學",
-   "Gordon W. Allport、Leo Postman"
-  ],
-  [
-   "bFbxi-BnAbQ",
-   "失控的焦慮世代",
-   "Jonathan Haidt"
-  ],
-  [
-   "5ykLzSCLXxE",
-   "我的痛苦有名字嗎？",
-   "河美娜"
-  ],
-  [
-   "ElNvkAQuB0Q",
-   "高效偷懶",
-   "牛尾剛"
-  ],
-  [
-   "3j63pqLcIKA",
-   "母親像月亮一樣，所以老娘有陰晴圓缺怎麼了嗎？",
-   "High媽。心理師"
-  ],
-  [
-   "AbK-TPDn678",
-   "今天，我想休息一下",
-   ""
-  ],
-  [
-   "7_B4_6iLurI",
-   "每一個告別都珍貴",
-   ""
-  ],
-  [
-   "9NjoucM4XmM",
-   "謝罪的藝術",
-   ""
-  ],
-  [
-   "B0LrFS00fko",
-   "家鎖",
-   ""
-  ],
-  [
-   "CiiGCzdcymk",
-   "不是妳想太多",
-   ""
-  ],
-  [
-   "C8eN87LPjcc",
-   "日本中學道德教科書",
-   ""
-  ],
-  [
-   "Q2MtKU4eDIg",
-   "死亡否認",
-   ""
-  ],
-  [
-   "e7jpLRaLhcQ",
-   "東京防災／台灣全民安全指引",
-   ""
-  ],
-  [
-   "nQGCB0nsHh0",
-   "超．雑談力",
-   ""
-  ],
-  [
-   "KPn5WVuFEaI",
-   "長女病",
-   ""
-  ],
-  [
-   "rYlXCp-gITs",
-   "BLPT耽美日語文法檢定（第一集）",
-   ""
-  ],
-  [
-   "jv52TiCil6k",
-   "Vtuberの哲学",
-   ""
-  ],
-  [
-   "Fzprr3wNq_k",
-   "我想把這個世界讀給你聽",
-   "李尚龍"
-  ]
- ],
- "news": {
-  "Nezs6GJQnG4": "APEC後的美中俄與世界",
-  "dTTdK0zDssQ": "黃仁勳離開輝達的未來",
-  "HFAv6beGDvI": "美國期中選舉（後）",
-  "HAaaVMw9X1I": "美國期中選舉（前）",
-  "MSYhxfQiXCc": "法國抗爭騷亂",
-  "hEUMCj94heY": "康乃爾兄弟會案 #IAmJaneDoe",
-  "nMmBGkD-X-Y": "台北同志酒吧執法",
-  "yHPQ3swepY8": "川習會回顧",
-  "aXU-0cURaG0": "美中川習前瞻",
-  "9qVs5TVs4NI": "東亞AI法案立憲",
-  "pQ-xwihTH4k": "尼泊爾冰崩洪災",
-  "9estVvrAKV4": "光州雙年展與「台灣正名」風暴",
-  "ivWH09VK6j0": "晶片走私中國",
-  "zWyDW6cUScQ": "AI深度偽造",
-  "lhphZdpQ0AE": "再見AI戀人",
-  "qLr3COKkpYw": "AI泡沫",
-  "HuSCHxZYO94": "中聯問題油品",
-  "ZpGTw1iWNBQ": "台灣水果出口",
-  "xFqhRu8ycvU": "SpaceX上市IPO",
-  "-_2_wQ93VHE": "韓國大選"
- },
- "setlists": {
-  "qs4bZHsSWCw": [
-   [
-    "2:16:00",
-    "Everything",
-    "MISIA"
-   ],
-   [
-    "2:24:30",
-    "有你的快樂",
-    "王若琳"
-   ],
-   [
-    "2:29:15",
-    "BUUUU",
-    "PLAVE"
-   ],
-   [
-    "2:34:40",
-    "Happiness",
-    "嵐"
-   ],
-   [
-    "2:42:25",
-    "Fall in Love",
-    "4 in Love"
-   ],
-   [
-    "2:48:40",
-    "蜚蜚",
-    "陳禧儀"
-   ]
-  ],
-  "MjsyY9wuAZM": [
-   [
-    "9:12",
-    "明天我要嫁給你",
-    ""
-   ],
-   [
-    "16:18",
-    "如果還有明天（中斷）",
-    ""
-   ],
-   [
-    "19:33",
-    "Everything",
-    "MISIA"
-   ],
-   [
-    "27:15",
-    "愛は勝つ",
-    "KAN"
-   ],
-   [
-    "33:40",
-    "接受",
-    "梁靜茹"
-   ],
-   [
-    "39:58",
-    "聽袁惟仁彈吉他",
-    "S.H.E"
-   ],
-   [
-    "44:53",
-    "有沒有",
-    "By2"
-   ],
-   [
-    "49:31",
-    "I Will Survive",
-    ""
-   ],
-   [
-    "54:36",
-    "如果有一天",
-    "梁靜茹"
-   ],
-   [
-    "1:04:37",
-    "相見恨晚",
-    "彭佳慧"
-   ],
-   [
-    "1:10:02",
-    "第一天",
-    "孫燕姿"
-   ],
-   [
-    "1:15:10",
-    "倍倍Fight！",
-    "CANDY TUNE"
-   ],
-   [
-    "1:20:00",
-    "愛♡スクリ～ム！",
-    "AiScReam"
-   ],
-   [
-    "1:27:20",
-    "アンコール",
-    "YOASOBI"
-   ],
-   [
-    "1:33:00",
-    "残酷な天使のテーゼ",
-    "高橋洋子"
-   ],
-   [
-    "1:38:08",
-    "絶対アイドル辞めないで",
-    "=LOVE"
-   ],
-   [
-    "1:43:20",
-    "好きすぎて滅",
-    "M!LK"
-   ],
-   [
-    "1:47:38",
-    "Rolling in the Deep",
-    "Adele"
-   ],
-   [
-    "1:52:52",
-    "연애의 조건 (Love Options)",
-    "BESTie"
-   ],
-   [
-    "1:55:20",
-    "負けないで",
-    "ZARD"
-   ],
-   [
-    "1:57:00",
-    "Oh!",
-    "少女時代"
-   ],
-   [
-    "2:01:08",
-    "나쁜여자야",
-    "FTISLAND"
-   ],
-   [
-    "2:06:35",
-    "夜に駆ける",
-    "YOASOBI"
-   ],
-   [
-    "2:11:25",
-    "RAIN",
-    "SEKAI NO OWARI"
-   ],
-   [
-    "2:17:26",
-    "変わらないもの",
-    "奧華子"
-   ],
-   [
-    "2:25:05",
-    "明天會更好",
-    ""
-   ],
-   [
-    "2:30:36",
-    "快樂天堂",
-    ""
-   ],
-   [
-    "2:35:19",
-    "傷心酒店",
-    "施文彬、江蕙"
-   ],
-   [
-    "2:40:28",
-    "我要你愛",
-    "美秀集團"
-   ],
-   [
-    "2:45:48",
-    "說愛你",
-    "蔡依林"
-   ]
-  ],
-  "N7ArwtMpFiY": [
-   [
-    "9:20",
-    "怪獣の花唄",
-    "Vaundy"
-   ],
-   [
-    "17:15",
-    "炎",
-    "LiSA"
-   ],
-   [
-    "22:45",
-    "群青",
-    "YOASOBI"
-   ],
-   [
-    "28:58",
-    "祝福",
-    "YOASOBI"
-   ],
-   [
-    "33:38",
-    "オー・シャンゼリゼ",
-    "香榭大道日文版"
-   ],
-   [
-    "37:58",
-    "津軽海峡・冬景色",
-    "石川小百合"
-   ],
-   [
-    "43:08",
-    "時の流れに身をまかせ",
-    "鄧麗君"
-   ],
-   [
-    "48:30",
-    "未来予想図II",
-    "DREAMS COME TRUE"
-   ],
-   [
-    "56:15",
-    "アイノカタチ",
-    "MISIA"
-   ],
-   [
-    "1:02:30",
-    "おジャ魔女カーニバル!!",
-    "小魔女DoReMi"
-   ],
-   [
-    "1:08:10",
-    "恋愛サーキュレーション",
-    "化物語"
-   ],
-   [
-    "1:10:38",
-    "光るなら",
-    "Goose house"
-   ],
-   [
-    "1:17:21",
-    "ブルーバード",
-    "火影忍者"
-   ],
-   [
-    "1:23:20",
-    "God knows...",
-    "涼宮春日的憂鬱"
-   ],
-   [
-    "1:29:07",
-    "ひまわりの約束",
-    "秦基博"
-   ],
-   [
-    "1:37:25",
-    "わわわたくたくちゃお",
-    ""
-   ],
-   [
-    "1:43:58",
-    "夜に駆ける",
-    "YOASOBI"
-   ],
-   [
-    "1:49:30",
-    "恋するフォーチュンクッキー",
-    "AKB48"
-   ],
-   [
-    "1:55:56",
-    "LOVEマシーン",
-    "早安少女組。"
-   ],
-   [
-    "2:01:12",
-    "恋愛レボリューション21",
-    "早安少女組。"
-   ],
-   [
-    "2:06:50",
-    "so sweet",
-    "嵐"
-   ],
-   [
-    "2:15:10",
-    "ようかい体操第一",
-    "妖怪手錶"
-   ],
-   [
-    "2:19:55",
-    "ルカルカ★ナイトフィーバー",
-    "巡音流歌"
-   ],
-   [
-    "2:28:06",
-    "Let It Go（日文版）",
-    "冰雪奇緣"
-   ],
-   [
-    "2:36:03",
-    "青い珊瑚礁",
-    "松田聖子"
-   ]
-  ],
-  "f714St5ddJg": [
-   [
-    "9:13",
-    "SAKURA",
-    "生物股長"
-   ],
-   [
-    "21:23",
-    "群青",
-    "合唱曲"
-   ],
-   [
-    "28:10",
-    "春日影",
-    "MyGO!!!!!"
-   ],
-   [
-    "34:17",
-    "香水百合",
-    "張韶涵"
-   ],
-   [
-    "37:54",
-    "春泥",
-    "庾澄慶"
-   ],
-   [
-    "43:16",
-    "ハルジオン",
-    "YOASOBI"
-   ],
-   [
-    "47:45",
-    "碼頭姑娘",
-    "劉芷融（杜美心）"
-   ],
-   [
-    "54:31",
-    "萬千花蕊慈母悲哀",
-    "珂拉琪"
-   ],
-   [
-    "1:02:32",
-    "怪獣の花唄",
-    "Vaundy"
-   ],
-   [
-    "1:09:44",
-    "燕尾蝶",
-    "梁靜茹"
-   ],
-   [
-    "1:16:05",
-    "YELL",
-    "生物股長"
-   ],
-   [
-    "1:26:06",
-    "未来予想図II",
-    "DREAMS COME TRUE"
-   ],
-   [
-    "1:36:46",
-    "春よ、来い",
-    "松任谷由実"
-   ],
-   [
-    "1:43:02",
-    "花若離枝",
-    "江蕙"
-   ],
-   [
-    "1:49:53",
-    "背叛",
-    "曹格"
-   ],
-   [
-    "1:58:29",
-    "檸檬草的味道",
-    "蔡依林"
-   ],
-   [
-    "2:12:57",
-    "ヘビーローテーション",
-    "AKB48"
-   ],
-   [
-    "2:19:15",
-    "愛♡スクリ～ム！",
-    "AiScReam"
-   ],
-   [
-    "2:27:39",
-    "紅蓮華",
-    "LiSA"
-   ],
-   [
-    "2:35:32",
-    "殘響散歌",
-    "Aimer"
-   ],
-   [
-    "2:38:51",
-    "千本櫻",
-    "初音ミク"
-   ]
-  ]
- },
- "shortCats": {
-  "HHJphoR3Cyg": "song",
-  "zA15oPbPYZI": "topic",
-  "eB-0TAwdjp4": "topic",
-  "PGYw4gscE-E": "topic",
-  "6ZWcIP9Y1FI": "topic",
-  "pDWbN9aTi1s": "topic",
-  "J_zcyOJdJKQ": "topic",
-  "eI8crG2z0RU": "topic",
-  "UbH-gylqQkY": "topic",
-  "pnfLwTUQf2M": "topic",
-  "NJcK63kaN1c": "topic",
-  "LrGR2DCJ5a0": "topic",
-  "c9GSf5jSCio": "song",
-  "b7vq_3MR2Cw": "song",
-  "vPK1gt8scjI": "song",
-  "107ecTb4hOo": "song",
-  "enTeQyAwp4M": "song",
-  "i0o_l9CDvwM": "song",
-  "T3pk4rr7B3A": "song",
-  "ElisaWOTxvY": "song",
-  "9kq5pKj8DP4": "song",
-  "HaQrZkHbKQM": "song",
-  "ZUwhcohM0cI": "song",
-  "xTcu72ixf0o": "song",
-  "HRAdpAwTMd8": "song",
-  "XO-WxLJLzjY": "song",
-  "l_pxztU597k": "song",
-  "zirNLJFzcK0": "song",
-  "Yivvb_zqC5c": "song",
-  "kTbTO4UobGg": "song",
-  "CbVhjcu5o-w": "song",
-  "WOg1bzOrYgM": "song",
-  "PkwOi1org0o": "song",
-  "XsiGGYSg-h8": "song",
-  "upe-5EBSYE0": "song",
-  "d_brPOCf5Mg": "song"
- },
- "shortTitles": {
-  "NzJGNiaRYnU": "買飯被老闆記住喜好，到底該高興還是想逃？！",
-  "AK49pyPOMzU": "雞胚胚雞雞蛋？！播新聞舌頭徹底打結的尼主播",
-  "HHJphoR3Cyg": "只要聽過兩首以上，代表你的青春有這些歌！【尼貝爾翻唱】",
-  "P7L0zdyqawo": "炭暈郎出沒！熱炒店竟然有「白飯無限城」？！",
-  "zR_u1hz48KU": "「哭沒辦法解決事情」現場直接變演唱會？！",
-  "7sxhLYtGK48": "出道一年的主播，成功蒐集「原告五人」...",
-  "EYK_qN5-UMc": "怎麼突然離大家而去......主播播到一半突然變透明",
-  "6LQpOFkOajw": "快來看看兩千年後的我們...",
-  "KATwa6EZ-4E": "千萬不要買我的周邊！因為我會......",
-  "DpkiDa01rEY": "兩千年後的人看到尼貝爾留下來的東西會......？",
-  "zA15oPbPYZI": "關於台北同志酒吧執法爭議我想說......",
-  "HVQVOdxsnKg": "我愛紅娘，紅娘愛尼，弘法愛德......",
-  "g-x8b5zEPL4": "尼貝爾還我龍......",
-  "Y26snGMstUQ": "一言不合就被太陽餅團攻擊後頸？",
-  "H_ufUSRyKlw": "這就是傳說中說話的藝術......",
-  "rT5rWDe7zfc": "不好意思，主播活在侏羅紀到底關我P4......",
-  "kI8PXZZ8Exw": "你一定會喜歡這樣突然開車的主播......",
-  "nLDqSOj9HeY": "一開始也是朋友帶我去的，誰知道會......",
-  "91NsDtY4XB8": "一言不合就開唱，尼最可愛的地方是？？",
-  "RSuHPO4E7pg": "Given 阿霞！冬のはなし是紅蟳米糕",
-  "SssC8ZsNT0Q": "下一站：清朝！康熙不能捐，讓拓也捐",
-  "rtbY1jVIVJ4": "賭徒尼貝爾：這次真的梭哈了！",
-  "60LzDui2baM": "路怒症發作？原來是尼桑卡車司機！",
-  "LpZdHtIiUUI": "背台詞神速法：演員親自示範30秒記憶術",
-  "-4LSHLGbvEU": "限定公道價：想叫老公老婆請準備好「這筆錢」with納希斯",
-  "-d92QaEgvZw": "壓力大到走火入魔？演員教你一招「宇宙能量」心情變好",
-  "eB-0TAwdjp4": "真的有「選擇的權力」嗎？",
-  "PGYw4gscE-E": "演員的生存法則：吃不飽穿不暖還是要熱愛劇場？",
-  "6ZWcIP9Y1FI": "這一切只是入學前的浪漫想像？with海色水晶",
-  "pDWbN9aTi1s": "先進台大！轉系比例最高的是哪個系所？",
-  "J_zcyOJdJKQ": "高中畢業然後呢？大學四年，我們想要得到什麼樣的認可 ft. 海色水晶",
-  "eI8crG2z0RU": "有緣無份的人，最難放下",
-  "UbH-gylqQkY": "大廚5分鐘端出假菜",
-  "pnfLwTUQf2M": "聰明人的致命弱點？",
-  "NJcK63kaN1c": "跟神聖羅馬帝國一樣的科學、理性、務實？",
-  "LrGR2DCJ5a0": "越陷越深的人，不是因為他比較笨",
-  "c9GSf5jSCio": "好きすぎて滅！Cover 04.01公開",
-  "b7vq_3MR2Cw": "BLINK GONE (Mizi & Ivan.ver) - Alien Stage｜Cover by 尼貝爾 & 伊莉西亞",
-  "vPK1gt8scjI": "幽霊東京 / Ayase【歌ってみた】",
-  "f6O_l9O42Ps": "健康地獄步道歌回... 原唱變原告",
-  "p1VIaNl153Y": "最後的贏家……是？",
-  "U0V_PJZ8Tr8": "鱔魚不能輸",
-  "igSB75BpxUU": "銀髮族主播唱歌",
-  "_py-yRDVx9c": "尼貝爾沒有飆股社團",
-  "Do_Q_4Uw-J0": "來比比看，看誰氣比較長",
-  "107ecTb4hOo": "【聚】尼貝爾 原創曲 Original Song",
-  "Kprqp73BZ2Q": "我婆慈悲",
-  "enTeQyAwp4M": "My Icy Blue Eye Loop",
-  "i0o_l9CDvwM": "東京テディベア / Neru【歌ってみた】",
-  "TD6iQyndanY": "竹筍竹筍蹦蹦出",
-  "lK6mawrvtUY": "請善待尼！或者帶他走",
-  "B99XIskVZQs": "主播是比較多愁善感那種",
-  "tQkyi8JqCFc": "外面的世界太危險了！帶上尼吧！",
-  "T3pk4rr7B3A": "コネクト / ClariS【歌ってみた】",
-  "eltx5bn9wT4": "去北車買隱眼，邊買珍奶問糖冰，邊對抗逝去的青春",
-  "ElisaWOTxvY": "有一種悲傷 / A-Lin cover",
-  "9kq5pKj8DP4": "弱虫モンブラン / DECO*27【歌ってみた】",
-  "0R3eSxPLWCk": "主播你幹嘛？？有點反應過度欸",
-  "HaQrZkHbKQM": "からくりピエロ / 40㍍【歌ってみた】",
-  "xSGIZMrf9Ik": "歡迎仿生人康納加入創傷劇團",
-  "4rLGQHBXp4U": "早上腦袋不清楚硬要開唱",
-  "ZUwhcohM0cI": "CH4NGE / Giga【歌ってみた】",
-  "xTcu72ixf0o": "劇上 / YOASOBI【歌ってみた】",
-  "HRAdpAwTMd8": "起床囉！給哈尼的早安鬧鐘 Nibel Ringtone",
-  "bmGhkJTYw-E": "主播平常腦袋到底裝甚麼",
-  "OFqPvgBa0ls": "好希望一覺醒來QTE全部都按對",
-  "XO-WxLJLzjY": "炎 / LiSA【歌ってみた】",
-  "l_pxztU597k": "悪魔の子 / ヒグチアイ【歌ってみた】",
-  "zirNLJFzcK0": "JANE DOE / 米津玄師・宇多田ヒカル【歌ってみた】",
-  "Yivvb_zqC5c": "「最上級にかわいいの！」尼萌口愛登場！",
-  "cU_hJS1NNwU": "宋慧喬表示：",
-  "9ZWH8BGIlj8": "主播的原則就是沒有原則",
-  "dqM-xcGmwEg": "還有一位老校長～～",
-  "oLPSsEgNn9k": "海鮮好吃，但陸地上的並不美味",
-  "kTbTO4UobGg": "ずっといっしょ / キタニタツヤ【歌ってみた】",
-  "CbVhjcu5o-w": "妄想感傷代償連盟 / DECO*27【歌ってみた】",
-  "Xy0PUoIRJic": "怎麼會有嘴巴這麼爛的主播",
-  "WOg1bzOrYgM": "モニタリング (Best Friend Remix) / DECO*27【歌ってみた】",
-  "PkwOi1org0o": "革命道中 / AiNA THE END【歌ってみた】",
-  "8EnboMuNH6E": "這個主播可以唱演歌，也可以唱曹格",
-  "4juWmt-RxuQ": "勇氣並不是恐怖遊戲都不叫",
-  "2HCdhDu9zhM": "廁所裡撐竿跳，真過分",
-  "CRLZ0InNspY": "運氣用光的尼，只能說對不起",
-  "OY9A3sH2_uY": "把遊戲玩成BL遊戲",
-  "CU8u_Yy_UmY": "銀髮族也能當V",
-  "nbm-XvrOsyM": "沒見過如此高齡（瘋）的台灣男V",
-  "1oJFDVBNanQ": "廣告商爸爸媽媽快看！台南國際芒果節開幕了",
-  "86VWrabCFqU": "快來一場即興喜劇！",
-  "mPeuSVIgb-s": "不小心露出了......開嗓的聲音",
-  "XsiGGYSg-h8": "Bright Purity OST - Frostie｜Cover",
-  "X6jrVMuWsOs": "恐怖油膩遊戲！",
-  "_hGj0UMhTUI": "戀愛教師_尼貝爾！",
-  "KJcEYBy6yjk": "迷因上巴劇團！",
-  "WOGexM7oYpU": "超暴躁仿生人！",
-  "ri2CtWznZ_8": "人質有危險，我還在救魚......",
-  "zeXM1vyt10Q": "這是西亞最積極的一天！",
-  "pjs6OTK1ng4": "哈尼！方尼！花園寶寶",
-  "tHQWftLVakM": "你看，大腸在天上！",
-  "8p9yGgVXZFY": "快！快來叫叫ABC",
-  "uG0tkBiCdtg": "我跟你說，尼貝爾就是激不得！",
-  "4ZEUOB-8Tvo": "當V一個月了，可以寧靜辭職了！",
-  "yG3C9gpD_JM": "愛烤愛對囉！",
-  "ZEKJqlaMaE8": "我就知道，主播是一個斜咖（物理）",
-  "81Wy_45wLEc": "蝴蝶生的真美麗，那熟的呢？",
-  "GuG4mAzYLSc": "告訴我小林，你喜歡動物嗎？",
-  "E0vhd1a2wj8": "我才不是渣男勢！！",
-  "Fa6rCfooTt0": "我是誰？哈哈哈尼！",
-  "PU0tOA49o5I": "我們歡迎國語朗讀1號參賽者",
-  "upe-5EBSYE0": "Soda Pop - Saja Boys（Short Cover）",
-  "d_brPOCf5Mg": "Your Idol - Saja Boys（Cover）",
-  "Wt66Gind6YY": "【初配信精華】我是一個透明人",
-  "KxWaB_RS2TM": "【初配信精華】不論如何，我會在你左右",
-  "vnv3H_MyYXI": "【初配信精華】好險沒有要蒐集七顆龍珠......",
-  "DS7ecTLMd4I": "【初配信精華】尼不是冰霸王，是冰炫風吧",
-  "fZR1MheldyY": "【初配信精華】初配信被不知名海盜搶走了",
-  "hmqgE-twSQc": "【初配信精華】你說這是初配信？我不信",
-  "4PN7fa5c9Co": "尼在這，明天見！",
-  "RYSf3RBg5hY": "翻唱 Shorts",
-  "Zs6uYQf4R_Q": "翻唱 Shorts"
- },
- "shortSource": {},
- "noChapters": [
-  "J5dG_rgllj8",
-  "JBMwj6Cik6E"
- ],
- "hide": [],
- "shortsSince": "2025-06-04",
- "bookCovers": {}
+  "hide": [],
+  "shortsSince": "2025-06-04",
+  "bookCovers": {
+    "我想把這個世界讀給你聽": "covers/books/wo-xiang-ba-zhe-ge-shi-jie-du-gei-ni-ting.jpg"
+  },
+  "recordCovers": {
+    "夜に駆ける": "covers/records/yoru-ni-kakeru.jpg"
+  },
+  "songLang": {}
 }

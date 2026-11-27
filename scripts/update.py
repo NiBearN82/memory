@@ -258,6 +258,8 @@ def main():
     data["news"] = news
     data["setlists"] = extra.get("setlists", {})
     data["shortSource"] = extra.get("shortSource", {})
+    data["recCovers"] = extra.get("recordCovers", {})
+    data["songLang"] = extra.get("songLang", {})
     update_covers(data, extra)
     after = json.dumps({k: v for k, v in data.items() if k != "updated"}, ensure_ascii=False, sort_keys=True)
     if after == before:
