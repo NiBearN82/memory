@@ -555,6 +555,13 @@ button.cd.cur{background:#B3261E;color:#fff;box-shadow:0 0 0 2px #fff}button.cd.
 @media(max-width:560px){.spk{width:90px;height:90px}}
 @media(prefers-reduced-motion:reduce){.jbmore.big{animation:none}}
 
+.jbwrap{align-items:stretch}
+.jbside{justify-content:flex-start}
+.jbside .ttwrap{margin-top:auto;padding-bottom:0}
+.jbside .bigtt{margin-bottom:-38px}
+.jukebox{padding-bottom:28px}
+.jbtube{bottom:40px}
+@media(max-width:900px){.jbside .ttwrap{margin-top:10px}}
 </style>
 </head>
 <body>
@@ -1133,8 +1140,7 @@ function jukeInner(){const x=juke;if(!x)return `<div class="jbdeck"><p class="no
    <div class="jbinfo"><span class="jblang">${esc(x.lang)}・唱過 ${x.n} 次</span><b>${esc(x.title)}</b>${x.artist?`<small>${esc(x.artist)}</small>`:""}</div>
    <div class="jbperf"><span class="jbpl">🎧 選一次來聽${x.n>1?`（共 ${x.n} 次）`:""}</span><div class="jbpchips">${x.perf.map((p,i)=>`<button class="jbpc" data-jperf="${esc(x.k)}|${i}"><b>${esc(p.r.date.slice(2).replaceAll("-","."))}</b><small>▶ ${esc(p.t)}</small></button>`).join("")}</div></div>
    <button class="jbmore big" data-rec="${esc(x.k)}">📖 看這首歌的完整介紹與每次演唱 <span>→</span></button>
-   <span class="jbspk" aria-hidden="true"><span class="spk"></span><span class="spk"></span></span>
-   <span class="jbfeet" aria-hidden="true"><i></i><i></i></span>`}
+`}
 function setJuke(k,fromEl){const x=RECS.find(y=>y.k===k);if(!x)return;juke=x;const jb=document.getElementById("jukebox");if(!jb)return;
   const go=()=>{jb.innerHTML=jukeInner();const bd=document.getElementById("bdisc"),arm=document.getElementById("barm");if(bd)bd.innerHTML=`<span class="blabel">${sleeve(x)}</span>`;
     if(G()){const sl=jb.querySelector(".jbsleeve");const tl=gsap.timeline();tl.from(sl,{y:-30,autoAlpha:0,duration:.35,ease:"power2.out"});
