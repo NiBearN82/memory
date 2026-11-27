@@ -259,8 +259,11 @@ function prep(){
     r.chapters=(D.chapters[id]||[]).map(([t,x])=>({t,x,n:norm(x)}));
     let songs=D.setlists[id]?D.setlists[id].map(s=>({t:s[0],s:s[1],a:s[2]})):null;
     if(!songs){
-      const sl=r.chapters.filter(c=>/^歌回[①-⑳]/.test(c.x));
-      if(sl.length)songs=sl.map(c=>{const m=c.x.replace(/^歌回[①-⑳]：?/,"").split(/\s+-\s+/);return m.length>1?{t:c.t,s:m.slice(1).join(" - "),a:m[0]}:{t:c.t,s:m[0],a:""}});
+      const note=r.chapters.filter(c=>/^[🎵🎶♪♫]/u.test(c.x));
+      if(note.length)songs=note.map(c=>{const x=c.x.replace(/^[🎵🎶♪♫]\s*/u,"");const m=x.match(/^《([^》]+)》\s*(.*)$/);return m?{t:c.t,s:m[1],a:m[2]}:{t:c.t,s:x,a:""}});
+      const sl=songs?[]:r.chapters.filter(c=>/^歌回[①-⑳]/.test(c.x));
+      if(songs){}
+      else if(sl.length)songs=sl.map(c=>{const m=c.x.replace(/^歌回[①-⑳]：?/,"").split(/\s+-\s+/);return m.length>1?{t:c.t,s:m.slice(1).join(" - "),a:m[0]}:{t:c.t,s:m[0],a:""}});
       else if(cats.includes("song")&&r.chapters.length)songs=r.chapters.filter(c=>!NOISE.test(c.x)).map(c=>({t:c.t,s:c.x,a:""}));
     }
     r.songs=songs&&songs.length?songs:null;
