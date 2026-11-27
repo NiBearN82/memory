@@ -1218,7 +1218,7 @@ let miniTap=0;
 /* iPhone 不允許網頁替 YouTube 開聲音自動播放：沒播起來就把影片打開，請使用者點一下影片（之後同一個播放器就能自動播） */
 function miniCheck(){clearTimeout(miniTap);miniTap=setTimeout(()=>{const b=document.getElementById("mini");if(!b||b.hidden||!miniAlive())return;let st=-1;try{st=mini.getPlayerState()}catch(e){}if(st===1||st===3)return;b.classList.add("needtap");b.classList.remove("min");setMinBtn(b)},1800)}
 let userMin=false;
-function setMinBtn(m){const b=document.getElementById("mmin");if(!b)return;const on=m.classList.contains("min");b.textContent=on?"▢":"–";b.setAttribute("aria-label",on?"展開影片":"縮小影片")}
+function setMinBtn(m){const b=document.getElementById("mmin");if(!b)return;const on=m.classList.contains("min");b.textContent=on?"▲":"–";b.setAttribute("aria-label",on?"展開影片":"縮小影片")}
 function setFloat(m,f){if(m.classList.contains("flt")===f)return;
   const r0=m.getBoundingClientRect();m.classList.toggle("flt",f);m.classList.toggle("min",f||userMin);setMinBtn(m);
   if(m.hidden||!G())return;const r1=m.getBoundingClientRect();
