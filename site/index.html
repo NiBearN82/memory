@@ -181,6 +181,7 @@ mark{background:rgba(81,168,221,.3);color:var(--pearl);border-radius:3px;padding
 .mhead{display:grid;grid-template-columns:170px minmax(0,1fr);gap:24px;align-items:end;padding:28px clamp(16px,3vw,28px) 18px;background:linear-gradient(180deg,rgba(81,168,221,.12),transparent)}
 .mcov{position:relative;display:block;aspect-ratio:2/3;border-radius:4px;overflow:hidden;box-shadow:10px 14px 30px -10px #000}
 .mcov.sq{aspect-ratio:1}.mcov .sleeve{position:absolute}
+.mcov.sq{position:relative;overflow:visible}.mcov.sq>.sleeve{z-index:1}.mvinyl{position:absolute;inset:4%;z-index:0;border-radius:50%;border:1px solid rgba(200,165,90,.45);background:radial-gradient(circle,var(--gilt,#C8A55A) 0 9%,#111 9.5% 11%,transparent 11.5%),repeating-radial-gradient(circle,#101014 0 2px,#1d1e24 2px 4px);box-shadow:0 10px 24px -10px #000}.mvinyl::after{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 20deg,transparent 0 10%,rgba(255,255,255,.12) 14%,transparent 20% 60%,rgba(255,255,255,.08) 64%,transparent 70%)}
 .mhead h2{font:900 clamp(22px,3vw,30px)/1.3 var(--serif);margin:4px 0 6px;text-wrap:balance}
 .eb2{font:italic 600 16px var(--orn);color:var(--gilt)}
 .player:empty{display:none}
@@ -269,6 +270,7 @@ footer b{font:italic 600 16px var(--orn);color:var(--gilt)}
 <nav class="rail" id="rail" aria-label="年月滑桿"><div class="rtrack" id="rtrack" role="slider" tabindex="0" aria-label="目前瀏覽的年月，拖曳或用上下鍵跳到其他月份"></div><div class="rtip" id="rtip"></div></nav>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="ptitle"><div class="panel" id="panel"></div></div>
 
+<script src="vendor/gsap.min.js"></script>
 <script>
 {
 const CATS=[
@@ -306,6 +308,12 @@ window.nbFallback=img=>{const k=img.dataset.k,n=+img.dataset.n+1,list=SIZES[k];i
 const imgOk=img=>{if(img.naturalWidth===120&&img.naturalHeight===90)nbFallback(img)};
 window.nbLoad=imgOk;
 function th(kind,id,eager){const sz=SIZES[kind][kind==="v"&&!eager?1:0];return `<img class="th" src="https://i.ytimg.com/vi/${encodeURIComponent(id)}/${sz}.jpg" data-k="${kind}" data-vid="${esc(id)}" data-n="${kind==="v"&&!eager?1:0}" alt="" ${eager?"":'loading="lazy"'} decoding="async" onerror="nbFallback(this)" onload="nbLoad(this)">`}
+
+// 歌回時間軸：只收「歌手 - 《歌名》」或「歌名《出處》」，幕、場、OP/ED 這類段落不算歌
+function chapSong(c){const x=c.x.replace(/^\s*(\d{1,2}:)?\d{1,2}:\d{2}\s*/,"").trim();if(!x||NOISE.test(x)||/第.幕|第.場|中場|散場|打招呼/.test(x))return null;
+  let m=x.match(/^(.+?)\s+-\s+《([^》]+)》\s*$/);if(m)return {t:c.t,s:m[2],a:m[1]};
+  m=x.match(/^([^《]+?)\s*《([^》]+)》/);if(m)return {t:c.t,s:m[1].trim(),a:"《"+m[2]+"》"+(x.match(/》《([^》]+)》/)?"《"+x.match(/》《([^》]+)》/)[1]+"》":"")};
+  return {t:c.t,s:x,a:""}}
 function prep(){
   S=D.streams.map(([date,id,dur,raw],i)=>{
     const live=isLive(raw)&&(!dur||secs(dur)>=1200);  // 20 分鐘以下的是剪輯或預告，不算直播
@@ -322,7 +330,7 @@ function prep(){
       const sl=songs?[]:r.chapters.filter(c=>/^歌回[①-⑳]/.test(c.x));
       if(songs){}
       else if(sl.length)songs=sl.map(c=>{const m=c.x.replace(/^歌回[①-⑳]：?/,"").split(/\s+-\s+/);return m.length>1?{t:c.t,s:m.slice(1).join(" - "),a:m[0]}:{t:c.t,s:m[0],a:""}});
-      else if(cats.includes("song")&&r.chapters.length)songs=r.chapters.filter(c=>!NOISE.test(c.x)).map(c=>({t:c.t,s:c.x,a:""}));
+      else if(cats.includes("song")&&r.chapters.length)songs=r.chapters.map(c=>chapSong(c)).filter(Boolean);
     }
     r.songs=songs&&songs.length?songs:null;
     r.hay=norm([r.title,r.book,r.author,r.topic,(r.songs||[]).map(s=>s.s+s.a).join("")].join(""));
@@ -380,7 +388,13 @@ const PAT=[a=>`radial-gradient(circle at 72% 30%,${a} 0 14%,transparent 14.5% 26
  a=>`conic-gradient(from 210deg at 78% 22%,${a} 0 25%,transparent 25% 100%)`,
  a=>`repeating-radial-gradient(circle at 100% 0,${a} 0 2px,transparent 2px 14px)`];
 const art=(key,o={})=>{const h=hash(key),[bg,fg,ac]=PAL[h%PAL.length],pt=PAT[(h>>>4)%PAT.length](ac+(o.soft?"55":"cc"));return {bg,fg,ac,style:`background:linear-gradient(to top,${bg} 0 16%,${bg}d9 34%,transparent 60%),${pt},${bg};color:${fg}`}};
-function langOf(t,a){const x=t+" "+(a||"");if(/[\uac00-\ud7af]/.test(x))return "韓文";if(/[\u3040-\u30ff]/.test(x))return "日文";if(/[\u4e00-\u9fff]/.test(t))return "華語";if(/[a-z]/i.test(t))return "英文";return "其他"}
+const LANG_TW=/^(傷心酒店|歡喜就好|查某囡仔|落雨聲|舞女|愛情恰恰|阿嬤的話|放我去飛|花若離枝|碼頭姑娘|萬千花蕊慈母悲哀|世界恬靜落來的時)$/;
+const LANG_JA=/^(祝福|群青|本能|炎|未来予想図II|世界的秘密|亞麻色頭髮的少女|千本櫻|海市蜃樓|打上花火|少女S|命運的名字|春日影|紅蓮華|殘響散歌|Love so sweet|so sweet|Happiness|A·RA·SHI|Everything|RAIN|LA·LA·LA LOVE SONG|U\.S\.A\.|sister's noise|God knows\.\.\.|Snow halation|SAKURA|YELL|Rainy Blue|倍倍Fight！)$/i;
+const LANG_KO=/^(BUUUU|Oh!)$/;
+const LANG_ZH=/^(Fall in Love|Honey|11)$/;
+function langOf(t,a){const x=t+" "+(a||""),k=(D.songLang||{})[songKey(t)];if(k)return k;
+  if(LANG_TW.test(t))return "台語";if(LANG_JA.test(t)||/日文版/.test(x))return "日文";if(LANG_KO.test(t))return "韓文";if(LANG_ZH.test(t))return "中文";
+  if(/[가-힯]/.test(x))return "韓文";if(/[぀-ヿ]/.test(x))return "日文";if(/[一-鿿]/.test(t))return "中文";if(/[a-z]/i.test(t))return "英文";return "其他"}
 function buildLibrary(){
   const bm=new Map();
   D.books.forEach(([id,title,author])=>{const r=byId[id];if(!r)return;const k=bookKey(title);if(!bm.has(k))bm.set(k,{k,title:title.replace(/（[^）]*）/g,""),author:"",eps:[],cover:(D.covers||{})[k]||""});const b=bm.get(k);if(author&&!b.author)b.author=author;if(!b.eps.includes(r))b.eps.push(r)});
@@ -389,7 +403,7 @@ function buildLibrary(){
   S.forEach(r=>(r.songs||[]).forEach(s=>{const raw=String(s.s).trim();if(!raw||/^(OP|ED|開場|晚安)$/.test(raw))return;const k=songKey(raw);if(!k)return;
     if(!rm.has(k))rm.set(k,{k,titles:{},artists:{},perf:[]});const x=rm.get(k);const tt=raw.replace(/（(中斷|日文版|結果.*?)）/g,"").trim();x.titles[tt]=(x.titles[tt]||0)+1;if(s.a)x.artists[s.a]=(x.artists[s.a]||0)+1;x.perf.push({r,t:s.t})}));
   const top=o=>Object.entries(o).sort((a,b)=>b[1]-a[1])[0]?.[0]||"";
-  RECS=[...rm.values()].map(x=>{x.title=top(x.titles);x.artist=top(x.artists);x.perf.sort((a,b)=>b.r.date.localeCompare(a.r.date));x.n=x.perf.length;x.last=x.perf[0].r.date;x.lang=langOf(x.title,x.artist);x.hay=norm(x.title+x.artist);return x});
+  window.__lib=()=>({BOOKS,RECS});RECS=[...rm.values()].map(x=>{x.title=top(x.titles);x.artist=top(x.artists);x.perf.sort((a,b)=>b.r.date.localeCompare(a.r.date));x.n=x.perf.length;x.last=x.perf[0].r.date;x.lang=langOf(x.title,x.artist);x.hay=norm(x.title+x.artist);return x});
 }
 function bookCover(b,big){
   const a=art(b.k);
@@ -410,7 +424,7 @@ function viewRecords(){
   const q=qn(),base=RECS.filter(x=>!q||x.hay.includes(q)),list=base.filter(x=>!state.rlang||x.lang===state.rlang);
   const sorters={count:(a,b)=>b.n-a.n||b.last.localeCompare(a.last),recent:(a,b)=>b.last.localeCompare(a.last),title:(a,b)=>a.title.localeCompare(b.title,"zh-Hant")};
   list.sort(sorters[state.rsort]);
-  const langs=["華語","日文","韓文","英文"].map(l=>[l,base.filter(x=>x.lang===l).length]).filter(x=>x[1]);
+  const langs=["中文","台語","日文","韓文","英文","其他"].map(l=>[l,base.filter(x=>x.lang===l).length]).filter(x=>x[1]);
   const perfs=list.reduce((a,x)=>a+x.n,0);
   const others=S.filter(r=>r.cats.includes("song")&&!r.songs&&(!q||r.hay.includes(q)));
   return `<h3 class="sect">尼貝爾的唱片架 <span>${list.length} 首・唱過 ${perfs} 次</span></h3><p class="sub">同一首歌整合成一張唱片，點開就能聽每一次的版本</p>
@@ -421,12 +435,27 @@ function viewRecords(){
 /* 書和唱片的詳細頁：同一個播放器，點哪一集就播哪一集 */
 function openMulti(html){if(!sheet.classList.contains("open"))lastFocus=document.activeElement;stopPlayer();panel.dataset.kind="multi";panel.dataset.id="";panel.innerHTML=html;sheet.classList.add("open");document.body.style.overflow="hidden";sheet.scrollTop=0;document.getElementById("close").focus()}
 const PHOLD=`<div class="player" id="player"></div>`;
+
+/* 動效（GSAP）：書櫃、唱片架進場，打開書／唱片時的小動畫；系統設定「減少動態」時全部略過 */
+let RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+if(window.gsap){gsap.matchMedia().add("(prefers-reduced-motion: reduce)",()=>{RM=true;return()=>{RM=false}})}
+const G=()=>window.gsap&&!RM;
+function animView(){if(!G())return;const items=[...document.querySelectorAll("#view .bk,#view .rec")].slice(0,48);if(!items.length)return;
+  gsap.from(items,{y:26,autoAlpha:0,rotationX:-14,transformPerspective:700,transformOrigin:"50% 100%",duration:.6,ease:"power3.out",stagger:{each:.022},clearProps:"transform,opacity,visibility"})}
+function animSheet(kind){if(!window.gsap)return;gsap.killTweensOf(".mvinyl");if(RM)return;
+  const rows=panel.querySelectorAll(".pbody .ep");
+  if(kind==="book"){gsap.from(panel.querySelector(".mcov"),{rotationY:-75,transformPerspective:900,transformOrigin:"0% 50%",autoAlpha:0,duration:.85,ease:"back.out(1.3)",clearProps:"transform,opacity,visibility"})}
+  if(kind==="rec"){const v=panel.querySelector(".mvinyl"),c=panel.querySelector(".mcov .sleeve");
+    gsap.from(c,{scale:.85,autoAlpha:0,duration:.5,ease:"power3.out",clearProps:"transform,opacity,visibility"});
+    gsap.fromTo(v,{x:0,rotation:0},{x:"20%",duration:.9,delay:.25,ease:"power3.out"});
+    gsap.to(v,{rotation:"+=360",duration:3.2,ease:"none",repeat:-1,delay:.25})}
+  gsap.from(rows,{x:-18,autoAlpha:0,duration:.45,ease:"power2.out",stagger:.05,delay:.15,clearProps:"transform,opacity,visibility"})}
 function openBook(k){
   const b=BOOKS.find(x=>x.k===k);if(!b)return;
-  openMulti(`<button class="close" id="close" aria-label="關閉">×</button><div class="mhead"><span class="mcov">${bookCover(b,true)}</span><div><p class="eb2">${b.live&&b.pod?"說書直播＋Podcast":b.live?"說書直播":"說書 Podcast"}</p><h2 id="ptitle">《${esc(b.title)}》</h2>${b.author?`<p class="note">${esc(b.author)}</p>`:""}<p class="note">聊過 ${b.eps.length} 集，點下面任一集就在這裡播放</p></div></div>${PHOLD}<div class="pbody">${b.eps.map(r=>`<div class="ep"><a class="eprow" ${tlink(r.id,"0")}>${th("v",r.id)}<span><small>${esc(r.date.replaceAll("-","."))}・${r.live?"說書直播":"Podcast"}・${esc(r.dur)}</small><b>${esc(r.title)}</b></span></a>${r.chapters.length?`<button class="epch" data-open="${esc(r.id)}">時間軸 ${r.chapters.length} 段 →</button>`:""}</div>`).join("")}</div>`)}
+  openMulti(`<button class="close" id="close" aria-label="關閉">×</button><div class="mhead"><span class="mcov">${bookCover(b,true)}</span><div><p class="eb2">${b.live&&b.pod?"說書直播＋Podcast":b.live?"說書直播":"說書 Podcast"}</p><h2 id="ptitle">《${esc(b.title)}》</h2>${b.author?`<p class="note">${esc(b.author)}</p>`:""}<p class="note">聊過 ${b.eps.length} 集，點下面任一集就在這裡播放</p></div></div>${PHOLD}<div class="pbody">${b.eps.map(r=>`<div class="ep"><a class="eprow" ${tlink(r.id,"0")}>${th("v",r.id)}<span><small>${esc(r.date.replaceAll("-","."))}・${r.live?"說書直播":"Podcast"}・${esc(r.dur)}</small><b>${esc(r.title)}</b></span></a>${r.chapters.length?`<button class="epch" data-open="${esc(r.id)}">時間軸 ${r.chapters.length} 段 →</button>`:""}</div>`).join("")}</div>`);animSheet("book")}
 function openRecord(k){
   const x=RECS.find(y=>y.k===k);if(!x)return;
-  openMulti(`<button class="close" id="close" aria-label="關閉">×</button><div class="mhead"><span class="mcov sq">${sleeve(x)}</span><div><p class="eb2">${esc(x.lang)}・唱過 ${x.n} 次</p><h2 id="ptitle">${esc(x.title)}</h2>${x.artist?`<p class="note">原唱：${esc(x.artist)}</p>`:""}<p class="note">點下面任一次，就從這首歌開始播</p></div></div>${PHOLD}<div class="pbody">${x.perf.map(p=>`<div class="ep"><a class="eprow" ${tlink(p.r.id,p.t)}>${th("v",p.r.id)}<span><small>${esc(p.r.date.replaceAll("-","."))}・從 ${esc(p.t)} 開始</small><b>${esc(p.r.title)}</b></span></a><button class="epch" data-open="${esc(p.r.id)}">整場歌單 →</button></div>`).join("")}</div>`)}
+  openMulti(`<button class="close" id="close" aria-label="關閉">×</button><div class="mhead"><span class="mcov sq"><span class="mvinyl" aria-hidden="true"></span>${sleeve(x)}</span><div><p class="eb2">${esc(x.lang)}・唱過 ${x.n} 次</p><h2 id="ptitle">${esc(x.title)}</h2>${x.artist?`<p class="note">原唱：${esc(x.artist)}</p>`:""}<p class="note">點下面任一次，就從這首歌開始播</p></div></div>${PHOLD}<div class="pbody">${x.perf.map(p=>`<div class="ep"><a class="eprow" ${tlink(p.r.id,p.t)}>${th("v",p.r.id)}<span><small>${esc(p.r.date.replaceAll("-","."))}・從 ${esc(p.t)} 開始</small><b>${esc(p.r.title)}</b></span></a><button class="epch" data-open="${esc(p.r.id)}">整場歌單 →</button></div>`).join("")}</div>`);animSheet("rec")}
 
 function card(r){
   const hits=chapHits(r).length;
@@ -481,7 +510,7 @@ function viewSongs(){
 function render(){
   document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-current",String(t.dataset.v===state.v)));
   document.getElementById("view").innerHTML=({all:viewAll,shorts:viewShorts,shelf:viewShelf,topics:viewTopics,records:viewRecords}[state.v])();
-  renderBars();buildRail();
+  renderBars();buildRail();animView();
 }
 
 /* 右側年月滑桿 */
