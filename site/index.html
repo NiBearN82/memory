@@ -614,6 +614,26 @@ body:not([data-sec="home"]){padding-top:var(--ctrl,164px)}
 .hlink.yt i{background:#E8463C;color:#fff}.hlink.mm i{background:#F2A7B5}.hlink.sch i{background:#51A8DD}.hlink.don i{background:#C8A55A}
 .hlink:hover,.hlink:focus-visible{transform:translateY(-2px);background:rgba(40,44,64,.85)}
 @media(max-width:480px){.hlinks{gap:8px;margin-top:26px}.hlink{font-size:13px;padding:7px 12px 7px 8px}.hlink i{width:24px;height:24px;font-size:12px}}
+
+/* 音樂劇傳單 */
+.flyhint{margin:-4px 0 14px;color:#B9BDC8;font-size:14px}
+.flyers{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:26px 22px;padding:6px 2px 10px}
+.flyer{position:relative;background:#F4EBD6;color:#2A1C12;border-radius:4px;overflow:hidden;box-shadow:0 14px 30px rgba(0,0,0,.55),0 0 0 1px rgba(0,0,0,.2);transform:rotate(calc((var(--i) % 3 - 1) * 1.2deg));transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column}
+.flyer:hover{transform:rotate(0) translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.6),0 0 0 2px #C8A55A}
+.fimg{position:relative;aspect-ratio:1/1;overflow:hidden;background:#1E2A4F}
+.fimg img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.05) contrast(1.05)}
+.fimg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,#F4EBD6 99%)}
+.fnone{display:grid;place-items:center;height:100%;font-size:60px;color:#C8A55A}
+.fin{position:relative;padding:0 16px 14px;margin-top:-34px;display:flex;flex-direction:column;gap:6px;flex:1}
+.ftag{align-self:flex-start;background:#A8262B;color:#F4EBD6;font-size:10px;font-weight:900;letter-spacing:.14em;padding:3px 8px}
+.ftitle{margin:2px 0 4px;font-family:var(--serif);font-weight:900;font-size:21px;line-height:1.25;border-bottom:2px solid #2A1C12;padding-bottom:6px}
+.fsongs{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;flex:1}
+.fsongs button{all:unset;cursor:pointer;display:flex;flex-direction:column;width:100%;box-sizing:border-box;padding:5px 6px;border-radius:4px}
+.fsongs button:hover,.fsongs button:focus-visible,.fsongs button.on{background:rgba(168,38,43,.12)}
+.fsongs button.on b{color:#A8262B}
+.fsongs b{font-size:15px;font-weight:700}.fsongs small{font-size:11px;color:#7A6A58;font-family:var(--orn);font-style:italic}
+.fstub{margin-top:8px;padding-top:8px;border-top:1px dashed #8a7458;font-size:9px;letter-spacing:.2em;color:#8a7458;text-align:center}
+@media(max-width:560px){.flyers{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}.ftitle{font-size:16px}.fsongs b{font-size:13px}.fin{padding:0 10px 10px}}
 </style>
 </head>
 <body>
@@ -1059,7 +1079,7 @@ const BOOK_CATS=[
   ["bl","BL・耽美","Boys' Love","swirl",["BLPT"]]];
 const bookCat=b=>(BOOK_CATS.find(c=>c[4].some(w=>b.title.includes(w)))||["other"])[0];
 const BCN=Object.fromEntries(BOOK_CATS.map(c=>[c[0],c]));
-const MUSICAL=/^(台北不是我尋找心方向的家|喜歡你|柏林的雪|我非我願|七點二十分的反省|畫你的模樣|人生無謂|四月望雨|世界恬靜落來的時|我要走向你|但是夢只會更遠|翻譯的女人|有時候愛|被雨傷透|On My Own)$/;
+const MUSICAL=/^(台北不是我尋找新方向的家|台北不是我尋找心方向的家|喜歡你|柏林的雪|我非我願|七點二十分的反省|畫你的模樣|人生無謂|四月望雨|世界恬靜落來的時|我要走向你|但是夢只會更遠|翻譯的女人|有時候愛|被雨傷透|On My Own)$/;
 const isMus=x=>MUSICAL.test(x.title);
 const LANG_ORDER=["中文","台語","日文","韓文","英文","粵語","其他"];
 
@@ -1188,19 +1208,30 @@ let juke=null;const flowIdx={};
 function viewJukebox(){
   const q=qn();const base=RECS.filter(x=>!q||x.hay.includes(q));
   if(!juke||!base.includes(juke))juke=[...base].sort((a,b)=>b.n-a.n||b.last.localeCompare(a.last))[0]||null;
-  const srt=(a,b)=>b.n-a.n||b.last.localeCompare(a.last);const stacks=["日文","音樂劇","中文","台語","英文","粵語","韓文","其他"].map(l=>[l,(l==="音樂劇"?base.filter(isMus):base.filter(x=>!isMus(x)&&x.langs.includes(l))).sort(srt)]).filter(s=>s[1].length);
+  const srt=(a,b)=>b.n-a.n||b.last.localeCompare(a.last);const stacks=["音樂劇","日文","中文","台語","英文","粵語","韓文","其他"].map(l=>[l,(l==="音樂劇"?base.filter(isMus):base.filter(x=>!isMus(x)&&x.langs.includes(l))).sort(srt)]).filter(s=>s[1].length);
   return `<div class="jbwrap">
     <div class="jukebox" id="jukebox" aria-live="polite">${jukeInner()}</div>
     <div class="jbside"><p class="eyebrow">Jukebox · 歌曲</p><h2>尼貝爾點唱機</h2><p class="sub">${base.length} 首歌、唱過 ${base.reduce((a,x)=>a+x.n,0)} 次。下面的唱片按語種分成好幾疊，左右滑動挑一張，點一張唱片會從封套裡抽出來，再按一次就放上唱盤播放</p>
       <div class="jbjump">${stacks.map(([l,a])=>`<a href="#flow-${esc(l)}" data-flowjump="${esc(l)}">${esc(l)} <small>${a.length}</small></a>`).join("")}</div>
       <div class="ttwrap"><div class="bigtt" aria-hidden="true"><div class="btt3d"><div class="btop"><span class="bplat"></span><span class="bdisc" id="bdisc">${juke?`<span class="blabel">${sleeve(juke)}</span>`:""}</span><span class="bspindle"></span><span class="barm" id="barm"><i></i></span><span class="bknob k1"></span><span class="bknob k2"></span></div><div class="bfront"><span class="bled"></span><span class="bbrand">NIBEL ✦ HI-FI</span></div></div><div class="bshadow"></div></div><div class="mini" id="mini" hidden><div class="minibar"><span class="mtitle" id="mtitle"></span><button class="mbtn mexp" id="mexp" aria-label="打開這首歌的介紹頁" title="打開這首歌的介紹頁">↗</button><button class="mbtn" id="mmin" aria-label="縮小影片">–</button><button class="mbtn" id="mtoggle" aria-label="暫停">❚❚</button><button class="mbtn" id="mstop" aria-label="關閉">✕</button></div><div class="minivid"><div id="miniyt"></div></div></div></div></div></div>
-    ${stacks.map(([l,a])=>`<section class="stack" id="flow-${esc(l)}"><h3 class="sect">${esc(l)} <span>${a.length} 張</span></h3>
+    ${stacks.map(([l,a])=>l==="音樂劇"?flyersHTML(a):`<section class="stack" id="flow-${esc(l)}"><h3 class="sect">${esc(l)} <span>${a.length} 張</span></h3>
       <div class="flow" data-lang="${esc(l)}" tabindex="0" role="listbox" aria-label="${esc(l)}唱片，左右鍵切換，Enter 放進點唱機">
         <button class="fnav prev" data-fnav="-1" aria-label="上一張">‹</button>
         <div class="flowin">${a.map((x,i)=>`<button class="cf" data-cf="${esc(x.k)}" data-i="${i}" tabindex="-1" aria-label="${esc(x.title)}"><span class="cfdisc" aria-hidden="true"></span>${sleeve(x)}${x.n>1?`<span class="rcount">×${x.n}</span>`:""}</button>`).join("")}</div>
         <button class="fnav next" data-fnav="1" aria-label="下一張">›</button></div>
       <p class="cfcap" aria-live="polite"></p></section>`).join("")}
     ${base.length?"":`<p class="empty">唱片架上還沒有這首歌</p>`}`}
+/* 音樂劇：一部劇一張傳單 */
+function showOf(x){const a=x.artist||"";if(/mashup/i.test(a)){const m=[...a.matchAll(/《([^》]+)》/g)].map(m=>m[1]);return m.join(" × ")||"Mashup"}
+  const m=a.match(/《([^》]+)》/);if(m)return m[1];return a.replace(/[（）()]/g,"").replace(/選段|主題曲/g,"").trim()||x.title}
+function flyersHTML(list){const g=new Map();list.forEach(x=>{const sh=showOf(x);if(!g.has(sh))g.set(sh,[]);g.get(sh).push(x)});
+  const shows=[...g.entries()].map(([sh,a])=>({sh,a:a.sort((p,q)=>q.n-p.n||q.last.localeCompare(p.last)),n:a.reduce((t,x)=>t+x.n,0),last:a.map(x=>x.last).sort().pop()})).sort((p,q)=>q.n-p.n||q.last.localeCompare(p.last));
+  return `<section class="stack" id="flow-音樂劇"><h3 class="sect">音樂劇 <span>${shows.length} 部・${list.length} 首</span></h3><p class="flyhint">一部劇一張傳單，點歌名就直接播</p>
+   <div class="flyers">${shows.map((s,i)=>{const cv=s.a.find(x=>x.cover)?.cover;return `<article class="flyer" style="--i:${i}">
+     <div class="fimg">${cv?`<img src="${esc(cv)}" alt="" loading="lazy">`:`<span class="fnone">✦</span>`}</div>
+     <div class="fin"><span class="ftag">MUSICAL ✦ 音樂劇</span><h4 class="ftitle">《${esc(s.sh)}》</h4>
+      <ol class="fsongs">${s.a.map(x=>`<li><button type="button" data-jplay="${esc(x.k)}"><b>♪ ${esc(x.title)}</b><small>${esc(x.last.replaceAll("-","."))}${x.n>1?`・唱過 ${x.n} 次`:""}</small></button></li>`).join("")}</ol>
+      <span class="fstub">NIBEL JUKEBOX · NOW SHOWING</span></div></article>`}).join("")}</div></section>`}
 function jukeInner(){const x=juke;if(!x)return `<div class="jbdeck"><p class="note">沒有符合的歌</p></div>`;
   return `<span class="jbcrown" aria-hidden="true"><b>NIBEL</b><small>✦ SELECT-O-MATIC ✦</small></span><span class="jbarch" aria-hidden="true"></span><span class="jbtube l" aria-hidden="true"><i></i><i></i><i></i></span><span class="jbtube r" aria-hidden="true"><i></i><i></i><i></i></span><img class="jbhani" src="${HANI("round")}" alt="" aria-hidden="true">
    <div class="jbdeck">
@@ -1279,7 +1310,7 @@ addEventListener("resize",()=>{document.querySelectorAll(".flow").forEach(f=>f._
 document.getElementById("view").addEventListener("click",e=>{
   const fn=e.target.closest("[data-fnav]");if(fn){e.stopPropagation();const f=fn.closest(".flow");f._go(f._idx()+ +fn.dataset.fnav);return}
   if(e.target.closest(".cf")||e.target.closest(".flow")&&!e.target.closest(".fnav")){e.stopPropagation();e.preventDefault();return}
-  const jp=e.target.closest("[data-jplay]");if(jp){e.stopPropagation();const x=RECS.find(y=>y.k===jp.dataset.jplay);if(x)miniPlay(x);return}
+  const jp=e.target.closest("[data-jplay]");if(jp){e.stopPropagation();const x=RECS.find(y=>y.k===jp.dataset.jplay);if(x){miniPlay(x);setJuke(x.k);document.querySelectorAll(".flyer .on").forEach(b=>b.classList.remove("on"));jp.classList.add("on")}return}
   const jpf=e.target.closest("[data-jperf]");if(jpf){e.stopPropagation();const [k,i]=jpf.dataset.jperf.split("|");const x=RECS.find(y=>y.k===k);if(x){document.querySelectorAll(".jbpc.on").forEach(b=>b.classList.remove("on"));jpf.classList.add("on");miniPlay(x,+i)}return}
   const mx=e.target.closest("#mexp");if(mx){e.stopPropagation();if(miniKey)openRecord(miniKey,false);return}
   const mt=e.target.closest("#mtoggle");if(mt){e.stopPropagation();if(!mini)return;const st=mini.getPlayerState?.();if(st===1){mini.pauseVideo()}else mini.playVideo();return}
