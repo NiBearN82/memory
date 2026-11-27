@@ -421,7 +421,7 @@ function applyDriveCovers(){const cf=D.coverFiles||{},miss=[];
   hit(cf.books,BOOKS,x=>bookKey(x.title),"author");hit(cf.records,RECS,x=>songKey(x.title),"artist");window.__coverMiss=miss}
 function buildLibrary(){
   const bm=new Map();
-  D.books.forEach(([id,title,author])=>{const r=byId[id];if(!r)return;const k=bookKey(title);if(!bm.has(k))bm.set(k,{k,title:title.replace(/（[^）]*）/g,""),author:"",eps:[],cover:(D.covers||{})[k]||""});const b=bm.get(k);if(author&&!b.author)b.author=author;if(!b.eps.includes(r))b.eps.push(r)});
+  D.books.forEach(([id,title,author])=>{const r=byId[id];if(!r)return;const k=bookKey(title);if(!bm.has(k))bm.set(k,{k,title:title.replace(/（[^）]*）/g,""),author:"",eps:[],cover:(D.covers||{})[k]||"",pinned:!!(D.covers||{})[k]});const b=bm.get(k);if(author&&!b.author)b.author=author;if(!b.eps.includes(r))b.eps.push(r)});
   BOOKS=[...bm.values()].map(b=>(b.eps.sort((x,y)=>y.date.localeCompare(x.date)),b.last=b.eps[0].date,b.live=b.eps.some(r=>r.live),b.pod=b.eps.some(r=>!r.live),b.hay=norm(b.title+b.author),b)).sort((x,y)=>y.last.localeCompare(x.last));
   const rm=new Map();
   S.forEach(r=>(r.songs||[]).forEach(s=>{const raw=String(s.s).trim();if(!raw||/^(OP|ED|開場|晚安)$/.test(raw))return;let k=songKey(raw);if(!k)return;if(SONG_ALIAS[k])k=songKey(SONG_ALIAS[k][0]);
