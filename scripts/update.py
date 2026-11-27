@@ -175,23 +175,28 @@ def playlist_ids(pid):
             return ids
 
 
+INTRO_SKIP = re.compile(r"https?://|^#|^@|訂閱|斗內|抖內|贊助|會員|綠界|商業合作|聯絡|優惠|使用期限|結帳|全館|^※|折扣|限時|^nibel\d|本集合作|^[—\-–]+$|搜集了很多人的理想|努力不懈留著汗水|夢想站上更大的舞台|站在這裡的理由|為了自己勇敢前進|【我們是由|尼好，我是創傷劇團|^🎭|謝幕|尼在這裡|^｜|Youtube \||^-+|週邊|周邊|套組|^→|新會員|快帶我一起出去玩|^📖|^✦|^《[^》]*》$|www\.|緊急支援|安心專線|\(\d{4}\)\.|Journal|et al\.|^[A-Z][a-z]+, [A-Z]\.|^時間軸|TIMESTAMP|━━|───|＝＝|==", re.I)
+INTRO_STOP = re.compile(r"為確保每場演出|參考資料|參考文獻|References|延伸閱讀|^【參考", re.I)
+INTRO_TS = re.compile(r"^[🎵🎶♪✦]?\s*(\d{1,2}:)?\d{1,2}:\d{2}")
+
+
 def intro_text(desc):
-    """說明欄的介紹段：遇到時間軸就停，去掉連結、hashtag、固定宣傳行。"""
+    """說明欄的介紹段：跳過時間軸、連結、hashtag、固定宣傳行；遇到參考資料就停。"""
     out = []
     for line in (desc or "").splitlines():
         t = line.strip()
-        if re.match(r"^[🎵🎶♪]?\s*(\d{1,2}:)?\d{1,2}:\d{2}", t):
-            break
-        if re.search(r"時間軸|章節|TIMESTAMP|━━|───|＝＝|==|-{4,}|【我們是由|尼好，我是創傷劇團|^🎭|謝幕|尼在這裡|參考資料|參考文獻|References", t, re.I):
-            if out:
-                break
+        if not t:
+            if out and out[-1]:
+                out.append("")
             continue
-        if re.search(r"https?://|^#|^@|訂閱|斗內|抖內|贊助|會員|綠界|商業合作|聯絡|優惠碼|折扣碼|優惠券|使用期限|結帳|全館|^※|折扣|限時|^nibel\\d|本集合作|^—$|^-$|搜集了很多人的理想|努力不懈留著汗水|夢想站上更大的舞台|站在這裡的理由|為了自己勇敢前進", t):
+        if INTRO_STOP.search(t):
+            break
+        if INTRO_TS.match(t) or INTRO_SKIP.search(t):
             continue
         out.append(t)
     text = re.sub(r"\n{3,}", "\n\n", "\n".join(out)).strip()
-    body = re.sub(r"📖.*|《[^》]*》|\s", "", text)
-    if len(body) < 20:  # 只剩書名或宣傳碼，不算介紹
+    body = re.sub(r"《[^》]*》|\s", "", text)
+    if len(body) < 40:  # 只剩書名或宣傳碼，不算介紹
         return ""
     return text[:900]
 
@@ -294,6 +299,8 @@ def main():
             else:
                 intros.pop(b[0], None)
     data["intros"] = {k: v for k, v in intros.items() if k in books}
+    # 說明欄沒有介紹的書：用整理自出版社公開資訊的書籍介紹補上
+    data["introsAlt"] = {k: v for k, v in extra.get("bookIntros", {}).items() if k in books and k not in data["intros"]}
     data["news"] = news
     data["setlists"] = extra.get("setlists", {})
     data["shortSource"] = extra.get("shortSource", {})
