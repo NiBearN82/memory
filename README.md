@@ -2,7 +2,7 @@
 
 VTuber 尼貝爾 Nibel 的直播紀錄網站：直播縮圖牆、時間軸搜尋、說書書單、議題、歌單、Shorts 精華。
 
-網站每 12 小時（台灣時間每天 01:17、13:17）會自動到 YouTube 抓一次新的直播和 Shorts，有新內容才會更新。
+網站每 4 小時（台灣時間 00:17、04:17、08:17、12:17、16:17、20:17）會自動到 YouTube 抓一次新的直播和 Shorts，有新內容才會更新。
 
 ## 第一次設定（只要做一次）
 
@@ -45,4 +45,4 @@ VTuber 尼貝爾 Nibel 的直播紀錄網站：直播縮圖牆、時間軸搜尋
 - `site/index.html`：網站本體
 - `site/data.json`：所有直播資料（自動產生，不用手動改）
 - `scripts/update.py`：抓 YouTube 資料的程式
-- `.github/workflows/update.yml`：每 12 小時自動執行的排程
+- `.github/workflows/update.yml`：每 4 小時自動執行的排程
