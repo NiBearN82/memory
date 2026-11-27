@@ -239,6 +239,142 @@ footer b{font:italic 600 16px var(--orn);color:var(--gilt)}
 @media(max-width:800px){.hero{grid-template-columns:minmax(0,1fr)}.feat{order:2}}
 @media(max-width:600px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 10px}.card .t{font-size:14px}.hitrow{grid-template-columns:110px minmax(0,1fr)}.shorts{grid-template-columns:repeat(2,minmax(0,1fr))}.set .head{grid-template-columns:96px minmax(0,1fr)}}
 @media(prefers-reduced-motion:reduce){.bar i,.card .th,.short .th{transition:none}}
+/* ===== 全站導覽 ===== */
+.gnav{display:flex;align-items:center;gap:6px 14px;flex-wrap:wrap;width:100%}
+.brand{display:flex;align-items:center;gap:8px;color:var(--pearl,#EEF0F4);text-decoration:none;font-family:"Noto Serif TC",serif;font-weight:900;font-size:17px;white-space:nowrap}
+.brand img{width:30px;height:30px;object-fit:contain;transition:transform .3s}
+.brand:hover img{transform:rotate(-12deg) scale(1.1)}
+.gsecs{display:flex;gap:4px;flex-wrap:wrap}
+.gsec{padding:7px 14px;border-radius:999px;color:#B9BDC8;text-decoration:none;font-weight:700;font-size:15px;border:1px solid transparent}
+.gsec:hover{color:#EEF0F4;border-color:rgba(255,255,255,.15)}
+.gsec[aria-current="true"]{background:#51A8DD;color:#1A1B22}
+body:not([data-sec="live"]) header.band,body:not([data-sec="live"]) .tabs{display:none}
+body[data-sec="home"] .controls{display:none}
+body[data-sec="home"] main.band{padding:0}
+body[data-sec="home"] main.band>.wrap{max-width:none;padding:0}
+body[data-sec="home"] footer.band{margin-top:0}
+.back{display:inline-block;margin:6px 0 14px;color:#51A8DD;text-decoration:none;font-weight:700}
+.back:hover{text-decoration:underline}
+
+/* ===== 入口 ===== */
+.home{position:relative;min-height:100vh;overflow:hidden;display:flex;align-items:center;isolation:isolate}
+.hbg{position:absolute;inset:0;z-index:-2}
+.hbg img{width:100%;height:100%;object-fit:cover;object-position:62% 35%}
+.home::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(18,20,30,.94) 0,rgba(18,20,30,.78) 42%,rgba(18,20,30,.25) 75%,rgba(18,20,30,.1)),linear-gradient(0deg,rgba(18,20,30,.9),transparent 40%)}
+.hin{width:min(1180px,100%);margin:0 auto;padding:72px 28px 60px}
+.home h1{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(38px,6vw,72px);line-height:1.12;margin:6px 0 10px;color:#EEF0F4;text-shadow:0 4px 30px rgba(0,0,0,.5)}
+.hlede{font-size:clamp(17px,2vw,21px);color:#F6E3B4;margin:0 0 26px;font-weight:500}
+.hsearch{display:flex;max-width:560px;background:rgba(255,255,255,.96);border-radius:999px;padding:6px;box-shadow:0 10px 40px -10px rgba(0,0,0,.6),0 0 0 4px rgba(242,201,120,.35);margin-bottom:42px}
+.hsearch input{flex:1;border:0;background:none;font:inherit;font-size:17px;padding:10px 18px;color:#1A1B22;outline:none;min-width:0}
+.hsearch button{border:0;border-radius:999px;background:#E9B872;color:#3B2A12;font:inherit;font-weight:900;padding:10px 22px;cursor:pointer}
+.hsearch button:hover{background:#F2C77F}
+.doors{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;max-width:1040px}
+.door{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:96px 20px 20px;border-radius:30px;text-decoration:none;color:#3B2A12;background:#FFF3D6;border:3px solid #B8763A;box-shadow:0 8px 0 #B8763A,0 18px 40px -12px rgba(0,0,0,.6);transition:transform .25s cubic-bezier(.3,1.6,.5,1),box-shadow .25s;overflow:visible}
+.door::after{content:"";position:absolute;left:18px;right:18px;top:12px;height:6px;border-radius:9px;background:var(--c);opacity:.85}
+.door:hover,.door:focus-visible{transform:translateY(-8px) rotate(-1.5deg);box-shadow:0 14px 0 #B8763A,0 26px 50px -12px rgba(0,0,0,.6);outline:none}
+.door:nth-child(even):hover{transform:translateY(-8px) rotate(1.5deg)}
+.dhani{position:absolute;z-index:2;top:-38px;left:50%;width:118px;height:118px;object-fit:contain;transform:translateX(-50%);filter:drop-shadow(0 8px 10px rgba(0,0,0,.35));animation:bob 3.2s ease-in-out infinite;animation-delay:calc(var(--i)*-.8s)}
+.door:hover .dhani{animation-duration:.9s}
+@keyframes bob{0%,100%{transform:translate(-50%,0) rotate(-3deg)}50%{transform:translate(-50%,-10px) rotate(3deg)}}
+.drip{position:absolute;left:0;right:0;top:-3px;height:26px;pointer-events:none;background:radial-gradient(14px 18px at 14% 0,#E9B872 98%,transparent) ,radial-gradient(10px 22px at 38% 0,#E9B872 98%,transparent),radial-gradient(12px 14px at 66% 0,#E9B872 98%,transparent),radial-gradient(9px 20px at 86% 0,#E9B872 98%,transparent);opacity:.9;border-radius:30px 30px 0 0}
+.dt{font-family:"Noto Serif TC",serif;font-weight:900;font-size:30px;line-height:1.2}
+.den{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:600;font-size:17px;color:#8A5A24}
+.dd{font-size:14px;line-height:1.55;margin-top:8px;color:#5B4426}
+.dn{margin-top:12px;font-size:13px;font-weight:900;background:#3B2A12;color:#FFF3D6;padding:4px 12px;border-radius:999px}
+.float{position:absolute;width:86px;opacity:.9;pointer-events:none;filter:drop-shadow(0 6px 8px rgba(0,0,0,.35));animation:drift 9s ease-in-out infinite}
+.f1{right:5%;top:12%;width:92px}.f2{right:30%;bottom:6%;width:74px;animation-delay:-3s}.f3{left:52%;top:6%;width:140px;animation-delay:-6s}
+@keyframes drift{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-16px) rotate(4deg)}}
+@media(max-width:900px){.doors{grid-template-columns:repeat(2,minmax(0,1fr));gap:48px 16px}.hin{padding:56px 18px 48px}.f3{display:none}.home::before{background:linear-gradient(0deg,rgba(18,20,30,.95) 0,rgba(18,20,30,.75) 60%,rgba(18,20,30,.45))}}
+@media(max-width:480px){.door{padding:78px 14px 16px;border-radius:24px}.dhani{width:92px;height:92px;top:-30px}.dt{font-size:24px}.dd{display:none}.f1,.f2{display:none}}
+
+/* ===== 報紙攤 ===== */
+.stand{position:relative;margin:4px 0 26px;border-radius:18px;overflow:hidden;background:#232634;border:1px solid rgba(255,255,255,.08)}
+.awning{height:54px;background:repeating-linear-gradient(90deg,#1E2A4F 0 46px,#EEF0F4 46px 92px);position:relative}
+.awning::after{content:"";position:absolute;left:0;right:0;bottom:-14px;height:16px;background:radial-gradient(24px 16px at 23px 0,#1E2A4F 98%,transparent) 0 0/92px 16px repeat-x,radial-gradient(24px 16px at 69px 0,#EEF0F4 98%,transparent) 0 0/92px 16px repeat-x}
+.standhead{display:flex;gap:20px;align-items:center;padding:30px 26px 22px}
+.standhead h2,.libhead h2,.jbside h2{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(26px,3.4vw,38px);margin:2px 0 6px}
+.shani,.lhani{width:96px;height:96px;object-fit:contain;flex:none;animation:drift 6s ease-in-out infinite}
+.papers{position:relative;padding:10px 0 40vh;max-width:920px;margin:0 auto}
+.paper{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:12px;position:sticky;top:calc(var(--ctrl,72px) + 14px + var(--i)*5px);margin:0 auto 34px;width:100%;min-height:330px;padding:22px 26px 18px;background:#F4EEDF;color:#1F1B16;border-radius:4px;box-shadow:0 1px 0 #d8ceb8,0 24px 50px -18px rgba(0,0,0,.75),0 2px 0 rgba(0,0,0,.08) inset;transform:rotate(var(--r));transition:transform .25s,box-shadow .25s;background-image:linear-gradient(90deg,transparent 49.6%,rgba(0,0,0,.05) 50%,transparent 50.4%),repeating-linear-gradient(0deg,rgba(0,0,0,.015) 0 2px,transparent 2px 4px)}
+.paper:hover,.paper:focus-visible{transform:rotate(0) translateY(-6px);box-shadow:0 30px 60px -18px rgba(0,0,0,.85),0 0 0 3px #E9B872;outline:none}
+.mast{display:flex;flex-direction:column;align-items:center;border-bottom:3px double #1F1B16;padding-bottom:8px}
+.mast b{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(28px,4vw,44px);letter-spacing:.12em;line-height:1.1}
+.mast small{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:600;font-size:15px;color:#5a5245;margin-top:2px}
+.pbody2{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:20px;align-items:start}
+.pmain{display:flex;flex-direction:column;gap:8px;min-width:0}
+.kick{align-self:flex-start;background:#B3261E;color:#fff;font-weight:900;font-size:13px;padding:2px 10px}
+.headl{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(22px,3vw,32px);line-height:1.3}
+.headl mark{background:#F2D46B;color:inherit}
+.subs{display:flex;flex-direction:column;border-top:1px solid #1F1B16;margin-top:4px}
+.subs i{font-style:normal;font-size:15px;line-height:1.45;padding:6px 0;border-bottom:1px dotted #8f8574;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.subs i::before{content:"■ ";font-size:10px;color:#B3261E}
+.pphoto{display:block;aspect-ratio:16/9;overflow:hidden;border:1px solid #1F1B16;background:#ccc}
+.pphoto .th{width:100%;height:100%;object-fit:cover;filter:grayscale(.85) contrast(1.1) sepia(.25)}
+.paper:hover .pphoto .th{filter:none}
+.pfoot{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:#5a5245;border-top:1px solid #1F1B16;padding-top:8px;margin-top:auto}
+.pcta{font-weight:900;color:#1F1B16}
+@media(max-width:700px){.pbody2{grid-template-columns:1fr}.pphoto{order:-1}.paper{padding:16px 16px 14px;min-height:0}.standhead{padding:24px 16px 18px}.shani,.lhani{width:70px;height:70px}}
+
+/* ===== 書櫃間 ===== */
+.libhead{display:flex;gap:20px;align-items:center;margin:6px 0 26px}
+.cabinets{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:58px 28px;padding-top:30px}
+.cab{position:relative;display:flex;flex-direction:column;text-decoration:none;color:#3B2A12;border-radius:20px 20px 12px 12px;background:linear-gradient(180deg,#B57A45,#8E5A2E);padding:14px 14px 0;box-shadow:0 10px 0 #5E3A1C,0 26px 40px -16px rgba(0,0,0,.8);transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
+.cab:hover,.cab:focus-visible{transform:translateY(-8px) rotate(-1deg);outline:none}
+.cabtop{position:absolute;top:-54px;right:18px;width:80px;height:80px}
+.cabtop img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 6px 6px rgba(0,0,0,.4));animation:drift 5s ease-in-out infinite}
+.cabbody{display:flex;flex-direction:column;gap:12px;background:#4A2E17;border-radius:10px;padding:12px 10px 8px;box-shadow:inset 0 6px 14px rgba(0,0,0,.6)}
+.cabrow{display:flex;align-items:flex-end;gap:5px;height:104px;border-bottom:7px solid #C99863;padding:0 4px}
+.cabrow.low{height:96px}
+.spine{flex:1;max-width:58px;height:var(--h);border-radius:2px;overflow:hidden;box-shadow:2px 0 4px rgba(0,0,0,.6)}
+.spine .bimg,.spine .gcover{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.spine .gband,.spine .gstar{display:none}
+.cablabel{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;background:#FFF3D6;margin:14px -14px 0;padding:14px 18px;border-radius:0 0 12px 12px;border-top:3px solid #5E3A1C}
+.cablabel b{font-family:"Noto Serif TC",serif;font-weight:900;font-size:21px}
+.cablabel small{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:15px;color:#8A5A24}
+.cablabel em{margin-left:auto;font-style:normal;font-weight:900;font-size:13px;background:#3B2A12;color:#FFF3D6;padding:3px 10px;border-radius:999px}
+.woodshelf{background:linear-gradient(180deg,rgba(181,122,69,.12),rgba(181,122,69,.04));border-radius:18px;padding:22px 18px 10px}
+
+/* 書封：一律置中滿版 */
+.bcov .bimg,.mcov .bimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center}
+
+/* ===== 點唱機 ===== */
+.jbwrap{display:grid;grid-template-columns:minmax(280px,380px) minmax(0,1fr);gap:40px;align-items:center;margin:10px 0 40px}
+.jukebox{position:relative;border-radius:190px 190px 26px 26px;padding:120px 26px 30px;background:radial-gradient(120% 80% at 50% 0,#3A2C5A,#1E2A4F 60%,#151a2e);border:6px solid #C8A55A;box-shadow:0 0 0 6px #6B4B1F,0 0 50px rgba(242,167,181,.35),0 30px 60px -20px rgba(0,0,0,.9);display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.jbarch{position:absolute;inset:14px 14px auto;height:150px;border-radius:170px 170px 0 0;border:5px solid transparent;background:linear-gradient(#0000,#0000) padding-box,conic-gradient(from 180deg,#F2A7B5,#E9B872,#51A8DD,#B9A3F2,#F2A7B5) border-box;animation:glow 4s linear infinite;-webkit-mask:linear-gradient(#000 0 0) padding-box exclude,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) padding-box exclude,linear-gradient(#000 0 0)}
+.jbhani{position:absolute;top:-64px;left:50%;width:96px;transform:translateX(-50%);animation:bob 2.6s ease-in-out infinite;-webkit-mask:none;mask:none}
+@keyframes glow{to{filter:hue-rotate(360deg)}}
+.jbscreen{position:relative;width:210px;height:210px;margin-top:-30px}
+.jbdisc{position:absolute;top:10px;left:60px;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,#C8A55A 0 10%,#111 11% 13%,transparent 14%),repeating-radial-gradient(circle,#0f0f13 0 2px,#22232b 2px 4px);box-shadow:0 10px 24px rgba(0,0,0,.6);animation:spin 4s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.jbcover{position:absolute;inset:0;border-radius:6px;overflow:hidden;box-shadow:0 14px 30px rgba(0,0,0,.7)}
+.jbcover .sleeve{position:absolute;inset:0}
+.jbinfo{display:flex;flex-direction:column;gap:2px;color:#EEF0F4;margin-top:6px}
+.jbinfo b{font-family:"Noto Serif TC",serif;font-size:24px;line-height:1.3}
+.jbinfo small{color:#B9BDC8;font-size:15px}
+.jblang{font-size:13px;color:#F2A7B5;font-weight:700}
+.jbbtns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.jbplay,.jbmore{border:0;border-radius:999px;font:inherit;font-weight:900;padding:10px 18px;cursor:pointer}
+.jbplay{background:#F2A7B5;color:#3A1520;box-shadow:0 4px 0 #b06f7d}
+.jbplay:active{transform:translateY(3px);box-shadow:0 1px 0 #b06f7d}
+.jbmore{background:rgba(255,255,255,.1);color:#EEF0F4;border:1px solid rgba(255,255,255,.25)}
+.jbgrill{display:block;width:80%;height:46px;margin-top:6px;border-radius:12px;background:repeating-linear-gradient(90deg,#C8A55A 0 3px,transparent 3px 12px),#2a2140;opacity:.75}
+.jbjump{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.jbjump a{padding:7px 14px;border-radius:999px;background:#FFF3D6;color:#3B2A12;text-decoration:none;font-weight:900}
+.jbjump a small{color:#8A5A24}
+.stack{margin:10px 0 30px}
+.flow{overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;perspective:900px;padding:30px 0 50px;scrollbar-width:thin;outline:none}
+.flow:focus-visible{box-shadow:0 0 0 2px #51A8DD;border-radius:12px}
+.flowin{display:flex;align-items:center;padding:0 calc(50% - 85px);transform-style:preserve-3d}
+.cf{all:unset;flex:none;position:relative;width:170px;height:170px;margin:0 -34px;scroll-snap-align:center;cursor:pointer;transform-style:preserve-3d;transition:transform .25s ease-out;-webkit-box-reflect:below 6px linear-gradient(transparent 62%,rgba(255,255,255,.22))}
+.cf .sleeve{position:absolute;inset:0;border-radius:3px;box-shadow:0 12px 26px rgba(0,0,0,.6)}
+.cf.mid .sleeve{box-shadow:0 0 0 3px #F2A7B5,0 18px 36px rgba(0,0,0,.7)}
+.cf .rcount{position:absolute;top:-8px;right:-8px}
+.cfcap{text-align:center;min-height:1.6em;margin:-18px 0 0;color:#EEF0F4}
+.cfcap b{font-family:"Noto Serif TC",serif}
+@media(max-width:900px){.jbwrap{grid-template-columns:1fr;justify-items:center}.jbside{text-align:center}.jbjump{justify-content:center}.jukebox{width:min(360px,100%)}}
+@media(max-width:480px){.cf{width:130px;height:130px;margin:0 -26px}.flowin{padding:0 calc(50% - 65px)}}
+@media(prefers-reduced-motion:reduce){.dhani,.float,.jbdisc,.jbarch,.jbhani,.shani,.lhani,.cabtop img{animation:none}}
+
 </style>
 </head>
 <body>
@@ -262,13 +398,15 @@ footer b{font:italic 600 16px var(--orn);color:var(--gilt)}
 
 <div class="controls">
   <div class="wrap">
+    <nav class="gnav" aria-label="館別">
+      <a class="brand" href="#" aria-label="回到入口"><img src="assets/hani/round.png" alt="">尼貝爾直播紀錄館</a>
+      <span class="gsecs"><a class="gsec" href="#live" data-sec="live">直播</a><a class="gsec" href="#news" data-sec="news">新聞</a><a class="gsec" href="#books" data-sec="books">說書</a><a class="gsec" href="#songs" data-sec="songs">歌曲</a></span>
+    </nav>
     <div class="search"><input id="q" type="text" enterkeyhint="search" placeholder="搜尋標題、時間軸、書名、歌名…" aria-label="搜尋直播紀錄" autocomplete="off"><button id="clr" type="button" aria-label="清除搜尋" hidden>×</button></div>
-    <nav class="tabs" aria-label="檢視">
-      <a class="tab" href="#all" data-v="all">全部</a>
+    <nav class="tabs" aria-label="直播檢視">
+      <a class="tab" href="#live" data-v="all">全部</a>
       <a class="tab" href="#shorts" data-v="shorts">Shorts</a>
-      <a class="tab" href="#shelf" data-v="shelf">書櫃</a>
       <a class="tab" href="#topics" data-v="topics">議題</a>
-      <a class="tab" href="#records" data-v="records">唱片架</a>
     </nav>
   </div>
 </div>
@@ -310,7 +448,7 @@ const tlink=(id,t)=>`href="${yt(id,t)}" target="_blank" rel="noopener" data-play
 const norm=s=>String(s??"").toLowerCase().replace(/[\s・·．.、，,！!？?「」『』《》〈〉（）()【】#＃：:／/\-]/g,"");
 const WD="日一二三四五六";
 const NOISE=/^(OP|ED|開場|晚安|今日曲目回顧|待機|開台待機)/;
-let D,S=[],byId={},SH=[],BOOKS=[],RECS=[],state={v:"all",cat:"",scat:"",q:"",btype:"",rsort:"count",rlang:""};
+let D,S=[],byId={},SH=[],BOOKS=[],RECS=[],state={sec:"home",sub:"",v:"all",cat:"",scat:"",q:"",btype:"",rsort:"count",rlang:""};
 
 function hl(text,q){const t=esc(text);if(!q)return t;const k=esc(q).replace(/[.*+?^${}()|[\]\\]/g,"\\$&");try{return t.replace(new RegExp(k,"gi"),m=>"<mark>"+m+"</mark>")}catch(e){return t}}
 const SIZES={v:["maxresdefault","hq720","sddefault","hqdefault"],s:["oardefault","oar2","hqdefault"]};
@@ -464,7 +602,7 @@ const PHOLD=`<div class="player" id="player"></div>`;
 let RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
 if(window.gsap){gsap.matchMedia().add("(prefers-reduced-motion: reduce)",()=>{RM=true;return()=>{RM=false}})}
 const G=()=>window.gsap&&!RM;
-function animView(){if(!G())return;const items=[...document.querySelectorAll("#view .bk,#view .rec")].slice(0,48);if(!items.length)return;
+function animView(){if(!G())return;const items=[...document.querySelectorAll("#view .bk,#view .rec,#view .door,#view .cab")].slice(0,48);if(!items.length)return;
   gsap.from(items,{y:26,autoAlpha:0,rotationX:-14,transformPerspective:700,transformOrigin:"50% 100%",duration:.6,ease:"power3.out",stagger:{each:.022},clearProps:"transform,opacity,visibility"})}
 function animSheet(kind){if(!window.gsap)return;gsap.killTweensOf(".mvinyl");if(RM)return;
   const rows=panel.querySelectorAll(".pbody .ep");
@@ -534,9 +672,18 @@ function viewSongs(){
   return h}
 
 function render(){
-  document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-current",String(t.dataset.v===state.v)));
-  document.getElementById("view").innerHTML=({all:viewAll,shorts:viewShorts,shelf:viewShelf,topics:viewTopics,records:viewRecords}[state.v])();
-  renderBars();buildRail();animView();
+  document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-current",String(state.sec==="live"&&t.dataset.v===state.v)));
+  document.querySelectorAll(".gsec").forEach(a=>a.setAttribute("aria-current",String(a.dataset.sec===state.sec)));
+  let html;
+  if(state.sec==="home")html=viewHome();
+  else if(state.sec==="news")html=viewNews();
+  else if(state.sec==="books")html=state.sub?viewBookCat(state.sub):viewCabinets();
+  else if(state.sec==="songs")html=viewJukebox();
+  else html=({all:viewAll,shorts:viewShorts,topics:viewTopics}[state.v]||viewAll)();
+  document.getElementById("view").innerHTML=html;
+  if(state.sec==="live")renderBars();
+  buildRail();if(state.sec==="songs")initFlows();animView();
+  document.documentElement.style.setProperty("--ctrl",(document.querySelector(".controls").offsetHeight||0)+"px");
 }
 
 /* 右側年月滑桿 */
@@ -614,7 +761,15 @@ function closeSheet(){stopPlayer();sheet.classList.remove("open");document.body.
 sheet.addEventListener("click",e=>{if(e.target===sheet||e.target.closest("#close"))closeSheet()});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&sheet.classList.contains("open"))closeSheet()});
 
-function route(){let h=location.hash.slice(1);h={books:"shelf",songs:"records"}[h]||h;state.v=["shelf","topics","records","shorts"].includes(h)?h:"all";render()}
+function route(){const h=decodeURIComponent(location.hash.slice(1));let [sec,sub]=h.split("/");sec={shelf:"books",records:"songs",all:"live",book:"books"}[sec]||sec;
+  const prev=state.sec+"/"+(state.sub||"")+"/"+state.v;
+  if(sec==="shorts"||sec==="topics"){state.sec="live";state.v=sec}
+  else if(sec==="live"){state.sec="live";state.v="all"}
+  else if(["news","books","songs"].includes(sec)){state.sec=sec;state.sub=sub||""}
+  else state.sec="home";
+  if(prev.split("/")[0]!==state.sec&&!window.__keepQ){state.q="";qi.value="";clr.hidden=true}window.__keepQ=false;
+  document.body.dataset.sec=state.sec;document.title=(({live:"直播",news:"新聞報紙攤",books:"說書書櫃",songs:"歌曲點唱機"})[state.sec]?({live:"直播",news:"新聞報紙攤",books:"說書書櫃",songs:"歌曲點唱機"})[state.sec]+"｜":"")+"尼貝爾直播紀錄館";
+  render();if(prev!==state.sec+"/"+(state.sub||"")+"/"+state.v)scrollTo(0,0)}
 document.getElementById("view").addEventListener("click",e=>{
   const sa=e.target.closest(".setall");if(sa){state.openSets=!state.openSets;document.querySelectorAll(".setl").forEach(d=>d.open=state.openSets);sa.setAttribute("aria-pressed",state.openSets);sa.textContent=state.openSets?"收起全部歌單":"♪ 一鍵展開全部歌單";return}
   const c=e.target.closest(".chip");if(c){for(const k of ["cat","scat","btype","rsort","rlang"])if(k in c.dataset)state[k]=c.dataset[k];render();return}
@@ -625,7 +780,7 @@ panel.addEventListener("click",e=>{const o=e.target.closest("[data-open]");if(o)
 document.getElementById("feat").addEventListener("click",e=>openSheet(e.currentTarget.dataset.id));
 document.getElementById("bars").addEventListener("click",e=>{
   const b=e.target.closest(".bar");if(!b)return;
-  if(state.v!=="all"){history.replaceState(null,"","#all");state.v="all"}
+  if(state.v!=="all"){history.replaceState(null,"","#live");state.v="all"}
   if(!document.getElementById("m-"+b.dataset.m)){state.cat="";state.q="";qi.value="";clr.hidden=true}
   render();
   document.getElementById("m-"+b.dataset.m)?.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})});
@@ -633,6 +788,130 @@ const qi=document.getElementById("q"),clr=document.getElementById("clr");let tm;
 qi.addEventListener("input",()=>{clr.hidden=!qi.value;clearTimeout(tm);tm=setTimeout(()=>{state.q=qi.value.trim();render()},180)});
 clr.addEventListener("click",()=>{qi.value="";clr.hidden=true;state.q="";render();qi.focus()});
 window.addEventListener("hashchange",route);
+
+/* ===== 入口與四個館：直播、新聞、說書、歌曲 ===== */
+const HANI=n=>`assets/hani/${n}.png`;
+const SECS=[
+  {k:"live",t:"直播",en:"Live Archive",d:"所有直播、Podcast、Shorts 與時間軸",h:"round",c:"#51A8DD"},
+  {k:"news",t:"新聞",en:"News Stand",d:"《新聞久一點》每週專題報紙攤",h:"cube",c:"#E9B872"},
+  {k:"books",t:"說書",en:"Book Cabinet",d:"讀過的書，按類型放進書櫃",h:"lollipop",c:"#C8A55A"},
+  {k:"songs",t:"歌曲",en:"Jukebox",d:"點唱機＋依語種分類的唱片",h:"icecream",c:"#F2A7B5"}];
+const BOOK_CATS=[
+  ["mind","心理・療癒","Mind & Healing","round-soft",["我的痛苦有名字嗎","戀愛腦依戀障礙","你愛自己的方式","失控的焦慮世代","高功能倖存者","我想了解身心科","醫生說我可以去死沒關係","今天，我想休息一下","長女病","不是妳想太多","母親像月亮一樣","家鎖","為了這個家","每一個告別都珍貴","再玩個一關就好了"]],
+  ["grow","自我成長・溝通","Growth & Talk","swirl",["隨他們去","人生只有兩件事","你的人生，他們六個說了算","擁抱人生10大無解","別再騙自己","世界盡頭的咖啡館","說話太","頭腦好的人說話前思考的事","雑談力","雜談力","謝罪的藝術","我想把這個世界讀給你聽","你該管理的是能量","高效偷懶","費曼學習法","如何閱讀一本書"]],
+  ["think","商業・思考","Business & Logic","cube",["底層邏輯","反脆弱","邏輯思考題","經濟學關鍵字","小狗錢錢","為什麼我們這樣生活"]],
+  ["phil","哲學・社會","Philosophy & Society","square-soft",["移動的批判","正是時候讀康德","共識的終結","旁觀他人的痛苦","死亡否認","好人怎麼會幹壞事","謠言心理學","Vtuber"]],
+  ["japan","日本・生活文化","Japan & Everyday","dango",["日本美學","昭和感性","日本在地零食手帖","東京，謝謝款待","台北早餐大王","日本中學道德教科書","東京防災","BLPT","悠木碧","獨斷與偏見"]],
+  ["sci","醫學・科學","Medicine & Science","drip",["控糖","Rewire","法醫"]]];
+const bookCat=b=>(BOOK_CATS.find(c=>c[4].some(w=>b.title.includes(w)))||["other"])[0];
+const BCN=Object.fromEntries(BOOK_CATS.map(c=>[c[0],c]));
+const LANG_ORDER=["中文","台語","日文","韓文","英文","粵語","其他"];
+
+function goSec(h){if(location.hash==="#"+h)route();else location.hash=h}
+function viewHome(){
+  const nNews=S.filter(r=>/新聞久一點/.test(r.raw||r.title)).length;
+  const cnt={live:`${S.filter(r=>r.live).length} 場直播`,news:`${nNews} 期報紙`,books:`${BOOKS.length} 本書`,songs:`${RECS.length} 首歌`};
+  return `<section class="home">
+    <div class="hbg" aria-hidden="true"><img src="assets/banner.jpg" alt=""></div>
+    <div class="hin">
+      <p class="eyebrow">Trauma Troupe · Stream Archive</p>
+      <h1>尼貝爾直播紀錄館</h1>
+      <p class="hlede">哈尼，今天想從哪一扇門進去逛逛？</p>
+      <form class="hsearch" id="hsf" role="search"><input id="hq" type="search" enterkeyhint="search" placeholder="搜尋直播、時間軸、書名、歌名…" aria-label="搜尋直播紀錄" autocomplete="off"><button type="submit" aria-label="搜尋">搜尋</button></form>
+      <div class="doors">${SECS.map((s,i)=>`<a class="door" href="#${s.k}" style="--c:${s.c};--i:${i}">
+        <span class="drip" aria-hidden="true"></span>
+        <img class="dhani" src="${HANI(s.h)}" alt="" loading="eager">
+        <span class="dt">${s.t}</span><span class="den">${s.en}</span><span class="dd">${s.d}</span><span class="dn">${cnt[s.k]}</span></a>`).join("")}</div>
+    </div>
+    <img class="float f1" src="${HANI("round-soft")}" alt="" aria-hidden="true"><img class="float f2" src="${HANI("swirl")}" alt="" aria-hidden="true"><img class="float f3" src="${HANI("melt")}" alt="" aria-hidden="true">
+  </section>`}
+
+/* ---------- 新聞：報紙攤 ---------- */
+function newsInfo(r){
+  const t=(r.raw||r.title).replace(/^(【[^】]*】\s*)+/,"").replace(/當尼專屬.*$|國內國際大小事.*$/,"").trim();
+  const dm=t.match(/(\d{2})\.?(\d{2})\s*[-–~]\s*(\d{2})\.?(\d{2})/);
+  let head=t.replace(/(\d{2})\.?(\d{2})\s*[-–~]\s*(\d{2})\.?(\d{2})/,"").replace(/[！!\s]+$/,"").trim();
+  let subs=[];
+  if(head.includes("/")){const p=head.split("/").map(x=>x.trim()).filter(Boolean);const i=Math.max(0,p.findIndex(x=>/專題/.test(x)));head=p[i];subs=p.filter((_,j)=>j!==i)}
+  if(/^早安尼好/.test(head))head="";
+  const ch=(r.chapters||[]).map(c=>c.x.replace(/^[\d:\s]+/,"").trim()).filter(x=>x&&!NOISE.test(x)&&!/^(開場|結尾|晚安|下播|片尾|片頭|雜談|閒聊)/.test(x));
+  if(!head)head=ch[0]||"本週國內國際大小事";
+  return {head:head.replace(/專題$/,"專題"),subs:[...subs,...ch.filter(x=>x!==head)].slice(0,6),range:dm?`${dm[1]}.${dm[2]} – ${dm[3]}.${dm[4]}`:r.date.slice(5).replace("-","."),hasTopic:/專題/.test(t)}}
+function viewNews(){
+  const q=qn();const list=S.filter(r=>/新聞久一點/.test(r.raw||r.title)).filter(r=>!q||r.hay.includes(q));
+  const total=list.length;
+  return `<div class="stand"><div class="awning" aria-hidden="true"></div>
+    <div class="standhead"><img class="shani" src="${HANI("cube")}" alt=""><div><p class="eyebrow">News Stand · 新聞久一點</p><h2>尼貝爾報紙攤</h2><p class="sub">每週一 20:00 的新聞直播，一期一份報紙。往下滑翻報紙，點一份就能看整場時間軸</p></div></div></div>
+    ${total?`<div class="papers">${list.map((r,i)=>{const n=newsInfo(r);return `<button class="paper" data-id="${esc(r.id)}" style="--i:${i%7};--r:${((hash(r.id)%7)-3)*.45}deg" aria-label="${esc(n.range)} ${esc(n.head)}">
+      <span class="mast"><b>新聞久一點</b><small>Weekly News Digest ・ 第 ${total-i} 期 ・ ${esc(n.range)}</small></span>
+      <span class="pbody2"><span class="pmain"><span class="kick">${n.hasTopic?"本週專題":"頭條"}</span><span class="headl">${hl(n.head,state.q)}</span>
+      ${n.subs.length?`<span class="subs">${n.subs.map(s=>`<i>${esc(s)}</i>`).join("")}</span>`:""}</span>
+      <span class="pphoto">${th("v",r.id)}</span></span>
+      <span class="pfoot"><span>${esc(r.date.replaceAll("-","."))}（${WD[new Date(r.date+"T12:00:00").getDay()]}）・${esc(r.dur)}</span><span class="pcta">翻開時間軸 →</span></span></button>`}).join("")}</div>`:`<p class="empty">報紙攤沒有符合的報紙</p>`}`}
+
+/* ---------- 說書：書櫃 ---------- */
+function viewCabinets(){
+  const q=qn();const base=BOOKS.filter(b=>!q||b.hay.includes(q));
+  const groups=BOOK_CATS.map(c=>[c,base.filter(b=>bookCat(b)===c[0])]).filter(g=>g[1].length);
+  const other=base.filter(b=>bookCat(b)==="other");
+  return `<div class="libhead"><img class="lhani" src="${HANI("lollipop")}" alt=""><div><p class="eyebrow">Book Cabinet · 說書</p><h2>尼貝爾的書櫃間</h2><p class="sub">說書直播和 Podcast 讀過的 ${base.length} 本書，按類型收進不同的櫃子。先挑一個櫃子吧</p></div></div>
+   <div class="cabinets">${groups.map(([c,l],i)=>`<a class="cab" href="#books/${c[0]}" style="--i:${i}">
+     <span class="cabtop"><img src="${HANI(c[3])}" alt=""></span>
+     <span class="cabbody"><span class="cabrow">${l.slice(0,5).map(b=>`<span class="spine" style="--h:${86+hash(b.k)%14}%">${bookCover(b)}</span>`).join("")}</span><span class="cabrow low">${l.slice(5,10).map(b=>`<span class="spine" style="--h:${86+hash(b.k)%14}%">${bookCover(b)}</span>`).join("")}</span></span>
+     <span class="cablabel"><b>${c[1]}</b><small>${c[2]}</small><em>${l.length} 本</em></span></a>`).join("")}</div>
+   ${other.length?viewShelfList(other,"其他"):""}`}
+function viewShelfList(list,title){
+  return `<div class="shelf">${list.map(b=>`<button class="bk" data-book="${esc(b.k)}" aria-label="《${esc(b.title)}》${b.author?esc(b.author):""}，${b.eps.length} 集"><span class="bcov">${bookCover(b)}</span><span class="bt">${hl(b.title,state.q)}</span><span class="bm">${b.eps.length>1?`${b.eps.length} 集・`:""}${b.live&&b.pod?"直播＋Podcast":b.live?"說書直播":"Podcast"}</span></button>`).join("")}</div>`}
+function viewBookCat(cat){
+  const c=BCN[cat];if(!c)return viewCabinets();
+  const q=qn();const list=BOOKS.filter(b=>bookCat(b)===cat&&(!q||b.hay.includes(q)));
+  return `<a class="back" href="#books">← 回到書櫃間</a><div class="libhead"><img class="lhani" src="${HANI(c[3])}" alt=""><div><p class="eyebrow">${esc(c[2])}</p><h2>${esc(c[1])}</h2><p class="sub">${list.length} 本書，抽一本出來看看</p></div></div>
+   <div class="woodshelf">${list.length?viewShelfList(list):`<p class="empty">這個櫃子裡沒有符合的書</p>`}</div>`}
+
+/* ---------- 歌曲：點唱機＋Cover Flow ---------- */
+let juke=null;
+function viewJukebox(){
+  const q=qn();const base=RECS.filter(x=>!q||x.hay.includes(q));
+  if(!juke||!base.includes(juke))juke=[...base].sort((a,b)=>b.n-a.n||b.last.localeCompare(a.last))[0]||null;
+  const stacks=LANG_ORDER.map(l=>[l,base.filter(x=>x.langs.includes(l)).sort((a,b)=>b.n-a.n||b.last.localeCompare(a.last))]).filter(s=>s[1].length);
+  return `<div class="jbwrap">
+    <div class="jukebox" id="jukebox" aria-live="polite">${jukeInner()}</div>
+    <div class="jbside"><p class="eyebrow">Jukebox · 歌曲</p><h2>尼貝爾點唱機</h2><p class="sub">${base.length} 首歌、唱過 ${base.reduce((a,x)=>a+x.n,0)} 次。往下滑動唱片架，點中間那張就會放進點唱機</p>
+      <div class="jbjump">${stacks.map(([l,a])=>`<a href="#flow-${esc(l)}" data-flowjump="${esc(l)}">${esc(l)} <small>${a.length}</small></a>`).join("")}</div></div></div>
+    ${stacks.map(([l,a])=>`<section class="stack" id="flow-${esc(l)}"><h3 class="sect">${esc(l)} <span>${a.length} 張</span></h3>
+      <div class="flow" tabindex="0" aria-label="${esc(l)}唱片，左右鍵切換"><div class="flowin">${a.map(x=>`<button class="cf" data-cf="${esc(x.k)}" aria-label="${esc(x.title)}${x.artist?"／"+esc(x.artist):""}">${sleeve(x)}${x.n>1?`<span class="rcount">×${x.n}</span>`:""}</button>`).join("")}</div></div>
+      <p class="cfcap" aria-hidden="true"></p></section>`).join("")}
+    ${base.length?"":`<p class="empty">唱片架上還沒有這首歌</p>`}`}
+function jukeInner(){const x=juke;if(!x)return `<div class="jbscreen"><p class="note">沒有符合的歌</p></div>`;
+  return `<span class="jbarch" aria-hidden="true"><img class="jbhani" src="${HANI("round")}" alt=""></span>
+   <div class="jbscreen"><span class="jbdisc" aria-hidden="true"></span><span class="jbcover">${sleeve(x)}</span></div>
+   <div class="jbinfo"><span class="jblang">${esc(x.lang)}・唱過 ${x.n} 次</span><b>${esc(x.title)}</b>${x.artist?`<small>${esc(x.artist)}</small>`:""}</div>
+   <div class="jbbtns"><button class="jbplay" data-jplay="${esc(x.k)}">▶ 播放最近一次</button><button class="jbmore" data-rec="${esc(x.k)}">全部 ${x.n} 次演唱</button></div>
+   <span class="jbgrill" aria-hidden="true"></span>`}
+function setJuke(k){const x=RECS.find(y=>y.k===k);if(!x)return;juke=x;const jb=document.getElementById("jukebox");if(!jb)return;jb.innerHTML=jukeInner();
+  if(G())gsap.fromTo(jb.querySelector(".jbcover"),{y:-40,autoAlpha:0,rotation:-6},{y:0,autoAlpha:1,rotation:0,duration:.6,ease:"back.out(1.6)"});
+  if(innerWidth<900)jb.scrollIntoView({behavior:"smooth",block:"center"})}
+function initFlows(){
+  document.querySelectorAll(".flow").forEach(f=>{
+    const upd=()=>{const r=f.getBoundingClientRect(),cx=r.left+r.width/2;let best=null,bd=1e9;
+      f.querySelectorAll(".cf").forEach(el=>{const b=el.getBoundingClientRect(),d=(b.left+b.width/2-cx)/b.width;const ad=Math.abs(d);
+        if(ad<bd){bd=ad;best=el}
+        const c=Math.max(-1,Math.min(1,d));
+        el.style.transform=ad<.5?`perspective(700px) translateZ(${(1-ad*2)*110}px) rotateY(${-d*110}deg)`:`perspective(700px) translateX(${c<0?30:-30}px) rotateY(${c<0?58:-58}deg) scale(.92)`;
+        el.style.zIndex=String(1000-Math.round(ad*10));el.classList.toggle("mid",false)});
+      if(best){best.classList.add("mid");const x=RECS.find(y=>y.k===best.dataset.cf);const cap=f.parentElement.querySelector(".cfcap");if(cap&&x)cap.innerHTML=`<b>${esc(x.title)}</b>${x.artist?`　${esc(x.artist)}`:""}`}};
+    let raf=0;f.addEventListener("scroll",()=>{if(!raf)raf=requestAnimationFrame(()=>{raf=0;upd()})},{passive:true});
+    f.addEventListener("keydown",e=>{if(e.key!=="ArrowRight"&&e.key!=="ArrowLeft"&&e.key!=="Enter")return;e.preventDefault();const m=f.querySelector(".cf.mid");if(!m)return;
+      if(e.key==="Enter"){setJuke(m.dataset.cf);return}
+      const n=e.key==="ArrowRight"?m.nextElementSibling:m.previousElementSibling;if(n)n.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"})});
+    upd();});
+}
+document.getElementById("view").addEventListener("click",e=>{
+  const cf=e.target.closest(".cf");if(cf){e.stopPropagation();if(cf.classList.contains("mid"))setJuke(cf.dataset.cf);else cf.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"});return}
+  const jp=e.target.closest("[data-jplay]");if(jp){e.stopPropagation();const x=RECS.find(y=>y.k===jp.dataset.jplay);if(x){openRecord(x.k);play(x.perf[0].r.id,secs(x.perf[0].t))}return}
+  const fj=e.target.closest("[data-flowjump]");if(fj){e.preventDefault();document.getElementById("flow-"+fj.dataset.flowjump)?.scrollIntoView({behavior:"smooth",block:"start"});return}
+},true);
+document.getElementById("view").addEventListener("submit",e=>{if(e.target.id!=="hsf")return;e.preventDefault();const v=document.getElementById("hq").value.trim();qi.value=v;clr.hidden=!v;state.q=v;window.__keepQ=true;goSec("live")});
 
 fetch("data.json",{cache:"no-cache"}).then(r=>r.json()).then(d=>{D=d;prep();buildLibrary();applyDriveCovers();renderStats();route()}).catch(()=>{document.getElementById("view").innerHTML='<p class="empty">資料載入失敗，請重新整理一次</p>'});
 }
