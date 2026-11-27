@@ -78,7 +78,7 @@ p.sub{color:var(--silver);margin:0 0 14px;font-size:14px}
 .setl{border:1px solid var(--rule);border-radius:12px;background:rgba(255,255,255,.02)}
 .setl summary{cursor:pointer;list-style:none;padding:7px 12px;font-size:13px;color:var(--glint);font-weight:500}
 .setl summary::-webkit-details-marker{display:none}.setl summary::after{content:" ▾";color:var(--silver)}.setl[open] summary::after{content:" ▴"}
-.setl ol{list-style:none;margin:0;padding:0 8px 8px;max-height:320px;overflow:auto}
+.setl ol{list-style:none;margin:0;padding:0 8px 8px;max-height:320px;overflow:auto}.epsetl{margin:-4px 0 14px}.epsetl ol{max-height:440px}
 .sl{display:grid;grid-template-columns:4.2em minmax(0,1fr);gap:8px;padding:5px 4px;border-top:1px solid var(--rule);text-decoration:none;color:var(--pearl);font-size:13.5px;line-height:1.45;cursor:pointer;border-radius:6px}
 .sl:hover{background:rgba(81,168,221,.1)}.sl time{color:var(--gilt);font:italic 600 13px var(--orn)}.sl small{display:block;color:var(--silver);font-size:12px}
 .setall{all:unset;cursor:pointer;margin-left:12px;padding:5px 14px;border-radius:999px;border:1px solid var(--glint);color:var(--glint);font-size:13px;font-weight:500}
@@ -424,26 +424,44 @@ body[data-sec="home"] footer.band{margin-top:0}
 .jbwrap{align-items:start}
 .jbside{display:flex;flex-direction:column;padding-top:20px}
 .bigtt{position:relative;margin:46px auto 0;width:min(460px,100%);height:340px;perspective:1100px}
-.btt3d{position:absolute;left:50%;top:10px;width:400px;height:300px;margin-left:-200px;transform-style:preserve-3d;transform:rotateX(52deg) rotateZ(-14deg)}
+.btt3d{position:absolute;left:50%;top:0;width:400px;height:300px;margin-left:-200px;transform-style:preserve-3d;transform:rotateX(38deg)}
 .btop{position:absolute;inset:0;border-radius:18px;background:linear-gradient(135deg,#7a4e2a,#4a2c14);box-shadow:inset 0 2px 0 rgba(255,255,255,.18),inset 0 0 0 3px #C8A55A;transform-style:preserve-3d}
 .bfront{position:absolute;left:0;right:0;top:100%;height:46px;transform-origin:top;transform:rotateX(-90deg);background:linear-gradient(#3a2210,#24150a);border-radius:0 0 14px 14px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;box-shadow:inset 0 -2px 0 #C8A55A}
 .bbrand{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:700;color:#C8A55A;letter-spacing:.12em;font-size:15px}
 .bled{width:10px;height:10px;border-radius:50%;background:#F2A7B5;box-shadow:0 0 10px #F2A7B5}
-.bplat{position:absolute;left:24px;top:26px;width:248px;height:248px;border-radius:50%;background:#18181c;box-shadow:inset 0 0 0 5px #2c2c32,0 6px 10px rgba(0,0,0,.5)}
-.bdisc{position:absolute;left:30px;top:32px;width:236px;height:236px;border-radius:50%;background:repeating-radial-gradient(circle,#0f0f13 0 2px,#24252d 2px 4px);display:flex;align-items:center;justify-content:center;animation:spin 3.4s linear infinite;box-shadow:0 0 0 1px #000}
+.bplat{position:absolute;left:76px;top:20px;width:248px;height:248px;border-radius:50%;background:#18181c;box-shadow:inset 0 0 0 5px #2c2c32,0 6px 10px rgba(0,0,0,.5)}
+.bdisc{position:absolute;left:82px;top:26px;width:236px;height:236px;border-radius:50%;background:repeating-radial-gradient(circle,#0f0f13 0 2px,#24252d 2px 4px);display:flex;align-items:center;justify-content:center;animation:spin 3.4s linear infinite;box-shadow:0 0 0 1px #000}
 .bdisc::after{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 30deg,transparent 0 12%,rgba(255,255,255,.16) 16%,transparent 22% 62%,rgba(255,255,255,.1) 66%,transparent 72%)}
 .blabel{position:relative;width:82px;height:82px;border-radius:50%;overflow:hidden;box-shadow:0 0 0 3px #C8A55A}
 .blabel .sleeve{position:absolute;inset:0}.blabel .sleeve *{font-size:0!important}
-.bspindle{position:absolute;left:144px;top:146px;width:8px;height:8px;border-radius:50%;background:#ddd;box-shadow:0 0 0 2px #888}
-.barm{position:absolute;right:34px;top:30px;width:26px;height:26px;border-radius:50%;background:radial-gradient(#e9d39a,#a88533);box-shadow:0 0 0 5px #3a2210;transform-origin:13px 13px;transform-style:preserve-3d}
-.barm i{position:absolute;left:10px;top:13px;width:6px;height:190px;border-radius:3px;background:linear-gradient(90deg,#bbb,#eee,#999);transform:rotate(24deg);transform-origin:top;box-shadow:2px 6px 6px rgba(0,0,0,.45)}
+.bspindle{position:absolute;left:196px;top:140px;width:8px;height:8px;border-radius:50%;background:#ddd;box-shadow:0 0 0 2px #888}
+.barm{position:absolute;right:22px;top:22px;width:26px;height:26px;border-radius:50%;background:radial-gradient(#e9d39a,#a88533);box-shadow:0 0 0 5px #3a2210;transform-origin:13px 13px;transform-style:preserve-3d}
+.barm i{position:absolute;left:10px;top:13px;width:6px;height:170px;border-radius:3px;background:linear-gradient(90deg,#bbb,#eee,#999);transform:rotate(20deg);transform-origin:top;box-shadow:2px 6px 6px rgba(0,0,0,.45)}
 .barm i::after{content:"";position:absolute;left:-6px;bottom:-14px;width:18px;height:22px;border-radius:3px;background:#2a2a30}
 .bknob{position:absolute;bottom:22px;width:30px;height:30px;border-radius:50%;background:radial-gradient(#e9d39a,#8f6e2a);box-shadow:0 3px 0 #3a2210}
-.bknob.k1{right:30px}.bknob.k2{right:76px;width:22px;height:22px;bottom:26px}
-.bshadow{position:absolute;left:12%;right:12%;bottom:4px;height:40px;border-radius:50%;background:radial-gradient(rgba(0,0,0,.55),transparent 70%);filter:blur(6px)}
+.bknob.k1{right:26px}.bknob.k2{left:26px}
+.bshadow{position:absolute;left:8%;right:8%;bottom:0;height:40px;border-radius:50%;background:radial-gradient(rgba(0,0,0,.55),transparent 70%);filter:blur(6px)}
 .jbsleeve{width:240px;height:240px}
-@media(max-width:900px){.jbside{padding-top:0}.bigtt{height:260px;margin-top:20px}.btt3d{transform:rotateX(52deg) rotateZ(-14deg) scale(.6);top:-30px}}
+@media(max-width:900px){.jbside{padding-top:0}.bigtt{height:260px;margin-top:20px}.btt3d{transform:rotateX(38deg) scale(.7);top:-30px}}
 @media(prefers-reduced-motion:reduce){.bdisc{animation:none}}
+
+.bigtt .bdisc{animation-play-state:paused}.bigtt.playing .bdisc{animation-play-state:running}
+.mini{width:min(460px,100%);margin:6px auto 0;background:#151a2e;border:2px solid #C8A55A;border-radius:14px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.5)}
+.minivid{position:relative;aspect-ratio:16/9}.minivid iframe,.minivid>div{position:absolute;inset:0;width:100%;height:100%}
+.minibar{display:flex;align-items:center;gap:8px;padding:8px 10px}
+.mtitle{flex:1;min-width:0;color:#EEF0F4;font-weight:700;font-size:14px;display:flex;flex-direction:column}.mtitle small{color:#B9BDC8;font-weight:400;font-size:12px}
+.mbtn{border:0;border-radius:999px;width:36px;height:36px;background:#FFF3D6;color:#3B2A12;font-weight:900;cursor:pointer}
+.flow img{-webkit-user-drag:none;user-select:none;pointer-events:none}.flow{touch-action:pan-y;cursor:grab}.flow:active{cursor:grabbing}
+
+.mastrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:stretch;border-bottom:4px double #1F1B16}
+.mastrow .mast{border-bottom:0}
+.pdate{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:150px;padding:6px 14px;border-left:2px solid #1F1B16;line-height:1.05}
+.pdl{font-size:11px;font-weight:900;letter-spacing:.2em;color:#B3261E}
+.pdbig{font-family:"Cormorant Garamond",serif;font-weight:700;font-size:58px;letter-spacing:-.02em}
+.pdbig i{font-style:normal;color:#B3261E;margin:0 2px}
+.pdw{font-size:12px;color:#5a5245;margin:2px 0 8px}
+.pdrng{font-family:"Cormorant Garamond",serif;font-weight:700;font-size:26px}
+@media(max-width:700px){.mastrow{grid-template-columns:1fr}.pdate{border-left:0;border-top:1px solid #1F1B16;flex-direction:row;flex-wrap:wrap;gap:4px 10px;min-width:0}.pdbig{font-size:36px}.pdw{margin:0}.pdrng{font-size:20px}}
 
 </style>
 </head>
@@ -686,7 +704,7 @@ function animSheet(kind){if(!window.gsap)return;gsap.killTweensOf(".mvinyl");if(
   gsap.from(rows,{x:-18,autoAlpha:0,duration:.45,ease:"power2.out",stagger:.05,delay:.15,clearProps:"transform,opacity,visibility"})}
 function openBook(k){
   const b=BOOKS.find(x=>x.k===k);if(!b)return;
-  openMulti(`<button class="close" id="close" aria-label="關閉">×</button><div class="mhead"><span class="mcov">${bookCover(b,true)}</span><div><p class="eb2">${b.live&&b.pod?"說書直播＋Podcast":b.live?"說書直播":"說書 Podcast"}</p><h2 id="ptitle">《${esc(b.title)}》</h2>${b.author?`<p class="note">${esc(b.author)}</p>`:""}<p class="note">聊過 ${b.eps.length} 集，點下面任一集就在這裡播放</p></div></div>${PHOLD}<div class="pbody">${b.eps.map(r=>`<div class="ep"><a class="eprow" ${tlink(r.id,"0")}>${th("v",r.id)}<span><small>${esc(r.date.replaceAll("-","."))}・${r.live?"說書直播":"Podcast"}・${esc(r.dur)}</small><b>${esc(r.title)}</b></span></a>${r.chapters.length?`<button class="epch" data-open="${esc(r.id)}">時間軸 ${r.chapters.length} 段 →</button>`:""}</div>`).join("")}</div>`);animSheet("book")}
+  openMulti(`<button class="close" id="close" aria-label="關閉">×</button><div class="mhead"><span class="mcov">${bookCover(b,true)}</span><div><p class="eb2">${b.live&&b.pod?"說書直播＋Podcast":b.live?"說書直播":"說書 Podcast"}</p><h2 id="ptitle">《${esc(b.title)}》</h2>${b.author?`<p class="note">${esc(b.author)}</p>`:""}<p class="note">聊過 ${b.eps.length} 集，點下面任一集就在這裡播放</p></div></div>${PHOLD}<div class="pbody">${b.eps.map(r=>`<div class="ep"><a class="eprow" ${tlink(r.id,"0")}>${th("v",r.id)}<span><small>${esc(r.date.replaceAll("-","."))}・${r.live?"說書直播":"Podcast"}・${esc(r.dur)}</small><b>${esc(r.title)}</b></span></a></div>${r.chapters.length?`<details class="setl epsetl"${b.eps.length===1?" open":""}><summary>⏱ 這集的時間軸 ${r.chapters.length} 段</summary><ol>${r.chapters.map(c=>`<li><a class="sl" ${tlink(r.id,c.t)}><time>${esc(c.t)}</time><span>${esc(c.x)}</span></a></li>`).join("")}</ol></details>`:""}`).join("")}</div>`);animSheet("book")}
 function openRecord(k){
   const x=RECS.find(y=>y.k===k);if(!x)return;
   openMulti(`<button class="close" id="close" aria-label="關閉">×</button><div class="mhead"><span class="mcov sq"><span class="mvinyl" aria-hidden="true"></span>${sleeve(x)}</span><div><p class="eb2">${esc(x.lang)}・唱過 ${x.n} 次</p><h2 id="ptitle">${esc(x.title)}</h2>${x.artist?`<p class="note">原唱：${esc(x.artist)}</p>`:""}<p class="note">點下面任一次，就從這首歌開始播</p></div></div>${PHOLD}<div class="pbody">${x.perf.map(p=>`<div class="ep"><a class="eprow" ${tlink(p.r.id,p.t)}>${th("v",p.r.id)}<span><small>${esc(p.r.date.replaceAll("-","."))}・從 ${esc(p.t)} 開始</small><b>${esc(p.r.title)}</b></span></a><button class="epch" data-open="${esc(p.r.id)}">整場歌單 →</button></div>`).join("")}</div>`);animSheet("rec")}
@@ -918,7 +936,7 @@ function newsInfo(r){
   const ch=(r.chapters||[]).map(c=>({t:c.t,x:c.x.replace(/^[\d:\s]+/,"").replace(/^[🎵🎶♪♫]\s*/u,"").trim()})).filter(c=>c.x&&!NOISE.test(c.x)&&!CH_SKIP.test(c.x));
   if(!head)head=ch[0]?.x||"本週國內國際大小事";
   const [, m1, d1, m2, d2]=dm||[];
-  return {head,tags,ch:ch.filter(c=>c.x!==head),range:dm?`${+m1}月${+d1}日 – ${+m2}月${+d2}日`:r.date.slice(5).replace("-","月")+"日",hasTopic:/專題/.test(t)}}
+  return {head,tags,ch:ch.filter(c=>c.x!==head),range:dm?`${+m1}月${+d1}日 – ${+m2}月${+d2}日`:r.date.slice(5).replace("-","月")+"日",rng:dm?`${+m1}/${+d1}–${+m2}/${+d2}`:"—",hasTopic:/專題/.test(t)}}
 function viewNews(){
   const q=qn();const all=S.filter(r=>/新聞久一點/.test(r.raw||r.title));const list=all.filter(r=>!q||r.hay.includes(q));
   return `<div class="stand"><div class="awning" aria-hidden="true"></div>
@@ -927,7 +945,7 @@ function viewNews(){
       return `<button class="paper" data-id="${esc(r.id)}" style="--r:${((hash(r.id)%7)-3)*.4}deg;--s:${(hash(r.id)>>3)%3}" aria-label="第 ${no} 期 ${esc(n.range)} ${esc(n.head)}">
       <span class="pedge" aria-hidden="true"></span>
       <span class="ptop"><span>第 ${no} 期</span><span>${dt.getFullYear()} 年 ${esc(n.range)}</span><span>每週一出刊・尼貝爾新聞社</span></span>
-      <span class="mast"><img src="${HANI("cube")}" alt=""><b>新聞久一點</b><small>Weekly News Digest</small></span>
+      <span class="mastrow"><span class="mast"><img src="${HANI("cube")}" alt=""><b>新聞久一點</b><small>Weekly News Digest</small></span><span class="pdate"><span class="pdl">直播</span><span class="pdbig">${dt.getMonth()+1}<i>/</i>${dt.getDate()}</span><span class="pdw">週${WD[dt.getDay()]}・${dt.getFullYear()}</span><span class="pdl">新聞範圍</span><span class="pdrng">${esc(n.rng)}</span></span></span>
       <span class="kick">${n.hasTopic?"本週專題":"本週頭條"}</span>
       <span class="headl">${hl(n.head,state.q)}</span>
       ${n.tags.length?`<span class="ptags">${n.tags.map(x=>`<i>${esc(x)}</i>`).join("")}</span>`:""}
@@ -984,7 +1002,7 @@ function viewJukebox(){
     <div class="jukebox" id="jukebox" aria-live="polite">${jukeInner()}</div>
     <div class="jbside"><p class="eyebrow">Jukebox · 歌曲</p><h2>尼貝爾點唱機</h2><p class="sub">${base.length} 首歌、唱過 ${base.reduce((a,x)=>a+x.n,0)} 次。下面的唱片按語種分成好幾疊，左右滑動挑一張，點中間那張就會把唱片從封套裡抽出來、放上點唱機</p>
       <div class="jbjump">${stacks.map(([l,a])=>`<a href="#flow-${esc(l)}" data-flowjump="${esc(l)}">${esc(l)} <small>${a.length}</small></a>`).join("")}</div>
-      <div class="bigtt" aria-hidden="true"><div class="btt3d"><div class="btop"><span class="bplat"></span><span class="bdisc" id="bdisc">${juke?`<span class="blabel">${sleeve(juke)}</span>`:""}</span><span class="bspindle"></span><span class="barm" id="barm"><i></i></span><span class="bknob k1"></span><span class="bknob k2"></span></div><div class="bfront"><span class="bled"></span><span class="bbrand">NIBEL ✦ HI-FI</span></div></div><div class="bshadow"></div></div></div></div>
+      <div class="bigtt" aria-hidden="true"><div class="btt3d"><div class="btop"><span class="bplat"></span><span class="bdisc" id="bdisc">${juke?`<span class="blabel">${sleeve(juke)}</span>`:""}</span><span class="bspindle"></span><span class="barm" id="barm"><i></i></span><span class="bknob k1"></span><span class="bknob k2"></span></div><div class="bfront"><span class="bled"></span><span class="bbrand">NIBEL ✦ HI-FI</span></div></div><div class="bshadow"></div></div><div class="mini" id="mini" hidden><div class="minivid"><div id="miniyt"></div></div><div class="minibar"><span class="mtitle" id="mtitle"></span><button class="mbtn" id="mtoggle" aria-label="暫停">❚❚</button><button class="mbtn" id="mstop" aria-label="停止">✕</button></div></div></div></div>
     ${stacks.map(([l,a])=>`<section class="stack" id="flow-${esc(l)}"><h3 class="sect">${esc(l)} <span>${a.length} 張</span></h3>
       <div class="flow" data-lang="${esc(l)}" tabindex="0" role="listbox" aria-label="${esc(l)}唱片，左右鍵切換，Enter 放進點唱機">
         <button class="fnav prev" data-fnav="-1" aria-label="上一張">‹</button>
@@ -1007,6 +1025,20 @@ function setJuke(k,fromEl){const x=RECS.find(y=>y.k===k);if(!x)return;juke=x;con
       if(arm)tl.fromTo(arm,{rotation:-30},{rotation:0,duration:.6,ease:"back.out(1.4)"},"-=.25");}};
   if(innerWidth<900||jb.getBoundingClientRect().top<-200)jb.scrollIntoView({behavior:"smooth",block:"center"});
   if(fromEl&&G()){fromEl.classList.add("pull");setTimeout(()=>{fromEl.classList.remove("pull");go()},620)}else go()}
+
+/* 唱盤下的小播放器：留在這頁背景播放 */
+let mini=null,miniVid=null;
+function miniState(on){document.querySelector(".bigtt")?.classList.toggle("playing",on);const t=document.getElementById("mtoggle");if(t){t.textContent=on?"❚❚":"▶";t.setAttribute("aria-label",on?"暫停":"播放")}}
+async function miniPlay(x){const p=x.perf[0],id=p.r.id,t=secs(p.t);stopPlayer();
+  const box=document.getElementById("mini");if(!box){openRecord(x.k);play(id,t);return}
+  box.hidden=false;document.getElementById("mtitle").innerHTML=`♪ ${esc(x.title)}<small>${esc(p.r.date.replaceAll("-","."))}・從 ${esc(p.t)} 開始</small>`;
+  const YT=await loadYT();
+  if(mini&&miniVid===id&&mini.seekTo){mini.seekTo(t,true);mini.playVideo();return}
+  if(mini){try{mini.destroy()}catch(e){}}
+  document.getElementById("miniyt")?.remove();const d=document.createElement("div");d.id="miniyt";box.querySelector(".minivid").appendChild(d);
+  miniVid=id;mini=new YT.Player("miniyt",{videoId:id,playerVars:{start:t,autoplay:1,playsinline:1,rel:0},events:{onReady:e=>{e.target.seekTo(t,true);e.target.playVideo()},onStateChange:e=>miniState(e.data===1),
+    onError:()=>{miniStop();openRecord(x.k)}}})}
+function miniStop(){if(mini){try{mini.destroy()}catch(e){}}mini=null;miniVid=null;const b=document.getElementById("mini");if(b){b.hidden=true;b.querySelector(".minivid").innerHTML='<div id="miniyt"></div>'}miniState(false)}
 function initFlows(){
   document.querySelectorAll(".flow").forEach(f=>{
     const lang=f.dataset.lang,items=[...f.querySelectorAll(".cf")],cap=f.parentElement.querySelector(".cfcap");
@@ -1022,18 +1054,20 @@ function initFlows(){
     f._go=go;f._idx=()=>idx;lay();
     f.addEventListener("keydown",e=>{if(e.key==="ArrowRight"){e.preventDefault();go(idx+1)}else if(e.key==="ArrowLeft"){e.preventDefault();go(idx-1)}else if(e.key==="Enter"){e.preventDefault();setJuke(items[idx].dataset.cf,items[idx])}});
     let acc=0,wt=0;f.addEventListener("wheel",e=>{const d=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:(e.shiftKey?e.deltaY:0);if(!d)return;e.preventDefault();acc+=d;if(Math.abs(acc)>40){go(idx+Math.sign(acc));acc=0}},{passive:false});
-    let sx=null,si=0,moved=false;
-    f.addEventListener("pointerdown",e=>{if(e.target.closest(".fnav"))return;sx=e.clientX;si=idx;moved=false});
-    f.addEventListener("pointermove",e=>{if(sx===null)return;const d=e.clientX-sx;if(Math.abs(d)>8)moved=true;const n=si-Math.round(d/70);if(n!==idx)go(n)});
-    const up=()=>{sx=null};f.addEventListener("pointerup",up);f.addEventListener("pointerleave",up);f.addEventListener("pointercancel",up);
+    let sx=null,si=0,moved=false;f.addEventListener("dragstart",e=>e.preventDefault());
+    f.addEventListener("pointerdown",e=>{if(e.target.closest(".fnav"))return;sx=e.clientX;si=idx;moved=false;try{f.setPointerCapture(e.pointerId)}catch(_){}});
+    f.addEventListener("pointermove",e=>{if(sx===null)return;const d=e.clientX-sx;if(Math.abs(d)>8)moved=true;const n=si-Math.round(d/60);if(n!==idx)go(n)});
+    const up=e=>{if(sx!==null&&!moved&&e&&e.type==="pointerup"){const el=document.elementsFromPoint(e.clientX,e.clientY).find(n=>n.classList&&n.classList.contains("cf"));if(el){moved=true;if(el.classList.contains("mid"))setJuke(el.dataset.cf,el);else go(+el.dataset.i)}}sx=null};f.addEventListener("pointerup",up);f.addEventListener("pointerleave",up);f.addEventListener("pointercancel",up);
     f.addEventListener("click",e=>{if(moved){e.stopPropagation();e.preventDefault();moved=false}},true);
   });
 }
 addEventListener("resize",()=>{document.querySelectorAll(".flow").forEach(f=>f._go&&f._go(f._idx()))});
 document.getElementById("view").addEventListener("click",e=>{
   const fn=e.target.closest("[data-fnav]");if(fn){e.stopPropagation();const f=fn.closest(".flow");f._go(f._idx()+ +fn.dataset.fnav);return}
-  const cf=e.target.closest(".cf");if(cf){e.stopPropagation();const f=cf.closest(".flow");if(cf.classList.contains("mid"))setJuke(cf.dataset.cf,cf);else f._go(+cf.dataset.i);return}
-  const jp=e.target.closest("[data-jplay]");if(jp){e.stopPropagation();const x=RECS.find(y=>y.k===jp.dataset.jplay);if(x){openRecord(x.k);play(x.perf[0].r.id,secs(x.perf[0].t))}return}
+  if(e.target.closest(".cf")||e.target.closest(".flow")&&!e.target.closest(".fnav")){e.stopPropagation();e.preventDefault();return}
+  const jp=e.target.closest("[data-jplay]");if(jp){e.stopPropagation();const x=RECS.find(y=>y.k===jp.dataset.jplay);if(x)miniPlay(x);return}
+  const mt=e.target.closest("#mtoggle");if(mt){e.stopPropagation();if(!mini)return;const st=mini.getPlayerState?.();if(st===1){mini.pauseVideo()}else mini.playVideo();return}
+  const ms=e.target.closest("#mstop");if(ms){e.stopPropagation();miniStop();return}
   const fj=e.target.closest("[data-flowjump]");if(fj){e.preventDefault();document.getElementById("flow-"+fj.dataset.flowjump)?.scrollIntoView({behavior:"smooth",block:"center"});return}
   const bk=e.target.closest(".bk[data-book]");if(bk&&state.sec==="books"){e.stopPropagation();openBookFx(bk);return}
 },true);
