@@ -574,6 +574,12 @@ button.cd,.cd{text-shadow:none}button.cd{box-shadow:none;border:1px solid #d6ccb
 .mini{transition:width .4s cubic-bezier(.3,.8,.3,1)}
 .mini.float.min{width:min(320px,80vw)}
 .mini.float .minibar{padding:10px 12px}
+.bintro{margin:4px clamp(16px,3vw,28px) 18px;padding:16px 18px;border-radius:14px;background:rgba(255,243,214,.06);border:1px solid rgba(200,165,90,.35)}
+.bil{display:block;font-weight:900;color:#C8A55A;font-size:13px;margin-bottom:6px;letter-spacing:.1em}
+.bitx{font-size:15px;line-height:1.85;color:#E6E2D6;max-height:7.4em;overflow:hidden;-webkit-mask:linear-gradient(#000 60%,transparent);mask:linear-gradient(#000 60%,transparent)}
+.bintro.open .bitx{max-height:none;-webkit-mask:none;mask:none}
+.bimore{margin-top:8px;border:0;border-radius:999px;background:#E9B872;color:#3B2A12;font-weight:900;padding:5px 14px;cursor:pointer;font:inherit;font-size:13px}
+.bisrc{display:block;margin-top:6px;color:#8b8f9c;font-size:11px}
 </style>
 </head>
 <body>
@@ -815,7 +821,7 @@ function animSheet(kind){if(!window.gsap)return;gsap.killTweensOf(".mvinyl");if(
   gsap.from(rows,{x:-18,autoAlpha:0,duration:.45,ease:"power2.out",stagger:.05,delay:.15,clearProps:"transform,opacity,visibility"})}
 function openBook(k){
   const b=BOOKS.find(x=>x.k===k);if(!b)return;
-  openMulti(`<button class="close" id="close" aria-label="關閉">×</button><div class="mhead"><span class="mcov">${bookCover(b,true)}</span><div><p class="eb2">${b.live&&b.pod?"說書直播＋Podcast":b.live?"說書直播":"說書 Podcast"}</p><h2 id="ptitle">《${esc(b.title)}》</h2>${b.author?`<p class="note">${esc(b.author)}</p>`:""}<p class="note">聊過 ${b.eps.length} 集，點下面任一集就在這裡播放</p></div></div>${PHOLD}<div class="pbody">${b.eps.map(r=>`<div class="ep"><a class="eprow" ${tlink(r.id,"0")}>${th("v",r.id)}<span><small>${esc(r.date.replaceAll("-","."))}・${r.live?"說書直播":"Podcast"}・${esc(r.dur)}</small><b>${esc(r.title)}</b></span></a></div>${r.chapters.length?`<details class="setl epsetl"${b.eps.length===1?" open":""}><summary>⏱ 這集的時間軸 ${r.chapters.length} 段</summary><ol>${r.chapters.map(c=>`<li><a class="sl" ${tlink(r.id,c.t)}><time>${esc(c.t)}</time><span>${esc(c.x)}</span></a></li>`).join("")}</ol></details>`:""}`).join("")}</div>`);animSheet("book")}
+  openMulti(`<button class="close" id="close" aria-label="關閉">×</button><div class="mhead"><span class="mcov">${bookCover(b,true)}</span><div><p class="eb2">${b.live&&b.pod?"說書直播＋Podcast":b.live?"說書直播":"說書 Podcast"}</p><h2 id="ptitle">《${esc(b.title)}》</h2>${b.author?`<p class="note">${esc(b.author)}</p>`:""}<p class="note">聊過 ${b.eps.length} 集，點下面任一集就在這裡播放</p></div></div>${(()=>{const it=b.eps.map(r=>(D.intros||{})[r.id]).find(Boolean);return it?`<div class="bintro"><span class="bil">✦ 本集介紹</span><div class="bitx">${esc(it).replace(/\n/g,"<br>")}</div><button class="bimore" type="button">展開全文</button><small class="bisrc">摘自 YouTube 影片說明欄</small></div>`:""})()}${PHOLD}<div class="pbody">${b.eps.map(r=>`<div class="ep"><a class="eprow" ${tlink(r.id,"0")}>${th("v",r.id)}<span><small>${esc(r.date.replaceAll("-","."))}・${r.live?"說書直播":"Podcast"}・${esc(r.dur)}</small><b>${esc(r.title)}</b></span></a></div>${r.chapters.length?`<details class="setl epsetl"${b.eps.length===1?" open":""}><summary>⏱ 這集的時間軸 ${r.chapters.length} 段</summary><ol>${r.chapters.map(c=>`<li><a class="sl" ${tlink(r.id,c.t)}><time>${esc(c.t)}</time><span>${esc(c.x)}</span></a></li>`).join("")}</ol></details>`:""}`).join("")}</div>`);animSheet("book")}
 function openRecord(k){
   const x=RECS.find(y=>y.k===k);if(!x)return;
   openMulti(`<button class="close" id="close" aria-label="關閉">×</button><div class="mhead"><span class="mcov sq"><span class="mvinyl" aria-hidden="true"></span>${sleeve(x)}</span><div><p class="eb2">${esc(x.lang)}・唱過 ${x.n} 次</p><h2 id="ptitle">${esc(x.title)}</h2>${x.artist?`<p class="note">原唱：${esc(x.artist)}</p>`:""}<p class="note">點下面任一次，就從這首歌開始播</p></div></div>${PHOLD}<div class="pbody">${x.perf.map(p=>`<div class="ep"><a class="eprow" ${tlink(p.r.id,p.t)}>${th("v",p.r.id)}<span><small>${esc(p.r.date.replaceAll("-","."))}・從 ${esc(p.t)} 開始</small><b>${esc(p.r.title)}</b></span></a><button class="epch" data-open="${esc(p.r.id)}">整場歌單 →</button></div>`).join("")}</div>`);animSheet("rec")}
@@ -977,7 +983,7 @@ document.getElementById("view").addEventListener("click",e=>{
   const bk=e.target.closest("[data-book]");if(bk){openBook(bk.dataset.book);return}
   const rc=e.target.closest("[data-rec]");if(rc){openRecord(rc.dataset.rec);return}
   const k=e.target.closest("[data-id]");if(k)openSheet(k.dataset.id)});
-panel.addEventListener("click",e=>{const o=e.target.closest("[data-open]");if(o){openSheet(o.dataset.open);setTimeout(()=>{const h=[...panel.querySelectorAll("h3")].find(x=>/歌單|時間軸/.test(x.textContent));if(h)h.scrollIntoView({block:"start"})},50)}});
+panel.addEventListener("click",e=>{const bm=e.target.closest(".bimore");if(bm){const w=bm.parentElement;w.classList.toggle("open");bm.textContent=w.classList.contains("open")?"收起":"展開全文";return}const o=e.target.closest("[data-open]");if(o){openSheet(o.dataset.open);setTimeout(()=>{const h=[...panel.querySelectorAll("h3")].find(x=>/歌單|時間軸/.test(x.textContent));if(h)h.scrollIntoView({block:"start"})},50)}});
 document.getElementById("feat").addEventListener("click",e=>openSheet(e.currentTarget.dataset.id));
 document.getElementById("bars").addEventListener("click",e=>{
   const b=e.target.closest(".bar");if(!b)return;

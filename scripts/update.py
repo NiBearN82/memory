@@ -175,6 +175,21 @@ def playlist_ids(pid):
             return ids
 
 
+def intro_text(desc):
+    """說明欄的介紹段：遇到時間軸就停，去掉連結、hashtag、固定宣傳行。"""
+    out = []
+    for line in (desc or "").splitlines():
+        t = line.strip()
+        if re.match(r"^[🎵🎶♪]?\s*(\d{1,2}:)?\d{1,2}:\d{2}", t):
+            break
+        if out and re.search(r"時間軸|章節|TIMESTAMP|━━|───|＝＝|==", t, re.I):
+            break
+        if re.search(r"https?://|^#|^@|訂閱|斗內|抖內|贊助|會員|綠界|商業合作|聯絡|優惠碼|折扣碼", t):
+            continue
+        out.append(t)
+    text = re.sub(r"\n{3,}", "\n\n", "\n".join(out)).strip()
+    return text[:900]
+
 def fetch(handle):
     ch = api("channels", part="contentDetails", forHandle=handle)
     if not ch.get("items"):
@@ -209,6 +224,7 @@ def main():
     shorts = {s[1]: s for s in data["shorts"]}
     chs = data.get("chapters", {})
     n_new_v = n_new_s = 0
+    descs = {}
 
     for v in videos:
         vid, sn = v["id"], v["snippet"]
@@ -226,6 +242,7 @@ def main():
         if vid not in streams:
             n_new_v += 1
         streams[vid] = [tpe_date(live.get("actualStartTime") or sn["publishedAt"]), vid, dur, sn["title"]]
+        descs[vid] = sn.get("description") or ""
         c = chapters(sn.get("description"))
         if c and vid not in no_ch:
             chs[vid] = c
@@ -263,6 +280,13 @@ def main():
     data["shorts"] = sorted(shorts.values(), key=lambda s: s[0], reverse=True)
     data["chapters"] = {k: v for k, v in chs.items() if k in streams}
     data["books"] = [books[s[1]] for s in data["streams"] if s[1] in books]
+    intros = data.get("intros", {})
+    for b in data["books"]:
+        if b[0] in descs:
+            t = intro_text(descs[b[0]])
+            if t:
+                intros[b[0]] = t
+    data["intros"] = {k: v for k, v in intros.items() if k in books}
     data["news"] = news
     data["setlists"] = extra.get("setlists", {})
     data["shortSource"] = extra.get("shortSource", {})
