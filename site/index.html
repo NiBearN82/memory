@@ -565,6 +565,7 @@ button.cd.cur{background:#B3261E;color:#fff;box-shadow:0 0 0 2px #fff}button.cd.
 .controls{z-index:30}
 .mini{z-index:4;transition:opacity .2s}
 .mini.float{position:fixed;right:16px;bottom:16px;top:auto;width:min(340px,80vw);z-index:25;box-shadow:0 20px 50px rgba(0,0,0,.7)}
+button.cd,.cd{text-shadow:none}button.cd{box-shadow:none;border:1px solid #d6ccb4}
 </style>
 </head>
 <body>
@@ -1122,7 +1123,7 @@ let juke=null;const flowIdx={};
 function viewJukebox(){
   const q=qn();const base=RECS.filter(x=>!q||x.hay.includes(q));
   if(!juke||!base.includes(juke))juke=[...base].sort((a,b)=>b.n-a.n||b.last.localeCompare(a.last))[0]||null;
-  const srt=(a,b)=>b.n-a.n||b.last.localeCompare(a.last);const stacks=[...LANG_ORDER.map(l=>[l,base.filter(x=>!isMus(x)&&x.langs.includes(l)).sort(srt)]),["音樂劇",base.filter(isMus).sort(srt)]].filter(s=>s[1].length);
+  const srt=(a,b)=>b.n-a.n||b.last.localeCompare(a.last);const stacks=["日文","音樂劇","中文","台語","英文","粵語","韓文","其他"].map(l=>[l,(l==="音樂劇"?base.filter(isMus):base.filter(x=>!isMus(x)&&x.langs.includes(l))).sort(srt)]).filter(s=>s[1].length);
   return `<div class="jbwrap">
     <div class="jukebox" id="jukebox" aria-live="polite">${jukeInner()}</div>
     <div class="jbside"><p class="eyebrow">Jukebox · 歌曲</p><h2>尼貝爾點唱機</h2><p class="sub">${base.length} 首歌、唱過 ${base.reduce((a,x)=>a+x.n,0)} 次。下面的唱片按語種分成好幾疊，左右滑動挑一張，點一張唱片，就會把它從封套抽出來、放上唱盤直接播放</p>
