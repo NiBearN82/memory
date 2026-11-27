@@ -617,7 +617,7 @@ body:not([data-sec="home"]){padding-top:var(--ctrl,164px)}
 
 /* 音樂劇傳單 */
 .flyhint{margin:-4px 0 14px;color:#B9BDC8;font-size:14px}
-.flyers{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:26px 22px;padding:6px 2px 10px;align-items:start}
+.flyers{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x proximity;padding:10px 6px 22px;align-items:flex-start;scrollbar-width:thin;scrollbar-color:#C8A55A transparent}.flyers .flyer{flex:0 0 240px;scroll-snap-align:start}.flywrap{position:relative}.flynav{position:absolute;top:120px;z-index:4;width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,243,214,.92);color:#3B2A12;font-size:26px;line-height:1;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.5)}.flynav.prev{left:-6px}.flynav.next{right:-6px}.fdesc{margin:0 0 6px;font-size:12.5px;line-height:1.6;color:#4A3A2A}
 .flyer{position:relative;background:#F4EBD6;color:#2A1C12;border-radius:4px;overflow:hidden;box-shadow:0 14px 30px rgba(0,0,0,.55),0 0 0 1px rgba(0,0,0,.2);transform:rotate(calc((var(--i) % 3 - 1) * 1.2deg));transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column}
 .flyer:hover{transform:rotate(0) translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.6),0 0 0 2px #C8A55A}
 .fimg{position:relative;aspect-ratio:1/1;overflow:hidden;background:#1E2A4F}
@@ -633,7 +633,7 @@ body:not([data-sec="home"]){padding-top:var(--ctrl,164px)}
 .fsongs button.on b{color:#A8262B}
 .fsongs b{font-size:15px;font-weight:700}.fsongs small{font-size:11px;color:#7A6A58;font-family:var(--orn);font-style:italic}
 .fstub{margin-top:8px;padding-top:8px;border-top:1px dashed #8a7458;font-size:9px;letter-spacing:.2em;color:#8a7458;text-align:center}
-@media(max-width:560px){.flyers{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;padding:8px 4px 16px;align-items:flex-start}.flyer{flex:0 0 62%;scroll-snap-align:center}.flyhint::after{content:"（左右滑看更多）"}.ftitle{font-size:16px}.fsongs b{font-size:13px}.fin{padding:0 10px 10px}}
+@media(max-width:560px){.flyers .flyer{flex:0 0 66%}.flynav{display:none}.ftitle{font-size:16px}.fsongs b{font-size:13px}.fin{padding:0 10px 10px}.flyhint::after{content:"（左右滑看更多）"}}
 </style>
 </head>
 <body>
@@ -799,7 +799,7 @@ const art=(key,o={})=>{const h=hash(key),[bg,fg,ac]=PAL[h%PAL.length],pt=PAT[(h>
 // 同一首歌不同譯名：合併成一張唱片（key 是 songKey 後的寫法 → [顯示歌名, 原唱]）
 const DESC=/版|現場|名場面|大考驗|混入|片段|清唱|翻車|敷衍|天線|反差|打架|灑狗血|愛自己|大笑|解凍|迪斯可|大亂唱|挑戰|荔枝|商業情|安可|合唱|潛水|雙語|洗腦|吃|輸血|演繹|特別|秀/;
 const cleanDesc=t=>String(t||"").replace(/（([^（）]*)）/g,(m,x)=>DESC.test(x)?"":m).replace(/\s+$/,"").trim();
-const SONG_ALIAS={"人生無畏":["人生無謂","（音樂劇《飲食男女》）"],"我們會以尼為榮":["我們會以尼為榮","（花木蘭）"],"我只在乎你":["時の流れに身をまかせ","鄧麗君"],"sosweet":["Love so sweet","嵐"],"ghostcity":["幽霊東京","Ayase"],"幽靈東京":["幽霊東京","Ayase"],"幽灵东京":["幽霊東京","Ayase"],"藍雨":["Rainy Blue","德永英明 / 張學友《藍雨》"],"いつも何度でも":["命運的名字","千與千尋主題曲"],"亜麻色の髪の乙女":["亞麻色頭髮的少女","島谷瞳"],"世界の秘密":["世界的秘密","Vaundy"],"千本桜":["千本櫻","初音未來"],"ありのままで":["Let It Go","冰雪奇緣"]};
+const SONG_ALIAS={"台北不是我尋找新方向的家":["尋找心方向／台北不是我的家","（《喜樂社區／蛻變》）"],"台北不是我尋找心方向的家":["尋找心方向／台北不是我的家","（《喜樂社區／蛻變》）"],"人生無畏":["人生無謂","（音樂劇《飲食男女》）"],"我們會以尼為榮":["我們會以尼為榮","（花木蘭）"],"我只在乎你":["時の流れに身をまかせ","鄧麗君"],"sosweet":["Love so sweet","嵐"],"ghostcity":["幽霊東京","Ayase"],"幽靈東京":["幽霊東京","Ayase"],"幽灵东京":["幽霊東京","Ayase"],"藍雨":["Rainy Blue","德永英明 / 張學友《藍雨》"],"いつも何度でも":["命運的名字","千與千尋主題曲"],"亜麻色の髪の乙女":["亞麻色頭髮的少女","島谷瞳"],"世界の秘密":["世界的秘密","Vaundy"],"千本桜":["千本櫻","初音未來"],"ありのままで":["Let It Go","冰雪奇緣"]};
 // 尼貝爾確認過的語種（唱什麼語言就標什麼，可以多個）
 const LANG_FIX={"rainyblue":["中文","日文"],"彼個所在":["中文","台語","粵語"],"蜚蜚":["粵語"],"碼頭姑娘":["中文"],"我要你愛":["中文"],"四月望雨":["台語"],"人生無謂":["中文"],"七彩的微風":["中文"],"命運的名字":["日文"],"亞麻色頭髮的少女":["日文"],"海市蜃樓":["日文"],"幽霊東京":["日文"],
  "reflection":["英文"],"partofyourworld":["英文"],"letitgo":["英文"],"doyouwanttobuildasnowman":["英文"],"forthefirsttimeinforever":["英文"],"loveisanopendoor":["英文"],"awholenewworld":["英文"],"underthesea":["英文"],"屋頂":["中文"]};
@@ -1079,7 +1079,7 @@ const BOOK_CATS=[
   ["bl","BL・耽美","Boys' Love","swirl",["BLPT"]]];
 const bookCat=b=>(BOOK_CATS.find(c=>c[4].some(w=>b.title.includes(w)))||["other"])[0];
 const BCN=Object.fromEntries(BOOK_CATS.map(c=>[c[0],c]));
-const MUSICAL=/^(台北不是我尋找新方向的家|台北不是我尋找心方向的家|喜歡你|柏林的雪|我非我願|七點二十分的反省|畫你的模樣|人生無謂|四月望雨|世界恬靜落來的時|我要走向你|但是夢只會更遠|翻譯的女人|有時候愛|被雨傷透|On My Own)$/;
+const MUSICAL=/^(尋找心方向／台北不是我的家|台北不是我尋找新方向的家|台北不是我尋找心方向的家|喜歡你|柏林的雪|我非我願|七點二十分的反省|畫你的模樣|人生無謂|四月望雨|世界恬靜落來的時|我要走向你|但是夢只會更遠|翻譯的女人|有時候愛|被雨傷透|On My Own)$/;
 const isMus=x=>MUSICAL.test(x.title);
 const LANG_ORDER=["中文","台語","日文","韓文","英文","粵語","其他"];
 
@@ -1222,16 +1222,30 @@ function viewJukebox(){
       <p class="cfcap" aria-live="polite"></p></section>`).join("")}
     ${base.length?"":`<p class="empty">唱片架上還沒有這首歌</p>`}`}
 /* 音樂劇：一部劇一張傳單 */
+const SHOW_INTRO={
+ "向左走向右走":"改編自幾米繪本，人力飛行劇團製作、2008 年首演。比鄰而居的兩個人，一個出門總往左、一個總往右，在寂寞城市裡一再錯過的愛情童話。",
+ "悲慘世界":"改編自雨果小說的經典音樂劇，跟著冉阿讓走過法國大革命前後的動盪。〈On My Own〉是愛波寧在雨夜裡為單戀唱的獨白。",
+ "木蘭少女":"以花木蘭代父從軍為底的台灣原創音樂劇，翻轉英雄形象，加進木蘭、將軍與玩伴蔣貫甫之間的曖昧三角，也曾到新加坡駐演。",
+ "新社員":"以 BL 次文化為題材的校園搖滾音樂劇：資優生小安加入熱音社，和不良少年田士廣一起準備比賽。核心是「不論是誰都有被愛的可能」。",
+ "MRT 2":"天作之合劇場的捷運系列音樂劇，把車廂裡擦肩而過的陌生人，寫成一段段溫暖的都會小故事。",
+ "不讀書俱樂部":"C Musical 的「影集式」音樂劇。為了等前女友而開書店的言午吉，和走進店裡的形形色色客人，演出像《六人行》一樣的生活小品；曾獲韓國大邱國際音樂劇節評審特別獎。",
+ "四月望雨":"以台灣歌謠之父鄧雨賢的一生為主軸，劇名取自〈四季紅〉〈月夜愁〉〈望春風〉〈雨夜花〉。音樂時代劇場「台灣音樂劇」首部曲，2007 年首演。",
+ "渭水春風":"音樂時代劇場台灣音樂劇三部曲，以台語為主，講蔣渭水和同伴們在 1920 年代「醫治台灣社會」的故事，冉天豪作曲。",
+ "寂寞瑪奇朵":"天作之合劇場的都會愛情音樂劇，寫城市裡男男女女的相遇、錯過與聚合。",
+ "喜樂社區／蛻變":"躍演與師大表演藝術研究所的音樂劇作品。這段是〈尋找心方向〉接〈台北不是我的家〉的組曲，詞曲李潔亭、編曲康和祥。",
+ "飲食男女":"改編自李安 1994 年同名電影：國宴主廚朱老先生和三個女兒，每週日的晚餐桌上，家人各自宣布自己的人生大事。",
+};
+
 function showOf(x){const a=x.artist||"";if(/mashup/i.test(a)){const m=[...a.matchAll(/《([^》]+)》/g)].map(m=>m[1]);return m.join(" × ")||"Mashup"}
   const m=a.match(/《([^》]+)》/);if(m)return m[1];return a.replace(/[（）()]/g,"").replace(/選段|主題曲/g,"").trim()||x.title}
 function flyersHTML(list){const g=new Map();list.forEach(x=>{const sh=showOf(x);if(!g.has(sh))g.set(sh,[]);g.get(sh).push(x)});
   const shows=[...g.entries()].map(([sh,a])=>({sh,a:a.sort((p,q)=>q.n-p.n||q.last.localeCompare(p.last)),n:a.reduce((t,x)=>t+x.n,0),last:a.map(x=>x.last).sort().pop()})).sort((p,q)=>q.n-p.n||q.last.localeCompare(p.last));
   return `<section class="stack" id="flow-音樂劇"><h3 class="sect">音樂劇 <span>${shows.length} 部・${list.length} 首</span></h3><p class="flyhint">一部劇一張傳單，點歌名就直接播</p>
-   <div class="flyers">${shows.map((s,i)=>{const cv=s.a.find(x=>x.cover)?.cover;return `<article class="flyer" style="--i:${i}">
+   <div class="flywrap"><button class="flynav prev" type="button" data-flyer="-1" aria-label="往左">‹</button><div class="flyers" id="flyers">${shows.map((s,i)=>{const cv=s.a.find(x=>x.cover)?.cover;return `<article class="flyer" style="--i:${i}">
      <div class="fimg">${cv?`<img src="${esc(cv)}" alt="" loading="lazy">`:`<span class="fnone">✦</span>`}</div>
-     <div class="fin"><span class="ftag">MUSICAL ✦ 音樂劇</span><h4 class="ftitle">《${esc(s.sh)}》</h4>
+     <div class="fin"><span class="ftag">MUSICAL ✦ 音樂劇</span><h4 class="ftitle">《${esc(s.sh)}》</h4>${SHOW_INTRO[s.sh]?`<p class="fdesc">${esc(SHOW_INTRO[s.sh])}</p>`:""}
       <ol class="fsongs">${s.a.map(x=>`<li><button type="button" data-jplay="${esc(x.k)}"><b>♪ ${esc(x.title)}</b><small>${esc(x.last.replaceAll("-","."))}${x.n>1?`・唱過 ${x.n} 次`:""}</small></button></li>`).join("")}</ol>
-      <span class="fstub">NIBEL JUKEBOX · NOW SHOWING</span></div></article>`}).join("")}</div></section>`}
+      <span class="fstub">NIBEL JUKEBOX · NOW SHOWING</span></div></article>`}).join("")}</div><button class="flynav next" type="button" data-flyer="1" aria-label="往右">›</button></div></section>`}
 function jukeInner(){const x=juke;if(!x)return `<div class="jbdeck"><p class="note">沒有符合的歌</p></div>`;
   return `<span class="jbcrown" aria-hidden="true"><b>NIBEL</b><small>✦ SELECT-O-MATIC ✦</small></span><span class="jbarch" aria-hidden="true"></span><span class="jbtube l" aria-hidden="true"><i></i><i></i><i></i></span><span class="jbtube r" aria-hidden="true"><i></i><i></i><i></i></span><img class="jbhani" src="${HANI("round")}" alt="" aria-hidden="true">
    <div class="jbdeck">
@@ -1316,6 +1330,7 @@ document.getElementById("view").addEventListener("click",e=>{
   const mt=e.target.closest("#mtoggle");if(mt){e.stopPropagation();if(!mini)return;const st=mini.getPlayerState?.();if(st===1){mini.pauseVideo()}else mini.playVideo();return}
   const ms=e.target.closest("#mstop");if(ms){e.stopPropagation();miniStop();miniPrep();return}
   const mm=e.target.closest("#mmin");if(mm){e.stopPropagation();const b=document.getElementById("mini");const m=b.classList.toggle("min");if(!b.classList.contains("flt"))userMin=m;setMinBtn(b);return}
+  const fy=e.target.closest("[data-flyer]");if(fy){e.stopPropagation();const f=document.getElementById("flyers");if(f)f.scrollBy({left:+fy.dataset.flyer*f.clientWidth*.8,behavior:"smooth"});return}
   const fj=e.target.closest("[data-flowjump]");if(fj){e.preventDefault();document.getElementById("flow-"+fj.dataset.flowjump)?.scrollIntoView({behavior:"smooth",block:"center"});return}
   const bk=e.target.closest(".bk[data-book]");if(bk&&state.sec==="books"){e.stopPropagation();openBookFx(bk);return}
 },true);
