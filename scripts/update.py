@@ -137,6 +137,11 @@ def google_cover(title, author):
 
 def update_covers(data, extra, limit=40):
     covers = data.get("covers", {})
+    if extra.get("coverFolder"):  # 封面改由雲端硬碟提供，不再查 Google Books
+        for k, v in extra.get("bookCovers", {}).items():
+            covers[book_key(k)] = v
+        data["covers"] = covers
+        return
     over = {book_key(k): v for k, v in extra.get("bookCovers", {}).items()}
     seen, n, found = set(), 0, 0
     for _, title, author in data.get("books", []):
