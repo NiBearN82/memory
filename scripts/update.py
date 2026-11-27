@@ -186,10 +186,13 @@ def intro_text(desc):
             if out:
                 break
             continue
-        if re.search(r"https?://|^#|^@|訂閱|斗內|抖內|贊助|會員|綠界|商業合作|聯絡|優惠碼|折扣碼|優惠券|使用期限|結帳|全館|^※", t):
+        if re.search(r"https?://|^#|^@|訂閱|斗內|抖內|贊助|會員|綠界|商業合作|聯絡|優惠碼|折扣碼|優惠券|使用期限|結帳|全館|^※|折扣|限時|^nibel\\d|本集合作|^—$|^-$|搜集了很多人的理想|努力不懈留著汗水|夢想站上更大的舞台|站在這裡的理由|為了自己勇敢前進", t):
             continue
         out.append(t)
     text = re.sub(r"\n{3,}", "\n\n", "\n".join(out)).strip()
+    body = re.sub(r"📖.*|《[^》]*》|\s", "", text)
+    if len(body) < 20:  # 只剩書名或宣傳碼，不算介紹
+        return ""
     return text[:900]
 
 def fetch(handle):
@@ -288,6 +291,8 @@ def main():
             t = intro_text(descs[b[0]])
             if t:
                 intros[b[0]] = t
+            else:
+                intros.pop(b[0], None)
     data["intros"] = {k: v for k, v in intros.items() if k in books}
     data["news"] = news
     data["setlists"] = extra.get("setlists", {})
