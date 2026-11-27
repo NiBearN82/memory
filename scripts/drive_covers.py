@@ -132,11 +132,9 @@ def sync(data, extra):
         new[kind].append({"id": f["id"], "name": stem, "src": rel, "md5": f.get("md5Checksum", "")})
     keep = {x["src"] for k in new for x in new[k]}
     for kind in ("books", "records"):
-        d = os.path.join(OUT, kind)
-        for fn in os.listdir(d) if os.path.isdir(d) else []:
-            rel = f"covers/{kind}/{fn}"
-            if re.fullmatch(r"[\w-]{20,}\.jpg", fn) and rel not in keep:
-                os.remove(os.path.join(d, fn))  # 雲端硬碟刪掉的圖，網站也拿掉
+        for f in old.get(kind, []):  # 只刪雲端硬碟來的舊圖，手動放的封面不動
+            if f["src"] not in keep and os.path.exists(os.path.join(ROOT, "site", f["src"])):
+                os.remove(os.path.join(ROOT, "site", f["src"]))
     for k in new:
         new[k].sort(key=lambda x: x["name"])
     data["coverFiles"] = new
