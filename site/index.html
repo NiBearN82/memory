@@ -582,6 +582,19 @@ button.cd,.cd{text-shadow:none}button.cd{box-shadow:none;border:1px solid #d6ccb
 .bimore{margin-top:8px;border:0;border-radius:999px;background:#E9B872;color:#3B2A12;font-weight:900;padding:5px 14px;cursor:pointer;font:inherit;font-size:13px}
 .bisrc{display:block;margin-top:6px;color:#8b8f9c;font-size:11px}
 .mexp{background:#E9B872!important;font-size:16px!important}
+
+/* 手機版報紙攤：日曆收成底部小條，點「選日期」才展開；去掉毛玻璃與報紙堆疊讓捲動順暢 */
+.calbtn{display:none}
+@media(max-width:900px){
+ .ndate{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(22,24,34,.95);max-height:none;overflow:visible;padding:8px 12px;gap:2px 10px;align-items:center}
+ .ndate .cal{display:none}
+ .ndate.open{max-height:72vh;overflow:auto;background:#16181F}
+ .ndate.open .cal{display:block;width:100%}
+ .ndtop{align-items:center}.ndtop .ndbig{font-size:26px}.ndtop .ndno{font-size:13px;padding:3px 10px}.ndtop .ndw{font-size:12px}
+ .calbtn{display:inline-flex;align-items:center;gap:4px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#F4F1E8;border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer}
+ .paper{position:relative;top:auto;transform:none;margin-bottom:22px}
+ .newsgrid{padding-bottom:110px}
+}
 </style>
 </head>
 <body>
@@ -937,6 +950,7 @@ function loadYT(){if(ytReady)return ytReady;ytReady=new Promise(res=>{window.onY
 window.__nbPlayer=()=>player;
 function stopPlayer(){if(player){try{player.destroy()}catch(e){}}player=null;playerId=null}
 async function play(id,t){
+  if(mini)miniStop();
   if(!sheet.classList.contains("open")||(panel.dataset.kind!=="multi"&&panel.dataset.id!==id))openSheet(id);
   panel.querySelectorAll(".eprow.now").forEach(e=>e.classList.remove("now"));
   panel.querySelectorAll(`.eprow[data-play="${CSS.escape(id+"|"+Math.floor(t))}"]`).forEach(e=>e.classList.add("now"));
@@ -947,8 +961,8 @@ async function play(id,t){
   box.innerHTML='<div id="ytp"></div>';
   const YT=await loadYT();if(playerId!==id)return;
   player=new YT.Player("ytp",{videoId:id,playerVars:{start:Math.floor(t),autoplay:1,playsinline:1,rel:0},
-    events:{onReady:e=>{e.target.seekTo(t,true);e.target.playVideo()},
-            onError:()=>{box.classList.remove("on");box.innerHTML=`<p class="perr">這部影片沒辦法在這裡播放（可能是會員限定）。<a href="${yt(id,t?String(t):"")}" target="_blank" rel="noopener">到 YouTube 從這裡開始看 ↗</a></p>`;stopPlayer()}}});
+    events:{onReady:e=>{play._retry=0;e.target.seekTo(t,true);e.target.playVideo()},
+            onError:ev=>{const c=ev?.data;if(![100,101,150].includes(c)&&!play._retry){play._retry=1;stopPlayer();setTimeout(()=>play(id,t),300);return}play._retry=0;box.classList.remove("on");box.innerHTML=`<p class="perr">這部影片沒辦法在這裡播放（${c===100?"影片已移除或不公開":c===101||c===150?"可能是會員限定":"播放器載入失敗，代碼 "+c}）。<a href="${yt(id,t?String(t):"")}" target="_blank" rel="noopener">到 YouTube 從這裡開始看 ↗</a></p>`;stopPlayer()}}});
 }
 document.addEventListener("click",e=>{
   const a=e.target.closest("[data-play]");if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button>0)return;
@@ -984,7 +998,7 @@ document.getElementById("view").addEventListener("click",e=>{
   const sa=e.target.closest(".setall");if(sa){state.openSets=!state.openSets;document.querySelectorAll(".setl").forEach(d=>d.open=state.openSets);sa.setAttribute("aria-pressed",state.openSets);sa.textContent=state.openSets?"收起全部歌單":"♪ 一鍵展開全部歌單";return}
   const c=e.target.closest(".chip");if(c){for(const k of ["cat","scat","btype","rsort","rlang"])if(k in c.dataset)state[k]=c.dataset[k];render();return}
   const bk=e.target.closest("[data-book]");if(bk){openBook(bk.dataset.book);return}
-  const rc=e.target.closest("[data-rec]");if(rc){openRecord(rc.dataset.rec,rc.classList.contains("rec"));return}
+  const rc=e.target.closest("[data-rec]");if(rc){openRecord(rc.dataset.rec,true);return}
   const k=e.target.closest("[data-id]");if(k)openSheet(k.dataset.id)});
 panel.addEventListener("click",e=>{const bm=e.target.closest(".bimore");if(bm){const w=bm.parentElement;w.classList.toggle("open");bm.textContent=w.classList.contains("open")?"收起":"展開全文";return}const o=e.target.closest("[data-open]");if(o){openSheet(o.dataset.open);setTimeout(()=>{const h=[...panel.querySelectorAll("h3")].find(x=>/歌單|時間軸/.test(x.textContent));if(h)h.scrollIntoView({block:"start"})},50)}});
 document.getElementById("feat").addEventListener("click",e=>openSheet(e.currentTarget.dataset.id));
@@ -1087,12 +1101,13 @@ function updNews(force){const a=document.getElementById("ndate");if(!a)return;co
   for(let n=1;n<=days;n++){const k=iso(n),p=byD[k],inR=k>=d.from&&k<=d.to,isCur=k===d.date;
     cells+=p?`<button class="cd live${isCur?" cur":""}${inR?" rg":""}" data-jump="${p.dataset.id}" title="第 ${p.dataset.no} 期">${n}<i>第${p.dataset.no}期</i></button>`:`<span class="cd${inR?" rg":""}">${n}</span>`}
   const months=[...new Set(ps.map(p=>p.dataset.date.slice(0,7)))].sort(),mi=months.indexOf(calM);
-  a.innerHTML=`<div class="ndtop"><span class="ndno">第 ${d.no} 期</span><span class="ndbig">${d.md.replace("/","<i>/</i>")}</span><span class="ndw">${d.wd} 直播・新聞範圍 <b>${d.rng}</b></span><span class="ndhead">${d.head}</span></div>
+  a.innerHTML=`<div class="ndtop"><span class="ndno">第 ${d.no} 期</span><span class="ndbig">${d.md.replace("/","<i>/</i>")}</span><span class="ndw">${d.wd} 直播・新聞範圍 <b>${d.rng}</b></span><span class="ndhead">${d.head}</span><button class="calbtn" type="button" data-caltog aria-expanded="${a.classList.contains("open")}">📅 ${a.classList.contains("open")?"收起日曆":"選日期"}</button></div>
    <div class="cal"><div class="calhd"><button class="calnav" data-calm="${months[mi-1]||""}" ${mi>0?"":"disabled"} aria-label="上個月">‹</button><b>${Y} 年 ${M} 月</b><button class="calnav" data-calm="${months[mi+1]||""}" ${mi<months.length-1&&mi>=0?"":"disabled"} aria-label="下個月">›</button></div>
    <div class="calgrid">${["一","二","三","四","五","六","日"].map(w=>`<span class="cw">${w}</span>`).join("")}${cells}</div>
    <p class="calnote"><span class="lg live"></span>有直播的週一，點一下就翻到那一期　<span class="lg rg"></span>這期涵蓋的新聞</p></div>`}
 function jumpPaper(id){const an=document.getElementById("np-"+id);if(!an)return;const y=an.getBoundingClientRect().top+scrollY-(document.querySelector(".controls")?.offsetHeight||0)-14;scrollTo({top:y,behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})}
-document.getElementById("view").addEventListener("click",e=>{const j=e.target.closest("[data-jump]");if(j){e.stopPropagation();jumpPaper(j.dataset.jump);return}
+document.getElementById("view").addEventListener("click",e=>{const tg=e.target.closest("[data-caltog]");if(tg){e.stopPropagation();document.getElementById("ndate")?.classList.toggle("open");updNews(true);return}
+  const j=e.target.closest("[data-jump]");if(j){e.stopPropagation();document.getElementById("ndate")?.classList.remove("open");jumpPaper(j.dataset.jump);return}
   const c=e.target.closest("[data-calm]");if(c&&c.dataset.calm){e.stopPropagation();calM=c.dataset.calm;updNews(true)}},true);
 addEventListener("scroll",()=>{if(state.sec==="news")requestAnimationFrame(updNews)},{passive:true});
 
@@ -1230,7 +1245,7 @@ document.getElementById("view").addEventListener("click",e=>{
   if(e.target.closest(".cf")||e.target.closest(".flow")&&!e.target.closest(".fnav")){e.stopPropagation();e.preventDefault();return}
   const jp=e.target.closest("[data-jplay]");if(jp){e.stopPropagation();const x=RECS.find(y=>y.k===jp.dataset.jplay);if(x)miniPlay(x);return}
   const jpf=e.target.closest("[data-jperf]");if(jpf){e.stopPropagation();const [k,i]=jpf.dataset.jperf.split("|");const x=RECS.find(y=>y.k===k);if(x){document.querySelectorAll(".jbpc.on").forEach(b=>b.classList.remove("on"));jpf.classList.add("on");miniPlay(x,+i)}return}
-  const mx=e.target.closest("#mexp");if(mx){e.stopPropagation();if(miniKey)openRecord(miniKey);return}
+  const mx=e.target.closest("#mexp");if(mx){e.stopPropagation();if(!miniKey)return;const k=miniKey,vid=miniVid;let cur=0;try{cur=mini?.getCurrentTime?.()||0}catch(_){}openRecord(k,false);if(vid)play(vid,cur);return}
   const mt=e.target.closest("#mtoggle");if(mt){e.stopPropagation();if(!mini)return;const st=mini.getPlayerState?.();if(st===1){mini.pauseVideo()}else mini.playVideo();return}
   const ms=e.target.closest("#mstop");if(ms){e.stopPropagation();miniStop();miniPrep();return}
   const mm=e.target.closest("#mmin");if(mm){e.stopPropagation();const b=document.getElementById("mini");const m=b.classList.toggle("min");if(!b.classList.contains("flt"))userMin=m;setMinBtn(b);return}
